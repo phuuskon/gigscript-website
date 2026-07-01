@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GigScript — teleprompter for gigging musicians. Auto-scroll lyrics and chords, setlists, band sync. iOS & Android.">
+  <meta property="og:title" content="GigScript — Teleprompter for Musicians">
+  <meta property="og:description" content="Auto-scroll lyrics and chords on stage. ChordPro, PDF, setlists, band sync via cloud.">
+  <meta property="og:type" content="website">
+  <title>GigScript — Teleprompter for Musicians</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & tokens ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f0e0c;
+      --surface:   #1a1814;
+      --surface2:  #211f1a;
+      --border:    #2e2b26;
+      --amber:     #f5a623;
+      --amber-dim: #7a5010;
+      --amber-glow:rgba(245,166,35,0.12);
+      --text:      #f0ead8;
+      --muted:     #7a7060;
+      --danger:    #c0392b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Language toggle ────────────────────────────── */
+    .lang-en [data-fi], .lang-fi [data-en] { display: none; }
+    .lang-en [data-en], .lang-fi [data-fi] { display: revert; }
+
+    /* ── Typography ─────────────────────────────────── */
+    h1, h2, h3, h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); }
+    h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    h3 { font-size: clamp(1.1rem, 2.5vw, 1.4rem); }
+
+    .eyebrow {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.75rem;
+    }
+
+    p { color: #c8bfaa; line-height: 1.7; }
+
+    a { color: var(--amber); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Layout ─────────────────────────────────────── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section { padding: 6rem 0; }
+
+    /* ── Navbar ─────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(15,14,12,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 1.15rem;
+      color: var(--text); letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--amber); }
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted); font-size: 0.9rem;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .nav-cta {
+      background: var(--amber);
+      color: var(--bg) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem !important;
+      transition: opacity 0.15s;
+    }
+    .nav-cta:hover { opacity: 0.85; text-decoration: none !important; }
+
+    .lang-btn {
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); padding: 0.3rem 0.7rem;
+      border-radius: 5px; cursor: pointer; font-size: 0.8rem;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .lang-btn:hover { border-color: var(--amber); color: var(--amber); }
+    .lang-btn.active { border-color: var(--amber); color: var(--amber); }
+
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── Hero ───────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 6rem 1.5rem 4rem;
+      position: relative; overflow: hidden;
+    }
+
+    /* Ambient glow behind hero */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(245,166,35,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      font-size: 0.8rem; color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .hero-badge span { color: var(--amber); font-weight: 600; }
+
+    /* ── SIGNATURE ELEMENT: Teleprompter ticker ─────── */
+    .hero-ticker-wrap {
+      width: 100%; max-width: 640px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      margin: 2.5rem auto 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-ticker-wrap::before, .hero-ticker-wrap::after {
+      content: '';
+      position: absolute; left: 0; right: 0; height: 36px; z-index: 2;
+      pointer-events: none;
+    }
+    .hero-ticker-wrap::before {
+      top: 0;
+      background: linear-gradient(to bottom, var(--surface), transparent);
+    }
+    .hero-ticker-wrap::after {
+      bottom: 0;
+      background: linear-gradient(to top, var(--surface), transparent);
+    }
+    .ticker-label {
+      font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 0.75rem;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+    }
+    .ticker-content {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem; line-height: 1.9;
+      color: var(--text);
+      animation: ticker-scroll 18s linear infinite;
+    }
+    .ticker-chord { color: var(--amber); }
+    .ticker-section {
+      color: var(--amber); font-size: 0.72rem;
+      letter-spacing: 0.1em; display: block;
+      margin-bottom: 0.2rem; margin-top: 0.6rem;
+    }
+
+    @keyframes ticker-scroll {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
+    }
+
+    .hero h1 { position: relative; z-index: 1; }
+    .hero h1 em {
+      color: var(--amber); font-style: normal;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--muted); max-width: 520px;
+      margin: 1.2rem auto 2.2rem;
+    }
+
+    .hero-ctas {
+      display: flex; flex-wrap: wrap;
+      gap: 0.75rem; justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.6rem;
+      border-radius: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600; font-size: 0.95rem;
+      cursor: pointer; border: none;
+      transition: opacity 0.15s, transform 0.15s;
+      text-decoration: none;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); text-decoration: none; }
+    .btn-primary { background: var(--amber); color: var(--bg); }
+    .btn-secondary {
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .store-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.55rem 1.2rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--text); cursor: not-allowed; opacity: 0.5;
+      text-decoration: none;
+    }
+    .store-badge .coming { font-size: 0.7rem; color: var(--muted); display: block; }
+
+    /* ── Phone mockup ───────────────────────────────── */
+    .phone-wrap {
+      margin-top: 4rem;
+      display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+    }
+    .phone {
+      width: 200px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 1.5rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      line-height: 1.8;
+      position: relative;
+    }
+    .phone::before {
+      content: '';
+      display: block; width: 48px; height: 5px;
+      background: var(--border); border-radius: 3px;
+      margin: 0 auto 1.2rem;
+    }
+    .phone-label {
+      font-size: 0.6rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--amber);
+      margin-bottom: 0.5rem;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .phone-chord { color: var(--amber); }
+    .phone-controls {
+      margin-top: 1rem; padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+      font-size: 0.6rem; color: var(--muted);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* ── Features ───────────────────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: var(--amber-dim); }
+    .feature-icon {
+      font-size: 1.8rem; margin-bottom: 1rem;
+      display: block;
+    }
+    .feature-card h3 {
+      font-size: 1.05rem; margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .feature-card p { font-size: 0.9rem; }
+
+    /* Band sync special card */
+    .feature-card.featured {
+      border-color: var(--amber-dim);
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(245,166,35,0.04) 100%);
+    }
+
+    /* ── How it works ───────────────────────────────── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem; margin-top: 3rem;
+    }
+    .step {
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+    .step-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem; font-weight: 700;
+      color: var(--amber); line-height: 1;
+      opacity: 0.3;
+    }
+    .step h3 { font-size: 1rem; }
+    .step p  { font-size: 0.88rem; }
+
+    /* ── Pricing ─────────────────────────────────────── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+      max-width: 700px; margin-left: auto; margin-right: auto;
+    }
+    .pricing-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 2rem;
+    }
+    .pricing-card.pro {
+      border-color: var(--amber);
+      background: linear-gradient(160deg, var(--surface) 0%, rgba(245,166,35,0.06) 100%);
+      position: relative;
+    }
+    .pro-badge {
+      position: absolute; top: -12px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--amber); color: var(--bg);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem; font-weight: 700;
+      padding: 0.25rem 0.8rem; border-radius: 100px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .price {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.4rem; font-weight: 700;
+      color: var(--text); margin: 0.75rem 0 0.25rem;
+    }
+    .price sub { font-size: 1rem; font-weight: 400; color: var(--muted); }
+    .price-note { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .feature-list {
+      list-style: none; display: flex; flex-direction: column; gap: 0.6rem;
+      margin-bottom: 1.75rem;
+    }
+    .feature-list li {
+      font-size: 0.88rem; color: #c8bfaa;
+      display: flex; align-items: baseline; gap: 0.5rem;
+    }
+    .feature-list li::before { content: '✓'; color: var(--amber); flex-shrink: 0; }
+    .feature-list li.muted { color: var(--muted); }
+    .feature-list li.muted::before { content: '—'; color: var(--border); }
+
+    /* ── Testimonial / quote section ─────────────────── */
+    .quote-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .quote-inner {
+      max-width: 700px; margin: 0 auto;
+      padding: 5rem 1.5rem; text-align: center;
+    }
+    blockquote {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.2rem, 3vw, 1.7rem);
+      font-weight: 500; line-height: 1.4;
+      color: var(--text); margin-bottom: 1.5rem;
+    }
+    blockquote::before { content: '"'; color: var(--amber); }
+    blockquote::after  { content: '"'; color: var(--amber); }
+    cite { font-size: 0.85rem; color: var(--muted); font-style: normal; }
+
+    /* ── Support / FAQ ───────────────────────────────── */
+    .faq { margin-top: 3rem; max-width: 720px; margin-left: auto; margin-right: auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 0;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem; font-weight: 600;
+      color: var(--text); margin-bottom: 0.5rem;
+      cursor: pointer;
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 1rem;
+    }
+    .faq-q::after {
+      content: '+'; color: var(--amber);
+      font-size: 1.2rem; flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+    .faq-item.open .faq-q::after { transform: rotate(45deg); }
+    .faq-a {
+      font-size: 0.9rem; color: #c8bfaa;
+      display: none; padding-top: 0.25rem;
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    /* ── Section divider ─────────────────────────────── */
+    .section-divider {
+      height: 1px; background: var(--border);
+      margin: 0;
+    }
+
+    /* ── Footer ──────────────────────────────────────── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; flex-wrap: wrap;
+      justify-content: space-between; align-items: center;
+      gap: 1.5rem;
+    }
+    .footer-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; color: var(--text); font-size: 1rem;
+    }
+    .footer-logo span { color: var(--amber); }
+    .footer-links {
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+      list-style: none;
+    }
+    .footer-links a { color: var(--muted); font-size: 0.85rem; }
+    .footer-links a:hover { color: var(--text); text-decoration: none; }
+    .footer-copy { color: var(--muted); font-size: 0.8rem; width: 100%; }
+
+    /* ── Privacy page ────────────────────────────────── */
+    #privacy { display: none; }
+    #privacy.active { display: block; }
+    .main-content.privacy-active #main { display: none; }
+    .main-content.privacy-active #privacy { display: block; }
+
+    .prose { max-width: 720px; margin: 0 auto; }
+    .prose h2 { font-size: 1.5rem; margin: 2rem 0 0.75rem; }
+    .prose h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+    .prose p  { margin-bottom: 1rem; font-size: 0.95rem; }
+    .prose ul { margin: 0.5rem 0 1rem 1.5rem; }
+    .prose ul li { font-size: 0.95rem; color: #c8bfaa; margin-bottom: 0.3rem; }
+
+    /* ── Utility ─────────────────────────────────────── */
+    .text-center { text-align: center; }
+    .amber { color: var(--amber); }
+    .muted { color: var(--muted); }
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mt-3 { margin-top: 1.5rem; }
+    .pt-nav { padding-top: 60px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ticker-content { animation: none; }
+    }
+  </style>
+</head>
+<body class="lang-en">
+
+<!-- ── Navbar ───────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Gig<span>Script</span></div>
+    <ul class="nav-links">
+      <li><a href="#features"  data-en>Features</a><a href="#features"   data-fi>Ominaisuudet</a></li>
+      <li><a href="#how"       data-en>How it works</a><a href="#how"    data-fi>Näin toimii</a></li>
+      <li><a href="#pricing"   data-en>Pricing</a><a href="#pricing"     data-fi>Hinnoittelu</a></li>
+      <li><a href="#support"   data-en>Support</a><a href="#support"     data-fi>Tuki</a></li>
+      <li><a href="#" onclick="showPrivacy(); return false;" data-en>Privacy</a>
+          <a href="#" onclick="showPrivacy(); return false;" data-fi>Tietosuoja</a></li>
+      <li>
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-fi" onclick="setLang('fi')">FI</button>
+      </li>
+      <li><a href="#pricing" class="nav-cta" data-en>Download</a>
+          <a href="#pricing" class="nav-cta" data-fi>Lataa</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="main-content pt-nav" id="main-content">
+
+<!-- ── Main site ─────────────────────────────────────── -->
+<div id="main">
+
+<!-- ── Hero ─────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-badge">
+    <span>🎸</span>
+    <span data-en>iOS &amp; Android — launching soon</span>
+    <span data-fi>iOS &amp; Android — tulossa pian</span>
+  </div>
+
+  <h1>
+    <span data-en>Your lyrics.<br>Your chords.<br><em>Auto-scrolling.</em></span>
+    <span data-fi>Sanat. Soinnut.<br><em>Automaattisesti.</em></span>
+  </h1>
+
+  <p class="hero-sub">
+    <span data-en>GigScript keeps your lyrics and chords rolling on stage so you can focus on the music.</span>
+    <span data-fi>GigScript pitää sanat ja soinnut edessäsi lavalla — sinä keskityt musiikkiin.</span>
+  </p>
+
+  <div class="hero-ctas">
+    <a href="#pricing" class="btn btn-primary">
+      <span data-en>Get GigScript</span>
+      <span data-fi>Lataa GigScript</span>
+    </a>
+    <a href="#features" class="btn btn-secondary">
+      <span data-en>See features</span>
+      <span data-fi>Katso ominaisuudet</span>
+    </a>
+  </div>
+
+  <!-- Signature element: live teleprompter ticker -->
+  <div class="hero-ticker-wrap">
+    <div class="ticker-label">GigScript — Live preview</div>
+    <div class="ticker-content" aria-hidden="true">
+<span class="ticker-section">[VERSE 1]</span>
+<span><span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span>       <span class="ticker-chord">C</span>      <span class="ticker-chord">F</span></span>
+Today is gonna be the day that they're
+<span><span class="ticker-chord">Am</span>       <span class="ticker-chord">G</span>      <span class="ticker-chord">C</span></span>
+gonna throw it back to you
+<span><span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span>       <span class="ticker-chord">C</span>      <span class="ticker-chord">F</span></span>
+By now you should've somehow realized
+<span><span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span>      <span class="ticker-chord">C</span></span>
+what you gotta do
+&nbsp;
+<span class="ticker-section">[CHORUS]</span>
+<span><span class="ticker-chord">C</span>         <span class="ticker-chord">Em</span>      <span class="ticker-chord">Am</span>     <span class="ticker-chord">G</span></span>
+And all the roads we have to walk are winding
+<span><span class="ticker-chord">C</span>         <span class="ticker-chord">Em</span>      <span class="ticker-chord">Am</span>     <span class="ticker-chord">G</span></span>
+And all the lights that lead us there are blinding
+&nbsp;
+<span class="ticker-section">[VERSE 2]</span>
+<span><span class="ticker-chord">Dm</span>      <span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span></span>
+I don't believe that anybody feels
+<span><span class="ticker-chord">F</span>      <span class="ticker-chord">G</span>      <span class="ticker-chord">Am</span></span>
+the way I do about you now
+&nbsp;
+<!-- Duplicate for seamless loop -->
+<span class="ticker-section">[VERSE 1]</span>
+<span><span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span>       <span class="ticker-chord">C</span>      <span class="ticker-chord">F</span></span>
+Today is gonna be the day that they're
+<span><span class="ticker-chord">Am</span>       <span class="ticker-chord">G</span>      <span class="ticker-chord">C</span></span>
+gonna throw it back to you
+<span><span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span>       <span class="ticker-chord">C</span>      <span class="ticker-chord">F</span></span>
+By now you should've somehow realized
+<span><span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span>      <span class="ticker-chord">C</span></span>
+what you gotta do
+&nbsp;
+<span class="ticker-section">[CHORUS]</span>
+<span><span class="ticker-chord">C</span>         <span class="ticker-chord">Em</span>      <span class="ticker-chord">Am</span>     <span class="ticker-chord">G</span></span>
+And all the roads we have to walk are winding
+<span><span class="ticker-chord">C</span>         <span class="ticker-chord">Em</span>      <span class="ticker-chord">Am</span>     <span class="ticker-chord">G</span></span>
+And all the lights that lead us there are blinding
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── Features ─────────────────────────────────────── -->
+<section id="features">
+  <div class="container">
+    <p class="eyebrow" data-en>Features</p>
+    <p class="eyebrow" data-fi>Ominaisuudet</p>
+    <h2>
+      <span data-en>Everything you need on stage</span>
+      <span data-fi>Kaikki mitä tarvitset lavalla</span>
+    </h2>
+    <p class="mt-2">
+      <span data-en>Built by a musician, for musicians. No bloat, no subscriptions — just your songs, ready when you are.</span>
+      <span data-fi>Muusikolta muusikoille. Ei turhaa, ei tilauksia — vain kappaleesi, valmiina kun sinä olet.</span>
+    </p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">▶</span>
+        <h3 data-en>Auto-scroll teleprompter</h3>
+        <h3 data-fi>Automaattinen teleprompter</h3>
+        <p data-en>Adjustable scroll speed, font size, pause/resume, and reset — all within thumb reach. Screen stays on the whole gig.</p>
+        <p data-fi>Säädä scrollausnopeutta, fonttikokoa, tauko/jatka ja nollaus — kaikki peukalon ulottuvilla. Näyttö pysyy päällä koko keikan.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🎸</span>
+        <h3 data-en>ChordPro support</h3>
+        <h3 data-fi>ChordPro-tuki</h3>
+        <p data-en>Chords displayed above lyrics in amber, perfectly aligned. Full transposition with semitone steps. European H notation supported.</p>
+        <p data-fi>Soinnut näkyvät sanojen yläpuolella amberilla, täsmälleen kohdistettuina. Transponointi puolisävelaskelein. H-notaatio tuettu.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">⊡</span>
+        <h3 data-en>Fit-to-screen mode</h3>
+        <h3 data-fi>Sovita näyttöön -tila</h3>
+        <p data-en>Short song? GigScript auto-scales the font so the entire song fills the screen without scrolling. Tap to show controls.</p>
+        <p data-fi>Lyhyt biisi? GigScript skaalaa fontin automaattisesti niin että koko kappale mahtuu näytölle. Näpäytä nähdäksesi kontrollit.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">📋</span>
+        <h3 data-en>Setlists &amp; performance mode</h3>
+        <h3 data-fi>Setlistat &amp; esiintymistila</h3>
+        <p data-en>Build setlists, drag to reorder, set per-song keys and notes. Swipe left/right on stage to advance through your set.</p>
+        <p data-fi>Rakenna setlistoja, järjestä raahaamalla, aseta sävellaji ja huomiot per kappale. Pyyhkäise vasemmalle/oikealle esiintymistilassa.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">📄</span>
+        <h3 data-en>PDF import</h3>
+        <h3 data-fi>PDF-tuonti</h3>
+        <p data-en>Import sheet music or chord charts as PDF. Auto-scroll works on PDF too. Import plain text and ChordPro files from your device or clipboard.</p>
+        <p data-fi>Tuo nuotit tai sointutaulukot PDF:nä. Automaattinen scroll toimii myös PDF:llä. Tuo teksti ja ChordPro-tiedostoja laitteelta tai leikepöydältä.</p>
+      </div>
+
+      <div class="feature-card featured">
+        <span class="feature-icon">☁</span>
+        <h3 data-en>Band sync — no server needed</h3>
+        <h3 data-fi>Bändisynkka — ei palvelinta</h3>
+        <p data-en>Point everyone to the same shared folder on Dropbox, Google Drive, or iCloud. Songs and setlists sync automatically. Works cross-platform: iOS and Android in the same band.</p>
+        <p data-fi>Osoita kaikki samaan jaettuun kansioon Dropboxissa, Google Drivessa tai iCloudissa. Kappaleet ja setlistat synkronoituvat automaattisesti. Toimii cross-platform: iOS ja Android samassa bändissä.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── How it works ──────────────────────────────────── -->
+<section id="how">
+  <div class="container">
+    <p class="eyebrow" data-en>How it works</p>
+    <p class="eyebrow" data-fi>Näin toimii</p>
+    <h2>
+      <span data-en>Stage-ready in three steps</span>
+      <span data-fi>Lavakunnossa kolmessa askeleessa</span>
+    </h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3 data-en>Add your songs</h3>
+        <h3 data-fi>Lisää kappaleesi</h3>
+        <p data-en>Type lyrics, paste from the clipboard, import a .chordpro or .txt file, or drag in a PDF. GigScript auto-detects ChordPro format.</p>
+        <p data-fi>Kirjoita sanat, liitä leikepöydältä, tuo .chordpro tai .txt-tiedosto, tai vedä PDF sisään. GigScript tunnistaa ChordPro-muodon automaattisesti.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3 data-en>Build a setlist</h3>
+        <h3 data-fi>Rakenna setlisti</h3>
+        <p data-en>Add songs, drag to reorder, set per-song notes like "capo 2" or key overrides. Share the setlist with your band via a shared cloud folder.</p>
+        <p data-fi>Lisää kappaleita, järjestä raahaamalla, aseta huomiot kuten "capo 2" tai sävellajin muutos. Jaa setlisti bändille jaetun pilvipalvelukansion kautta.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3 data-en>Take the stage</h3>
+        <h3 data-fi>Astu lavalle</h3>
+        <p data-en>Tap Run, adjust speed once, and play. Swipe between songs. The screen never turns off. GigScript stays out of your way.</p>
+        <p data-fi>Paina Aja, säädä nopeus kerran, ja soita. Pyyhkäise kappaleiden välillä. Näyttö ei sammu koskaan. GigScript ei häiritse.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── Quote ─────────────────────────────────────────── -->
+<section class="quote-section">
+  <div class="quote-inner">
+    <blockquote data-en>Finally an app that gets out of the way and lets you play.</blockquote>
+    <blockquote data-fi>Vihdoin appi joka antaa sinun soittaa häiritsemättä.</blockquote>
+    <cite data-en>— Beta tester, lead guitarist</cite>
+    <cite data-fi>— Betatestaaja, kitaristi</cite>
+  </div>
+</section>
+
+<!-- ── Pricing ────────────────────────────────────────── -->
+<section id="pricing">
+  <div class="container text-center">
+    <p class="eyebrow" data-en>Pricing</p>
+    <p class="eyebrow" data-fi>Hinnoittelu</p>
+    <h2>
+      <span data-en>Simple, honest pricing</span>
+      <span data-fi>Selkeä, rehellinen hinnoittelu</span>
+    </h2>
+    <p class="mt-2">
+      <span data-en>No subscriptions. Pay once, own it forever.</span>
+      <span data-fi>Ei tilauksia. Maksa kerran, omista ikuisesti.</span>
+    </p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <p class="eyebrow" data-en>Free</p>
+        <p class="eyebrow" data-fi>Ilmainen</p>
+        <div class="price">€0</div>
+        <p class="price-note" data-en>Forever free, no account needed</p>
+        <p class="price-note" data-fi>Ilmainen ikuisesti, ei tiliä tarvita</p>
+        <ul class="feature-list">
+          <li data-en>Unlimited songs</li>
+          <li data-fi>Rajaton kappalemäärä</li>
+          <li data-en>Auto-scroll teleprompter</li>
+          <li data-fi>Automaattinen teleprompter</li>
+          <li data-en>Fit-to-screen mode</li>
+          <li data-fi>Sovita näyttöön -tila</li>
+          <li data-en>1 setlist</li>
+          <li data-fi>1 setlisti</li>
+          <li class="muted" data-en>ChordPro &amp; transposition</li>
+          <li class="muted" data-fi>ChordPro ja transponointi</li>
+          <li class="muted" data-en>PDF import</li>
+          <li class="muted" data-fi>PDF-tuonti</li>
+          <li class="muted" data-en>Band sync</li>
+          <li class="muted" data-fi>Bändisynkka</li>
+        </ul>
+        <a href="#" class="btn btn-secondary" style="width:100%;justify-content:center;opacity:0.5;cursor:not-allowed;">
+          <span data-en>Coming soon</span>
+          <span data-fi>Tulossa pian</span>
+        </a>
+      </div>
+
+      <div class="pricing-card pro">
+        <div class="pro-badge">Pro</div>
+        <p class="eyebrow" data-en>GigScript Pro</p>
+        <p class="eyebrow" data-fi>GigScript Pro</p>
+        <div class="price">€9<sub>.99</sub></div>
+        <p class="price-note" data-en>One-time purchase · iOS &amp; Android</p>
+        <p class="price-note" data-fi>Kertamaksu · iOS &amp; Android</p>
+        <ul class="feature-list">
+          <li data-en>Everything in Free</li>
+          <li data-fi>Kaikki ilmaisessa</li>
+          <li data-en>ChordPro with chord highlighting</li>
+          <li data-fi>ChordPro sointukorostuksella</li>
+          <li data-en>Transposition + European H notation</li>
+          <li data-fi>Transponointi + eurooppalainen H-notaatio</li>
+          <li data-en>PDF import &amp; auto-scroll</li>
+          <li data-fi>PDF-tuonti ja automaattinen scroll</li>
+          <li data-en>Unlimited setlists</li>
+          <li data-fi>Rajattomat setlistat</li>
+          <li data-en>Band sync (Dropbox, Google Drive, iCloud)</li>
+          <li data-fi>Bändisynkka (Dropbox, Google Drive, iCloud)</li>
+        </ul>
+        <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;opacity:0.5;cursor:not-allowed;">
+          <span data-en>Coming soon</span>
+          <span data-fi>Tulossa pian</span>
+        </a>
+      </div>
+    </div>
+
+    <p class="muted mt-3" style="font-size:0.82rem;">
+      <span data-en>GigScript is available on the App Store and Google Play. Purchase once, use on all your devices.</span>
+      <span data-fi>GigScript on saatavilla App Storessa ja Google Playssa. Osta kerran, käytä kaikilla laitteillasi.</span>
+    </p>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── Support / FAQ ─────────────────────────────────── -->
+<section id="support">
+  <div class="container">
+    <p class="eyebrow" data-en>Support</p>
+    <p class="eyebrow" data-fi>Tuki</p>
+    <h2>
+      <span data-en>Frequently asked questions</span>
+      <span data-fi>Usein kysytyt kysymykset</span>
+    </h2>
+
+    <div class="faq" id="faq-en" data-en>
+      <div class="faq-item">
+        <div class="faq-q">What is ChordPro?</div>
+        <div class="faq-a">ChordPro is a simple text format for chord charts. Chords are placed in square brackets inline with lyrics: <code>[Am]Today is gonna [G]be the day</code>. GigScript detects ChordPro automatically and displays the chords above the lyrics in amber.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Does GigScript work offline?</div>
+        <div class="faq-a">Yes, completely. All your songs are stored on your device. You don't need internet access on stage. Cloud sync (Dropbox, Google Drive, iCloud) only runs when you manually press "Sync now."</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How does band sync work?</div>
+        <div class="faq-a">Everyone in the band points GigScript to the same shared folder in their Dropbox, Google Drive, or iCloud. GigScript reads and writes songs and setlists directly to that folder — no servers, no accounts, just files you control.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I use GigScript on both iPhone and iPad?</div>
+        <div class="faq-a">Yes. One purchase covers all your iOS devices. GigScript is optimized for both iPhone and iPad, and works in portrait orientation.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What is European H notation?</div>
+        <div class="faq-a">In Nordic and German notation, B major is written as H and B♭ is written as B. GigScript supports this convention natively, including transposition — so Hm transposes correctly to C#m, not Cm.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">I have a question not covered here.</div>
+        <div class="faq-a">Email us at <a href="mailto:support@gigscript.app">support@gigscript.app</a> and we'll get back to you.</div>
+      </div>
+    </div>
+
+    <div class="faq" id="faq-fi" data-fi>
+      <div class="faq-item">
+        <div class="faq-q">Mikä on ChordPro?</div>
+        <div class="faq-a">ChordPro on yksinkertainen tekstimuoto sointutaulukoille. Soinnut kirjoitetaan hakasulkeisiin sanojen sekaan: <code>[Am]Tänään on [G]kaunis päivä</code>. GigScript tunnistaa ChordPro-muodon automaattisesti ja näyttää soinnut sanojen yläpuolella amberilla.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Toimiiko GigScript offline?</div>
+        <div class="faq-a">Kyllä, täysin. Kaikki kappaleet tallennetaan laitteellesi. Et tarvitse internetyhteyttä lavalla. Pilvisynkka (Dropbox, Google Drive, iCloud) toimii vain kun painat manuaalisesti "Synkkaa nyt".</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Miten bändisynkka toimii?</div>
+        <div class="faq-a">Jokainen bändin jäsen osoittaa GigScriptin samaan jaettuun kansioon Dropboxissa, Google Drivessa tai iCloudissa. GigScript lukee ja kirjoittaa kappaleet ja setlistat suoraan sinne — ei palvelimia, ei tilejä, vain tiedostoja jotka sinä hallitset.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Voinko käyttää GigScriptia sekä iPhonella että iPadilla?</div>
+        <div class="faq-a">Kyllä. Yksi ostos kattaa kaikki iOS-laitteesi. GigScript on optimoitu sekä iPhonelle että iPadille.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Mikä on H-notaatio?</div>
+        <div class="faq-a">Pohjoismaisessa ja saksalaisessa notaatiossa B-duuri merkitään H:ksi ja B-molli B:ksi. GigScript tukee tätä käytäntöä natiivisti, transponointi mukaan lukien — Hm transponoidaan oikein C#m:ksi, ei Cm:ksi.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Minulla on kysymys jota ei ole tässä.</div>
+        <div class="faq-a">Lähetä sähköpostia osoitteeseen <a href="mailto:support@gigscript.app">support@gigscript.app</a> ja vastaamme sinulle.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- #main -->
+
+<!-- ── Privacy policy ─────────────────────────────────── -->
+<div id="privacy">
+  <section>
+    <div class="container prose">
+      <p class="eyebrow" data-en>Privacy Policy</p>
+      <p class="eyebrow" data-fi>Tietosuojakäytäntö</p>
+      <h1 data-en>Privacy Policy</h1>
+      <h1 data-fi>Tietosuojakäytäntö</h1>
+      <p class="muted mt-1" data-en>Last updated: July 2026</p>
+      <p class="muted mt-1" data-fi>Päivitetty: heinäkuu 2026</p>
+
+      <div data-en>
+        <h2>Overview</h2>
+        <p>GigScript is built with privacy by design. The app stores your songs, setlists, and settings locally on your device. We do not collect personal data, create user accounts, or transmit your content to any server we operate.</p>
+
+        <h2>Data we collect</h2>
+        <p>We collect no personal data. GigScript does not require an account or registration. The following data stays entirely on your device:</p>
+        <ul>
+          <li>Songs, lyrics, and chord charts you create</li>
+          <li>Setlists and performance notes</li>
+          <li>App preferences (language, font size, scroll speed)</li>
+          <li>Cloud provider connection tokens (stored in the device's secure keychain)</li>
+        </ul>
+
+        <h2>Cloud sync (optional)</h2>
+        <p>If you choose to enable band sync, GigScript connects to the cloud provider you choose — Dropbox, Google Drive, or iCloud. This connection is between your device and your own cloud account. GigScript does not see or store your cloud credentials; authentication is handled by the provider's own secure OAuth flow. Files are read from and written to a folder you designate in your own account.</p>
+
+        <h2>Analytics and crash reporting</h2>
+        <p>GigScript does not include any analytics SDKs, advertising SDKs, or third-party tracking. We do not collect usage statistics, session data, or crash logs through any third party.</p>
+
+        <h2>In-app purchases</h2>
+        <p>Purchases are processed by Apple (App Store) or Google (Google Play). GigScript does not handle payment information directly. RevenueCat is used to verify purchase status; it receives a purchase receipt from the store but does not receive any payment card data. RevenueCat's privacy policy is available at <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">revenuecat.com/privacy</a>.</p>
+
+        <h2>Children's privacy</h2>
+        <p>GigScript is not directed at children under 13. We do not knowingly collect data from children.</p>
+
+        <h2>Changes to this policy</h2>
+        <p>If we make material changes to this policy, we will update the date at the top of this page and, if the changes are significant, notify users through the app.</p>
+
+        <h2>Contact</h2>
+        <p>Questions about this policy? Email <a href="mailto:privacy@gigscript.app">privacy@gigscript.app</a>.</p>
+      </div>
+
+      <div data-fi>
+        <h2>Yleiskatsaus</h2>
+        <p>GigScript on rakennettu yksityisyys edellä. Sovellus tallentaa kappaleet, setlistat ja asetukset paikallisesti laitteellesi. Emme kerää henkilötietoja, luo käyttäjätilejä emmekä lähetä sisältöäsi palvelimillemme.</p>
+
+        <h2>Keräämämme tiedot</h2>
+        <p>Emme kerää henkilötietoja. GigScript ei vaadi tiliä tai rekisteröitymistä. Seuraavat tiedot pysyvät täysin laitteellasi:</p>
+        <ul>
+          <li>Luomasi kappaleet, sanat ja sointutaulukot</li>
+          <li>Setlistat ja keikkahuomiot</li>
+          <li>Sovelluksen asetukset (kieli, fonttikoko, scrollausnopeus)</li>
+          <li>Pilvipalvelun yhteystunnisteet (tallennetaan laitteen suojattuun avainketjuun)</li>
+        </ul>
+
+        <h2>Pilvisynkka (valinnainen)</h2>
+        <p>Jos otat bändisynkan käyttöön, GigScript yhdistää valitsemasi pilvipalvelun — Dropboxin, Google Driven tai iCloudin — omaan tiliisi. GigScript ei näe eikä tallenna pilvipalvelun tunnistietojasi; tunnistautuminen tapahtuu palveluntarjoajan omassa OAuth-virtauksessa. Tiedostoja luetaan ja kirjoitetaan sinun itse valitsemaasi kansioon omalla tililläsi.</p>
+
+        <h2>Analytiikka ja kaatumisraportointi</h2>
+        <p>GigScript ei sisällä analytiikka-SDK:ita, mainonta-SDK:ita tai kolmannen osapuolen seurantaa. Emme kerää käyttötilastoja, istuntotietoja tai kaatumislokeja minkään kolmannen osapuolen kautta.</p>
+
+        <h2>Sovelluksen sisäiset ostot</h2>
+        <p>Ostot käsitellään Applen (App Store) tai Googlen (Google Play) toimesta. GigScript ei käsittele maksutietoja suoraan. RevenueCatia käytetään ostotilan varmentamiseen; se vastaanottaa kaupan kuittitiedot, mutta ei maksukorttitietoja. RevenueCatin tietosuojakäytäntö löytyy osoitteesta <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">revenuecat.com/privacy</a>.</p>
+
+        <h2>Lasten yksityisyys</h2>
+        <p>GigScript ei ole suunnattu alle 13-vuotiaille. Emme tietoisesti kerää lasten tietoja.</p>
+
+        <h2>Muutokset tähän käytäntöön</h2>
+        <p>Jos teemme oleellisia muutoksia tähän käytäntöön, päivitämme tämän sivun päivämäärän ja ilmoitamme merkittävistä muutoksista sovelluksen kautta.</p>
+
+        <h2>Yhteystiedot</h2>
+        <p>Kysymyksiä tästä käytännöstä? Sähköposti: <a href="mailto:privacy@gigscript.app">privacy@gigscript.app</a>.</p>
+      </div>
+
+      <p class="mt-3">
+        <a href="#" onclick="hidePrivacy(); return false;" data-en>← Back to GigScript</a>
+        <a href="#" onclick="hidePrivacy(); return false;" data-fi>← Takaisin GigScriptiin</a>
+      </p>
+    </div>
+  </section>
+</div><!-- #privacy -->
+
+<!-- ── Footer ─────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Gig<span>Script</span></div>
+    <ul class="footer-links">
+      <li><a href="#features"  data-en>Features</a><a href="#features"  data-fi>Ominaisuudet</a></li>
+      <li><a href="#pricing"   data-en>Pricing</a><a href="#pricing"    data-fi>Hinnoittelu</a></li>
+      <li><a href="#support"   data-en>Support</a><a href="#support"    data-fi>Tuki</a></li>
+      <li><a href="#" onclick="showPrivacy(); return false;" data-en>Privacy Policy</a>
+          <a href="#" onclick="showPrivacy(); return false;" data-fi>Tietosuoja</a></li>
+      <li><a href="mailto:support@gigscript.app">support@gigscript.app</a></li>
+    </ul>
+    <p class="footer-copy" data-en>© 2026 GigScript. Made with ♩ for musicians everywhere.</p>
+    <p class="footer-copy" data-fi>© 2026 GigScript. Tehty ♩ muusikoille kaikkialla.</p>
+  </div>
+</footer>
+
+</div><!-- #main-content -->
+
+<script>
+  // ── Language toggle ────────────────────────────────
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-fi').classList.toggle('active', lang === 'fi');
+    localStorage.setItem('gs_lang', lang);
+  }
+
+  // Detect saved or browser language on load
+  const saved = localStorage.getItem('gs_lang');
+  if (saved) {
+    setLang(saved);
+  } else {
+    const browserLang = navigator.language?.slice(0,2);
+    setLang(browserLang === 'fi' ? 'fi' : 'en');
+  }
+
+  // ── FAQ accordion ──────────────────────────────────
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // ── Privacy page ───────────────────────────────────
+  function showPrivacy() {
+    document.getElementById('main').style.display = 'none';
+    document.getElementById('privacy').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+  function hidePrivacy() {
+    document.getElementById('privacy').style.display = 'none';
+    document.getElementById('main').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
