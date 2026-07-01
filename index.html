@@ -3,13 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="GigScript — teleprompter for gigging musicians. Auto-scroll lyrics and chords, setlists, band sync. iOS & Android.">
-  <meta property="og:title" content="GigScript — Teleprompter for Musicians">
-  <meta property="og:description" content="Auto-scroll lyrics and chords on stage. ChordPro, PDF, setlists, band sync via cloud.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://gigscript.pekkahuuskonen.com">
-  <link rel="canonical" href="https://gigscript.pekkahuuskonen.com">
+
+  <!-- Primary meta -->
   <title>GigScript — Teleprompter for Musicians</title>
+  <meta name="description" content="GigScript keeps your lyrics and chords auto-scrolling on stage. ChordPro, PDF, setlists, band sync via Dropbox, Google Drive and iCloud. iOS & Android.">
+  <meta name="author" content="Pekka Huuskonen">
+  <meta name="keywords" content="teleprompter, musician, chordpro, setlist, lyrics, chords, band, gig, iOS, Android, GigScript">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://gigscript.pekkahuuskonen.com">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://gigscript.pekkahuuskonen.com">
+  <meta property="og:title"       content="GigScript — Teleprompter for Musicians">
+  <meta property="og:description" content="Auto-scroll lyrics and chords on stage. ChordPro, PDF, setlists, band sync via cloud. One-time purchase for iOS & Android.">
+  <meta property="og:image"       content="https://gigscript.pekkahuuskonen.com/og-image.png">
+  <meta property="og:locale"      content="en_US">
+  <meta property="og:locale:alternate" content="fi_FI">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:url"         content="https://gigscript.pekkahuuskonen.com">
+  <meta name="twitter:title"       content="GigScript — Teleprompter for Musicians">
+  <meta name="twitter:description" content="Auto-scroll lyrics and chords on stage. ChordPro, PDF, setlists, band sync via cloud.">
+  <meta name="twitter:image"       content="https://gigscript.pekkahuuskonen.com/og-image.png">
+
+  <!-- App store links (for smart banners on mobile) -->
+  <meta name="apple-itunes-app" content="app-id=000000000">
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#0f0e0c">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -584,7 +608,9 @@
   <!-- Signature element: live teleprompter ticker -->
   <div class="hero-ticker-wrap">
     <div class="ticker-label">GigScript — Live preview</div>
-    <div class="ticker-content" aria-hidden="true">
+
+    <!-- English ticker: Wonderwall -->
+    <div class="ticker-content lang-en-ticker" aria-hidden="true" data-en>
 
       <span class="ticker-section">[Verse 1]</span>
 
@@ -718,6 +744,96 @@
       </div>
 
     </div>
+    <!-- Finnish ticker: Syksyn Sävel — data-fi, hidden in EN mode -->
+    <div class="ticker-content" aria-hidden="true" data-fi>
+
+      <span class="ticker-section">[Säkeistö]</span>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">Katu   </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am    </span><span class="ticker-ly">täyttyy askelista, </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">D7    </span><span class="ticker-ly">elämä on </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G     </span><span class="ticker-ly">kuolemista, </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">pane käsi </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am    </span><span class="ticker-ly">käteen </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">H7    </span><span class="ticker-ly">ollaan hiljaa </span></span>
+      </div>
+      <div class="ticker-blank"></div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">Pyydä minut </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am    </span><span class="ticker-ly">aamuteelle, </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">D7    </span><span class="ticker-ly">anna vettä </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G     </span><span class="ticker-ly">kuihtuneelle, </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">nyt on </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am    </span><span class="ticker-ly">elokuu ja </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">H7    </span><span class="ticker-ly">minä olen </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">viljaa </span></span>
+      </div>
+      <div class="ticker-blank"></div>
+      <span class="ticker-section">[Kertosäe]</span>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">C     </span><span class="ticker-ly">En ilosta itke, en surusta itke, </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">jos itken, niin itken </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">      </span><span class="ticker-ly">muuten vaan </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">C     </span><span class="ticker-ly">Ja muualla oon ennen kuin </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">H7    </span><span class="ticker-ly">huomaatkaan </span></span>
+      </div>
+      <div class="ticker-blank"></div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">Häntä </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am    </span><span class="ticker-ly">rakastin paljon, </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">D     </span><span class="ticker-ly">sua </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G     </span><span class="ticker-ly">rakastan </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">joskus enemmän — </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am    </span><span class="ticker-ly">ole mulle </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">H7    </span><span class="ticker-ly">vähän aikaa </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">hän </span></span>
+      </div>
+      <div class="ticker-blank"></div>
+      <!-- Loop duplicate -->
+      <span class="ticker-section">[Säkeistö]</span>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">Katu   </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am    </span><span class="ticker-ly">täyttyy askelista, </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">D7    </span><span class="ticker-ly">elämä on </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G     </span><span class="ticker-ly">kuolemista, </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">pane käsi </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am    </span><span class="ticker-ly">käteen </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">H7    </span><span class="ticker-ly">ollaan hiljaa </span></span>
+      </div>
+      <div class="ticker-blank"></div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">Pyydä minut </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am    </span><span class="ticker-ly">aamuteelle, </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">D7    </span><span class="ticker-ly">anna vettä </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G     </span><span class="ticker-ly">kuihtuneelle, </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">nyt on </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am    </span><span class="ticker-ly">elokuu ja </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">H7    </span><span class="ticker-ly">minä olen </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">viljaa </span></span>
+      </div>
+    </div><!-- end fi ticker -->
   </div>
 </section>
 
@@ -859,7 +975,7 @@
         <p class="eyebrow" data-fi>Ilmainen</p>
         <div class="price">€0</div>
         <p class="price-note" data-en>Forever free, no account needed</p>
-        <p class="price-note" data-fi>Ilmainen ikuisesti, ei tiliä tarvita</p>
+        <p class="price-note" data-fi>Ilmainen ikuisesti, tilausta ei tarvita</p>
         <ul class="feature-list">
           <li data-en>Unlimited songs</li>
           <li data-fi>Rajaton kappalemäärä</li>
@@ -868,7 +984,7 @@
           <li data-en>Fit-to-screen mode</li>
           <li data-fi>Sovita näyttöön -tila</li>
           <li data-en>1 setlist</li>
-          <li data-fi>1 setlisti</li>
+          <li data-fi>1 settilista</li>
           <li class="muted" data-en>ChordPro &amp; transposition</li>
           <li class="muted" data-fi>ChordPro ja transponointi</li>
           <li class="muted" data-en>PDF import</li>
@@ -891,7 +1007,7 @@
         <p class="price-note" data-fi>Kertamaksu · iOS &amp; Android</p>
         <ul class="feature-list">
           <li data-en>Everything in Free</li>
-          <li data-fi>Kaikki ilmaisessa</li>
+          <li data-fi>Kaikki mitä ilmaisessakin</li>
           <li data-en>ChordPro with chord highlighting</li>
           <li data-fi>ChordPro sointukorostuksella</li>
           <li data-en>Transposition + European H notation</li>
@@ -899,7 +1015,7 @@
           <li data-en>PDF import &amp; auto-scroll</li>
           <li data-fi>PDF-tuonti ja automaattinen scroll</li>
           <li data-en>Unlimited setlists</li>
-          <li data-fi>Rajattomat setlistat</li>
+          <li data-fi>Rajattomat settilistat</li>
           <li data-en>Band sync (Dropbox, Google Drive, iCloud)</li>
           <li data-fi>Bändisynkka (Dropbox, Google Drive, iCloud)</li>
         </ul>
@@ -967,7 +1083,7 @@
       </div>
       <div class="faq-item">
         <div class="faq-q">Miten bändisynkka toimii?</div>
-        <div class="faq-a">Jokainen bändin jäsen osoittaa GigScriptin samaan jaettuun kansioon Dropboxissa, Google Drivessa tai iCloudissa. GigScript lukee ja kirjoittaa kappaleet ja setlistat suoraan sinne — ei palvelimia, ei tilejä, vain tiedostoja jotka sinä hallitset.</div>
+        <div class="faq-a">Jokainen bändin jäsen osoittaa GigScriptin samaan jaettuun kansioon Dropboxissa, Google Drivessa tai iCloudissa. GigScript lukee ja kirjoittaa kappaleet ja settilistat suoraan sinne — ei palvelimia, ei tilejä, vain tiedostoja jotka sinä hallitset.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Voinko käyttää GigScriptia sekä iPhonella että iPadilla?</div>
@@ -1038,7 +1154,7 @@
         <p>Emme kerää henkilötietoja. GigScript ei vaadi tiliä tai rekisteröitymistä. Seuraavat tiedot pysyvät täysin laitteellasi:</p>
         <ul>
           <li>Luomasi kappaleet, sanat ja sointutaulukot</li>
-          <li>Setlistat ja keikkahuomiot</li>
+          <li>Settilistat ja keikkahuomiot</li>
           <li>Sovelluksen asetukset (kieli, fonttikoko, scrollausnopeus)</li>
           <li>Pilvipalvelun yhteystunnisteet (tallennetaan laitteen suojattuun avainketjuun)</li>
         </ul>

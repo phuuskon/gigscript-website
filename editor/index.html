@@ -599,7 +599,15 @@ var SKEYS = ['verse','chorus','bridge','intro','outro','pre-chorus','interlude',
 var ENDS  = ['eov','eoc','eob'];
 
 // ── App state ───────────────────────────────────────────────────────────────
-var ST = { lang:'fi', notation:'american', offset:0, dark:false };
+// Read language from localStorage — same key as main site (gs_lang)
+// Falls back to browser language, then 'fi'
+var _savedLang = (function() {
+  try { return localStorage.getItem('gs_lang'); } catch(e) { return null; }
+})();
+var _browserLang = (navigator.language || '').slice(0, 2);
+var _initLang = _savedLang || (_browserLang === 'en' ? 'en' : 'fi');
+
+var ST = { lang: _initLang, notation: 'american', offset: 0, dark: false };
 
 function L(k)  { return TR[ST.lang][k] || k; }
 function Ls(k) { return (TR[ST.lang].sl || {})[k] || k; }
@@ -879,11 +887,31 @@ function showToast(msg, success) {
 // ── Language ────────────────────────────────────────────────────────────────
 function setLang(l) {
   ST.lang = l;
+  // Persist to same key as main site so both stay in sync
+  try { localStorage.setItem('gs_lang', l); } catch(e) {}
   document.getElementById('b-fi').className = 'btn' + (l==='fi' ? ' btn-on' : '');
   document.getElementById('b-en').className = 'btn' + (l==='en' ? ' btn-on' : '');
   // Toggle site bar GigScript button language
   document.getElementById('btn-gs-fi').style.display = l === 'fi' ? 'inline-flex' : 'none';
   document.getElementById('btn-gs-en').style.display = l === 'en' ? 'inline-flex' : 'none';
+  // Swap sample if user hasn't edited the content yet
+  var ta = document.getElementById('ed');
+  var current = ta.value.trim();
+  if (current === SAMPLE_FI.trim() || current === SAMPLE_EN.trim()) {
+    ta.value = l === 'fi' ? SAMPLE_FI : SAMPLE_EN;
+    ST.offset = 0; updOff();
+    // Set notation to match sample
+    if (l === 'fi') {
+      ST.notation = 'european';
+      document.getElementById('b-am').className = 'btn';
+      document.getElementById('b-eu').className = 'btn btn-on';
+    } else {
+      ST.notation = 'american';
+      document.getElementById('b-am').className = 'btn btn-on';
+      document.getElementById('b-eu').className = 'btn';
+    }
+    buildChordBtns();
+  }
   applyUI(); render();
 }
 
@@ -943,7 +971,38 @@ function applyUI() {
 }
 
 // ── Sample content ──────────────────────────────────────────────────────────
-var SAMPLE = [
+var SAMPLE_FI = [
+  '{title: Syksyn Sävel}',
+  '{artist: Juice Leskinen}',
+  '{key: Em}',
+  '{notation: european}',
+  '',
+  '{verse}',
+  '[Em]Katu täyttyy [Am]askelista,',
+  '[D7]elämä on [G]kuolemista,',
+  '[Em]pane käsi [Am]käteen ollaan [H7]hiljaa',
+  '',
+  '[Em]Pyydä minut [Am]aamuteelle,',
+  '[D7]anna vettä [G]kuihtuneelle,',
+  '[Em]nyt on elo[Am]kuu ja [H7]minä olen [Em]viljaa',
+  '',
+  '{chorus}',
+  '[C]En ilosta itke, en surusta itke,',
+  '[Em]jos itken, niin itken muuten vaan',
+  '[C]Ja muualla oon ennen kuin [H7]huomaatkaan',
+  '',
+  '[Em]Häntä rakastin [Am]paljon, sua [D]rakastan joskus [G]enemmän',
+  '[Em]Ole mulle [Am]vähän [H7]aikaa [Em]hän',
+  '',
+  '{verse}',
+  '[Em]Ota minut [Am]sinun uniin,',
+  '[D7]vaikka nousen [G]toisiin juniin',
+  '[Em]Nyt on loka[Am]kuu, ja minusta [H7]näkee [Em]sen',
+  '',
+  '{comment: Kertosäe toistuu 2x}'
+].join('\n');
+
+var SAMPLE_EN = [
   '{title: Wonderwall}',
   '{artist: Oasis}',
   '{key: F#m}',
@@ -967,8 +1026,11 @@ var SAMPLE = [
   "[F#m7]Maybe [A]you're gonna be the one that [Esus4]saves [E]me",
   "And [F#m7]after [A]all, you're my [Esus4]Wonder[E]wall",
   '',
-  '{comment: Kertosäe toistuu 2x}'
+  '{comment: Chorus repeats 2x}'
 ].join('\n');
+
+// Use Finnish sample for FI, English for EN
+var SAMPLE = ST.lang === 'fi' ? SAMPLE_FI : SAMPLE_EN;
 
 // ── Init ────────────────────────────────────────────────────────────────────
 // Default to dark mode (matches GigScript branding)
@@ -983,13 +1045,25 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matc
   document.getElementById('mode-icon').className = 'ti ti-moon';
 }
 
-document.getElementById('ed').value = SAMPLE;
+document.getElementById('ed').value = ST.lang === 'fi' ? SAMPLE_FI : SAMPLE_EN;
 applyUI();
-buildChordBtns();
 buildDirBtns();
 updOff();
-document.getElementById('b-fi').className = 'btn btn-on';
-document.getElementById('b-am').className = 'btn btn-on';
+
+// Set notation and buttons based on initial language
+if (ST.lang === 'fi') {
+  ST.notation = 'european';
+  document.getElementById('b-fi').className = 'btn btn-on';
+  document.getElementById('b-en').className = 'btn';
+  document.getElementById('b-am').className = 'btn';
+  document.getElementById('b-eu').className = 'btn btn-on';
+} else {
+  document.getElementById('b-fi').className = 'btn';
+  document.getElementById('b-en').className = 'btn btn-on';
+  document.getElementById('b-am').className = 'btn btn-on';
+  document.getElementById('b-eu').className = 'btn';
+}
+buildChordBtns();
 render();
 </script>
 </body>
