@@ -7,6 +7,8 @@
   <meta property="og:title" content="GigScript — Teleprompter for Musicians">
   <meta property="og:description" content="Auto-scroll lyrics and chords on stage. ChordPro, PDF, setlists, band sync via cloud.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gigscript.pekkahuuskonen.com">
+  <link rel="canonical" href="https://gigscript.pekkahuuskonen.com">
   <title>GigScript — Teleprompter for Musicians</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -194,16 +196,46 @@
     }
     .ticker-content {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.88rem; line-height: 1.9;
+      font-size: 0.82rem;
       color: var(--text);
-      animation: ticker-scroll 18s linear infinite;
+      animation: ticker-scroll 22s linear infinite;
     }
-    .ticker-chord { color: var(--amber); }
     .ticker-section {
-      color: var(--amber); font-size: 0.72rem;
-      letter-spacing: 0.1em; display: block;
-      margin-bottom: 0.2rem; margin-top: 0.6rem;
+      color: var(--amber); font-size: 0.68rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.3rem; margin-top: 1rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
     }
+    .ticker-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      margin-bottom: 1px;
+      line-height: 1;
+    }
+    .ticker-seg {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .ticker-ch {
+      color: var(--amber);
+      font-weight: 700;
+      font-size: 0.76rem;
+      min-height: 1rem;
+      white-space: pre;
+      padding-right: 6px;
+      line-height: 1.2;
+    }
+    .ticker-ly {
+      font-size: 0.84rem;
+      color: var(--text);
+      white-space: pre;
+      line-height: 1.6;
+    }
+    .ticker-blank { height: 0.55rem; }
 
     @keyframes ticker-scroll {
       0%   { transform: translateY(0); }
@@ -501,6 +533,7 @@
       <li><a href="#features"  data-en>Features</a><a href="#features"   data-fi>Ominaisuudet</a></li>
       <li><a href="#how"       data-en>How it works</a><a href="#how"    data-fi>Näin toimii</a></li>
       <li><a href="#pricing"   data-en>Pricing</a><a href="#pricing"     data-fi>Hinnoittelu</a></li>
+      <li><a href="editor/"    data-en>ChordPro Editor</a><a href="editor/" data-fi>ChordPro-editori</a></li>
       <li><a href="#support"   data-en>Support</a><a href="#support"     data-fi>Tuki</a></li>
       <li><a href="#" onclick="showPrivacy(); return false;" data-en>Privacy</a>
           <a href="#" onclick="showPrivacy(); return false;" data-fi>Tietosuoja</a></li>
@@ -552,44 +585,138 @@
   <div class="hero-ticker-wrap">
     <div class="ticker-label">GigScript — Live preview</div>
     <div class="ticker-content" aria-hidden="true">
-<span class="ticker-section">[VERSE 1]</span>
-<span><span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span>       <span class="ticker-chord">C</span>      <span class="ticker-chord">F</span></span>
-Today is gonna be the day that they're
-<span><span class="ticker-chord">Am</span>       <span class="ticker-chord">G</span>      <span class="ticker-chord">C</span></span>
-gonna throw it back to you
-<span><span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span>       <span class="ticker-chord">C</span>      <span class="ticker-chord">F</span></span>
-By now you should've somehow realized
-<span><span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span>      <span class="ticker-chord">C</span></span>
-what you gotta do
-&nbsp;
-<span class="ticker-section">[CHORUS]</span>
-<span><span class="ticker-chord">C</span>         <span class="ticker-chord">Em</span>      <span class="ticker-chord">Am</span>     <span class="ticker-chord">G</span></span>
-And all the roads we have to walk are winding
-<span><span class="ticker-chord">C</span>         <span class="ticker-chord">Em</span>      <span class="ticker-chord">Am</span>     <span class="ticker-chord">G</span></span>
-And all the lights that lead us there are blinding
-&nbsp;
-<span class="ticker-section">[VERSE 2]</span>
-<span><span class="ticker-chord">Dm</span>      <span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span></span>
-I don't believe that anybody feels
-<span><span class="ticker-chord">F</span>      <span class="ticker-chord">G</span>      <span class="ticker-chord">Am</span></span>
-the way I do about you now
-&nbsp;
-<!-- Duplicate for seamless loop -->
-<span class="ticker-section">[VERSE 1]</span>
-<span><span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span>       <span class="ticker-chord">C</span>      <span class="ticker-chord">F</span></span>
-Today is gonna be the day that they're
-<span><span class="ticker-chord">Am</span>       <span class="ticker-chord">G</span>      <span class="ticker-chord">C</span></span>
-gonna throw it back to you
-<span><span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span>       <span class="ticker-chord">C</span>      <span class="ticker-chord">F</span></span>
-By now you should've somehow realized
-<span><span class="ticker-chord">Am</span>      <span class="ticker-chord">G</span>      <span class="ticker-chord">C</span></span>
-what you gotta do
-&nbsp;
-<span class="ticker-section">[CHORUS]</span>
-<span><span class="ticker-chord">C</span>         <span class="ticker-chord">Em</span>      <span class="ticker-chord">Am</span>     <span class="ticker-chord">G</span></span>
-And all the roads we have to walk are winding
-<span><span class="ticker-chord">C</span>         <span class="ticker-chord">Em</span>      <span class="ticker-chord">Am</span>     <span class="ticker-chord">G</span></span>
-And all the lights that lead us there are blinding
+
+      <span class="ticker-section">[Verse 1]</span>
+
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly">Today  </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">is     </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">gonna  </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">be the </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly">day    </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">that   </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">they're</span></span>
+        <span class="ticker-seg"><span class="ticker-ch">F      </span><span class="ticker-ly"> gonna </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">throw  </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly"> it    </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly"> back  </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly"> to you</span></span>
+      </div>
+
+      <div class="ticker-blank"></div>
+
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly">By now </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">you    </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">should-</span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">ve     </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly">somehow</span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">realized what </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly">you    </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">gotta  </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly">do     </span></span>
+      </div>
+
+      <div class="ticker-blank"></div>
+      <span class="ticker-section">[Chorus]</span>
+
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly">And all </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Em     </span><span class="ticker-ly">the roads</span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly"> we have</span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly"> to walk</span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly"> are    </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">F      </span><span class="ticker-ly">winding </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly">And all </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Em     </span><span class="ticker-ly">the lights</span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly"> that   </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">lead us </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">there   </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">F      </span><span class="ticker-ly">are     </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">blinding</span></span>
+      </div>
+
+      <div class="ticker-blank"></div>
+      <span class="ticker-section">[Verse 2]</span>
+
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Dm     </span><span class="ticker-ly">I don't </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly">believe </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">that    </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">anybody </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">F      </span><span class="ticker-ly">feels the way </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">I do   </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly">about  </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">you now</span></span>
+      </div>
+
+      <div class="ticker-blank"></div>
+
+      <!-- Duplicate for seamless loop -->
+      <span class="ticker-section">[Verse 1]</span>
+
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly">Today  </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">is     </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">gonna  </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">be the </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly">day    </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">that   </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">they're</span></span>
+        <span class="ticker-seg"><span class="ticker-ch">F      </span><span class="ticker-ly"> gonna </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">throw  </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly"> it    </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly"> back  </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly"> to you</span></span>
+      </div>
+
+      <div class="ticker-blank"></div>
+
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly">By now </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">you    </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">should-</span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">ve     </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly">somehow</span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">realized what </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly">you    </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">gotta  </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly">do     </span></span>
+      </div>
+
+      <div class="ticker-blank"></div>
+      <span class="ticker-section">[Chorus]</span>
+
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly">And all </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Em     </span><span class="ticker-ly">the roads</span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly"> we have</span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly"> to walk</span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly"> are    </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">F      </span><span class="ticker-ly">winding </span></span>
+      </div>
+      <div class="ticker-line">
+        <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly">And all </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Em     </span><span class="ticker-ly">the lights</span></span>
+        <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly"> that   </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">lead us </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">       </span><span class="ticker-ly">there   </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">F      </span><span class="ticker-ly">are     </span></span>
+        <span class="ticker-seg"><span class="ticker-ch">G      </span><span class="ticker-ly">blinding</span></span>
+      </div>
+
     </div>
   </div>
 </section>
@@ -951,6 +1078,7 @@ And all the lights that lead us there are blinding
       <li><a href="#features"  data-en>Features</a><a href="#features"  data-fi>Ominaisuudet</a></li>
       <li><a href="#pricing"   data-en>Pricing</a><a href="#pricing"    data-fi>Hinnoittelu</a></li>
       <li><a href="#support"   data-en>Support</a><a href="#support"    data-fi>Tuki</a></li>
+      <li><a href="editor/"    data-en>ChordPro Editor</a><a href="editor/" data-fi>ChordPro-editori</a></li>
       <li><a href="#" onclick="showPrivacy(); return false;" data-en>Privacy Policy</a>
           <a href="#" onclick="showPrivacy(); return false;" data-fi>Tietosuoja</a></li>
       <li><a href="mailto:support@gigscript.app">support@gigscript.app</a></li>
