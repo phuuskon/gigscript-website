@@ -68,6 +68,11 @@
     /* ── Language toggle ────────────────────────────── */
     .lang-en [data-fi], .lang-fi [data-en] { display: none; }
     .lang-en [data-en], .lang-fi [data-fi] { display: revert; }
+    /* ticker-content divs use data-en/fi for show/hide — always block */
+    .lang-en .ticker-content[data-en],
+    .lang-fi .ticker-content[data-fi] { display: block; }
+    /* ticker-section inside ticker-content: always visible (not a lang toggle target) */
+    .ticker-content .ticker-section { display: block !important; }
 
     /* ── Typography ─────────────────────────────────── */
     h1, h2, h3, h4 {
@@ -555,7 +560,7 @@
     <div class="nav-logo">Gig<span>Script</span></div>
     <ul class="nav-links">
       <li><a href="#features"  data-en>Features</a><a href="#features"   data-fi>Ominaisuudet</a></li>
-      <li><a href="#how"       data-en>How it works</a><a href="#how"    data-fi>Näin toimii</a></li>
+      <li><a href="#how"       data-en>How it works</a><a href="#how"    data-fi>Näin se toimii</a></li>
       <li><a href="#pricing"   data-en>Pricing</a><a href="#pricing"     data-fi>Hinnoittelu</a></li>
       <li><a href="editor/"    data-en>ChordPro Editor</a><a href="editor/" data-fi>ChordPro-editori</a></li>
       <li><a href="#support"   data-en>Support</a><a href="#support"     data-fi>Tuki</a></li>
@@ -586,7 +591,7 @@
 
   <h1>
     <span data-en>Your lyrics.<br>Your chords.<br><em>Auto-scrolling.</em></span>
-    <span data-fi>Sanat. Soinnut.<br><em>Automaattisesti.</em></span>
+    <span data-fi>Sanat.<br>Soinnut.<br><em>Automaattisesti.</em></span>
   </h1>
 
   <p class="hero-sub">
@@ -612,7 +617,7 @@
     <!-- English ticker: Wonderwall -->
     <div class="ticker-content lang-en-ticker" aria-hidden="true" data-en>
 
-      <span class="ticker-section">[Verse 1]</span>
+      <div class="ticker-section">VERSE 1</div>
 
       <div class="ticker-line">
         <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly">Today  </span></span>
@@ -648,7 +653,7 @@
       </div>
 
       <div class="ticker-blank"></div>
-      <span class="ticker-section">[Chorus]</span>
+      <div class="ticker-section">CHORUS</div>
 
       <div class="ticker-line">
         <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly">And all </span></span>
@@ -669,7 +674,7 @@
       </div>
 
       <div class="ticker-blank"></div>
-      <span class="ticker-section">[Verse 2]</span>
+      <div class="ticker-section">VERSE 2</div>
 
       <div class="ticker-line">
         <span class="ticker-seg"><span class="ticker-ch">Dm     </span><span class="ticker-ly">I don't </span></span>
@@ -687,7 +692,7 @@
       <div class="ticker-blank"></div>
 
       <!-- Duplicate for seamless loop -->
-      <span class="ticker-section">[Verse 1]</span>
+      <div class="ticker-section">VERSE 1</div>
 
       <div class="ticker-line">
         <span class="ticker-seg"><span class="ticker-ch">Am     </span><span class="ticker-ly">Today  </span></span>
@@ -723,7 +728,7 @@
       </div>
 
       <div class="ticker-blank"></div>
-      <span class="ticker-section">[Chorus]</span>
+      <div class="ticker-section">CHORUS</div>
 
       <div class="ticker-line">
         <span class="ticker-seg"><span class="ticker-ch">C      </span><span class="ticker-ly">And all </span></span>
@@ -747,7 +752,7 @@
     <!-- Finnish ticker: Syksyn Sävel — data-fi, hidden in EN mode -->
     <div class="ticker-content" aria-hidden="true" data-fi>
 
-      <span class="ticker-section">[Säkeistö]</span>
+      <div class="ticker-section">SÄKEISTÖ</div>
       <div class="ticker-line">
         <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">Katu   </span></span>
         <span class="ticker-seg"><span class="ticker-ch">Am    </span><span class="ticker-ly">täyttyy askelista, </span></span>
@@ -777,7 +782,7 @@
         <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">viljaa </span></span>
       </div>
       <div class="ticker-blank"></div>
-      <span class="ticker-section">[Kertosäe]</span>
+      <div class="ticker-section">KERTOSÄE</div>
       <div class="ticker-line">
         <span class="ticker-seg"><span class="ticker-ch">C     </span><span class="ticker-ly">En ilosta itke, en surusta itke, </span></span>
       </div>
@@ -804,7 +809,7 @@
       </div>
       <div class="ticker-blank"></div>
       <!-- Loop duplicate -->
-      <span class="ticker-section">[Säkeistö]</span>
+      <div class="ticker-section">SÄKEISTÖ</div>
       <div class="ticker-line">
         <span class="ticker-seg"><span class="ticker-ch">Em    </span><span class="ticker-ly">Katu   </span></span>
         <span class="ticker-seg"><span class="ticker-ch">Am    </span><span class="ticker-ly">täyttyy askelista, </span></span>
@@ -867,7 +872,7 @@
         <h3 data-en>ChordPro support</h3>
         <h3 data-fi>ChordPro-tuki</h3>
         <p data-en>Chords displayed above lyrics in amber, perfectly aligned. Full transposition with semitone steps. European H notation supported.</p>
-        <p data-fi>Soinnut näkyvät sanojen yläpuolella amberilla, täsmälleen kohdistettuina. Transponointi puolisävelaskelein. H-notaatio tuettu.</p>
+        <p data-fi>Soinnut näkyvät sanojen yläpuolella, täsmälleen kohdistettuina. Transponointi puolisävelaskelein. H-notaatio tuettu.</p>
       </div>
 
       <div class="feature-card">
@@ -881,9 +886,9 @@
       <div class="feature-card">
         <span class="feature-icon">📋</span>
         <h3 data-en>Setlists &amp; performance mode</h3>
-        <h3 data-fi>Setlistat &amp; esiintymistila</h3>
+        <h3 data-fi>Settilistat &amp; esiintymistila</h3>
         <p data-en>Build setlists, drag to reorder, set per-song keys and notes. Swipe left/right on stage to advance through your set.</p>
-        <p data-fi>Rakenna setlistoja, järjestä raahaamalla, aseta sävellaji ja huomiot per kappale. Pyyhkäise vasemmalle/oikealle esiintymistilassa.</p>
+        <p data-fi>Rakenna settilistoja, järjestä raahaamalla, aseta sävellaji ja huomiot per kappale. Pyyhkäise vasemmalle/oikealle esiintymistilassa.</p>
       </div>
 
       <div class="feature-card">
@@ -899,7 +904,7 @@
         <h3 data-en>Band sync — no server needed</h3>
         <h3 data-fi>Bändisynkka — ei palvelinta</h3>
         <p data-en>Point everyone to the same shared folder on Dropbox, Google Drive, or iCloud. Songs and setlists sync automatically. Works cross-platform: iOS and Android in the same band.</p>
-        <p data-fi>Osoita kaikki samaan jaettuun kansioon Dropboxissa, Google Drivessa tai iCloudissa. Kappaleet ja setlistat synkronoituvat automaattisesti. Toimii cross-platform: iOS ja Android samassa bändissä.</p>
+        <p data-fi>Osoita kaikki samaan jaettuun kansioon Dropboxissa, Google Drivessa tai iCloudissa. Kappaleet ja settilistat synkronoituvat automaattisesti. Toimii cross-platform: iOS ja Android samassa bändissä.</p>
       </div>
     </div>
   </div>
@@ -911,10 +916,10 @@
 <section id="how">
   <div class="container">
     <p class="eyebrow" data-en>How it works</p>
-    <p class="eyebrow" data-fi>Näin toimii</p>
+    <p class="eyebrow" data-fi>Näin se toimii</p>
     <h2>
       <span data-en>Stage-ready in three steps</span>
-      <span data-fi>Lavakunnossa kolmessa askeleessa</span>
+      <span data-fi>Lavakunnossa kolmella askeleella</span>
     </h2>
 
     <div class="steps">
@@ -923,21 +928,21 @@
         <h3 data-en>Add your songs</h3>
         <h3 data-fi>Lisää kappaleesi</h3>
         <p data-en>Type lyrics, paste from the clipboard, import a .chordpro or .txt file, or drag in a PDF. GigScript auto-detects ChordPro format.</p>
-        <p data-fi>Kirjoita sanat, liitä leikepöydältä, tuo .chordpro tai .txt-tiedosto, tai vedä PDF sisään. GigScript tunnistaa ChordPro-muodon automaattisesti.</p>
+        <p data-fi>Kirjoita sanat, liitä leikepöydältä, tuo .chordpro, .txt-tiedosto tai PDF sisään. GigScript tunnistaa ChordPro-muodon automaattisesti.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
         <h3 data-en>Build a setlist</h3>
-        <h3 data-fi>Rakenna setlisti</h3>
+        <h3 data-fi>Rakenna settilista</h3>
         <p data-en>Add songs, drag to reorder, set per-song notes like "capo 2" or key overrides. Share the setlist with your band via a shared cloud folder.</p>
-        <p data-fi>Lisää kappaleita, järjestä raahaamalla, aseta huomiot kuten "capo 2" tai sävellajin muutos. Jaa setlisti bändille jaetun pilvipalvelukansion kautta.</p>
+        <p data-fi>Lisää kappaleita, järjestä raahaamalla, aseta huomiot kuten "capo 2" tai sävellajin muutos. Jaa settilista bändille jaetun pilvipalvelukansion kautta.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
         <h3 data-en>Take the stage</h3>
         <h3 data-fi>Astu lavalle</h3>
         <p data-en>Tap Run, adjust speed once, and play. Swipe between songs. The screen never turns off. GigScript stays out of your way.</p>
-        <p data-fi>Paina Aja, säädä nopeus kerran, ja soita. Pyyhkäise kappaleiden välillä. Näyttö ei sammu koskaan. GigScript ei häiritse.</p>
+        <p data-fi>Paina Aja, säädä nopeus kerran, ja soita. Pyyhkäise kappaleiden välillä. Näyttö ei sammu koskaan. GigScript toimii.</p>
       </div>
     </div>
   </div>
@@ -975,7 +980,7 @@
         <p class="eyebrow" data-fi>Ilmainen</p>
         <div class="price">€0</div>
         <p class="price-note" data-en>Forever free, no account needed</p>
-        <p class="price-note" data-fi>Ilmainen ikuisesti, tilausta ei tarvita</p>
+        <p class="price-note" data-fi>Ilmainen ikuisesti, tiliä ei tarvita</p>
         <ul class="feature-list">
           <li data-en>Unlimited songs</li>
           <li data-fi>Rajaton kappalemäärä</li>
@@ -1007,7 +1012,7 @@
         <p class="price-note" data-fi>Kertamaksu · iOS &amp; Android</p>
         <ul class="feature-list">
           <li data-en>Everything in Free</li>
-          <li data-fi>Kaikki mitä ilmaisessakin</li>
+          <li data-fi>Kaikki ilmaisessa</li>
           <li data-en>ChordPro with chord highlighting</li>
           <li data-fi>ChordPro sointukorostuksella</li>
           <li data-en>Transposition + European H notation</li>
@@ -1083,7 +1088,7 @@
       </div>
       <div class="faq-item">
         <div class="faq-q">Miten bändisynkka toimii?</div>
-        <div class="faq-a">Jokainen bändin jäsen osoittaa GigScriptin samaan jaettuun kansioon Dropboxissa, Google Drivessa tai iCloudissa. GigScript lukee ja kirjoittaa kappaleet ja settilistat suoraan sinne — ei palvelimia, ei tilejä, vain tiedostoja jotka sinä hallitset.</div>
+        <div class="faq-a">Jokainen bändin jäsen osoittaa GigScriptin samaan jaettuun kansioon Dropboxissa, Google Drivessa tai iCloudissa. GigScript lukee ja kirjoittaa kappaleet ja setlistat suoraan sinne — ei palvelimia, ei tilejä, vain tiedostoja jotka sinä hallitset.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Voinko käyttää GigScriptia sekä iPhonella että iPadilla?</div>
@@ -1148,7 +1153,7 @@
 
       <div data-fi>
         <h2>Yleiskatsaus</h2>
-        <p>GigScript on rakennettu yksityisyys edellä. Sovellus tallentaa kappaleet, setlistat ja asetukset paikallisesti laitteellesi. Emme kerää henkilötietoja, luo käyttäjätilejä emmekä lähetä sisältöäsi palvelimillemme.</p>
+        <p>GigScript on rakennettu yksityisyys edellä. Sovellus tallentaa kappaleet, settilistat ja asetukset paikallisesti laitteellesi. Emme kerää henkilötietoja, luo käyttäjätilejä emmekä lähetä sisältöäsi palvelimillemme.</p>
 
         <h2>Keräämämme tiedot</h2>
         <p>Emme kerää henkilötietoja. GigScript ei vaadi tiliä tai rekisteröitymistä. Seuraavat tiedot pysyvät täysin laitteellasi:</p>
