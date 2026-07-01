@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GigScript ChordPro Editor</title>
-  <meta name="description" content="GigScript ChordPro Editor — kirjoita, esikatsele ja transponoi sointumerkkejä. © 2025 Pekka Huuskonen">
+  <title>GigScript ChordPro Editor — Free Online Tool</title>
+  <meta name="description" content="Free online ChordPro editor — write, preview and transpose chord charts in your browser. Export to GigScript app for iOS and Android.">
+  <meta property="og:title" content="GigScript ChordPro Editor">
+  <meta property="og:description" content="Write and preview ChordPro chord charts in your browser. Export directly to the GigScript app.">
+  <meta property="og:type" content="website">
   <meta name="author" content="Pekka Huuskonen">
 
   <!-- Favicon inline SVG → data URI -->
@@ -32,11 +35,11 @@
       --tm: #8a8880;
       --bd: rgba(0,0,0,0.1);
       --bds: rgba(0,0,0,0.18);
-      --ac:  #185fa5;
-      --acbg: rgba(56,138,221,0.1);
-      --acb:  rgba(56,138,221,0.3);
-      --act:  #185fa5;
-      --aco:  #ffffff;
+      --ac:  #c87d0e;
+      --acbg: rgba(245,166,35,0.12);
+      --acb:  rgba(245,166,35,0.4);
+      --act:  #a86800;
+      --aco:  #0f0e0c;
       --scbg: rgba(15,110,86,0.1);
       --scb:  rgba(15,110,86,0.3);
       --sct:  #0f6e56;
@@ -45,23 +48,77 @@
     }
 
     body.dark {
-      background: #1c1c1e;
-      --s0: #1c1c1e;
-      --s1: #2c2c2e;
-      --s2: #3a3a3c;
-      --tp: #f2f2f7;
-      --ts: #aeaeb2;
-      --tm: #636366;
-      --bd: rgba(255,255,255,0.1);
-      --bds: rgba(255,255,255,0.22);
-      --ac:  #4a90d9;
-      --acbg: rgba(74,144,217,0.15);
-      --acb:  rgba(74,144,217,0.4);
-      --act:  #6faee8;
-      --aco:  #ffffff;
+      background: #0f0e0c;
+      --s0: #0f0e0c;
+      --s1: #1a1814;
+      --s2: #211f1a;
+      --tp: #f0ead8;
+      --ts: #a89880;
+      --tm: #7a7060;
+      --bd: rgba(255,255,255,0.08);
+      --bds: rgba(255,255,255,0.16);
+      --ac:  #f5a623;
+      --acbg: rgba(245,166,35,0.12);
+      --acb:  rgba(245,166,35,0.35);
+      --act:  #f5a623;
+      --aco:  #0f0e0c;
       --scbg: rgba(52,211,153,0.1);
       --scb:  rgba(52,211,153,0.3);
       --sct:  #34d399;
+    }
+
+    /* ── Back to site banner ──────────────────────────── */
+    .site-bar {
+      background: #0f0e0c;
+      border-bottom: 1px solid #2e2b26;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .site-bar-left {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .site-logo {
+      font-family: system-ui, -apple-system, sans-serif;
+      font-weight: 700; font-size: 13px;
+      color: #f0ead8; letter-spacing: -0.02em;
+      text-decoration: none;
+    }
+    .site-logo span { color: #f5a623; }
+    .site-tag {
+      font-size: 10px; color: #7a7060;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .btn-gigscript {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #f5a623; color: #0f0e0c;
+      border: none; border-radius: 6px;
+      padding: 5px 12px; font-size: 11px; font-weight: 700;
+      cursor: pointer; white-space: nowrap;
+      font-family: inherit; letter-spacing: 0.02em;
+      transition: opacity .15s;
+      text-decoration: none;
+    }
+    .btn-gigscript:hover { opacity: 0.85; }
+    .btn-gigscript i { font-size: 13px; }
+
+    /* Toast notification */
+    .toast {
+      position: fixed; bottom: 40px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1a1814; color: #f0ead8;
+      border: 1px solid #f5a623;
+      padding: 8px 18px; border-radius: 8px;
+      font-size: 12px; font-weight: 500;
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s, transform .25s;
+      z-index: 9999; white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1; transform: translateX(-50%) translateY(0);
     }
 
     /* ── Layout ───────────────────────────────────────── */
@@ -379,19 +436,34 @@
   </style>
 </head>
 <body>
+<div class="toast" id="toast"></div>
 <div class="app">
+
+  <!-- ── Site navigation bar ────────────────────────── -->
+  <div class="site-bar">
+    <div class="site-bar-left">
+      <a href="https://gigscript.pekkahuuskonen.com" class="site-logo">Gig<span>Script</span></a>
+      <span class="site-tag">ChordPro Editor</span>
+    </div>
+    <button class="btn-gigscript" onclick="openInGigScript()" id="btn-gs-fi" style="display:none">
+      <i class="ti ti-device-mobile"></i> Avaa GigScriptissä
+    </button>
+    <button class="btn-gigscript" onclick="openInGigScript()" id="btn-gs-en">
+      <i class="ti ti-device-mobile"></i> Open in GigScript
+    </button>
+  </div>
 
   <!-- ── Toolbar 1: File operations ─────────────────── -->
   <div class="tb">
     <span class="tlogo">
       <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
-        <rect width="64" height="64" rx="10" fill="#1a1a2e"/>
-        <line x1="10" y1="35" x2="54" y2="35" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-        <line x1="10" y1="42" x2="54" y2="42" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-        <line x1="10" y1="49" x2="54" y2="49" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-        <path d="M13 28 L9 28 L9 55 L13 55" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <text x="16" y="53" font-family="Georgia,serif" font-size="24" font-weight="700" fill="#e8643c">Gs</text>
-        <path d="M51 28 L55 28 L55 55 L51 55" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <rect width="64" height="64" rx="10" fill="#1a1814"/>
+        <line x1="10" y1="35" x2="54" y2="35" stroke="rgba(245,166,35,0.25)" stroke-width="1"/>
+        <line x1="10" y1="42" x2="54" y2="42" stroke="rgba(245,166,35,0.25)" stroke-width="1"/>
+        <line x1="10" y1="49" x2="54" y2="49" stroke="rgba(245,166,35,0.25)" stroke-width="1"/>
+        <path d="M13 28 L9 28 L9 55 L13 55" stroke="rgba(245,166,35,0.6)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <text x="16" y="53" font-family="Georgia,serif" font-size="24" font-weight="700" fill="#f5a623">Gs</text>
+        <path d="M51 28 L55 28 L55 55 L51 55" stroke="rgba(245,166,35,0.6)" stroke-width="2" fill="none" stroke-linecap="round"/>
       </svg>
       GigScript <small>ChordPro Editor</small>
     </span>
@@ -459,7 +531,10 @@
   <!-- ── Footer ──────────────────────────────────────── -->
   <div class="foot">
     <span id="t-copy"></span>
-    <span>GigScript ChordPro Editor</span>
+    <span>
+      <a href="https://gigscript.pekkahuuskonen.com" style="color:var(--act);text-decoration:none;" id="foot-link-fi" data-lang="fi">← gigscript.pekkahuuskonen.com</a>
+      <a href="https://gigscript.pekkahuuskonen.com" style="color:var(--act);text-decoration:none;" id="foot-link-en" data-lang="en">← gigscript.pekkahuuskonen.com</a>
+    </span>
   </div>
 </div>
 
@@ -749,11 +824,66 @@ function toggleMode() {
   document.getElementById('mode-icon').className = ST.dark ? 'ti ti-sun' : 'ti ti-moon';
 }
 
+// ── Open in GigScript ───────────────────────────────────────────────────────
+function openInGigScript() {
+  var content = document.getElementById('ed').value;
+  if (!content.trim()) {
+    showToast(ST.lang === 'fi' ? 'Editori on tyhjä' : 'Editor is empty', false);
+    return;
+  }
+  try {
+    navigator.clipboard.writeText(content).then(function() {
+      showToast(
+        ST.lang === 'fi'
+          ? '✓ Kopioitu! Liitä GigScriptissä "Liitä leikepöydältä"'
+          : '✓ Copied! Paste in GigScript using "Paste from clipboard"',
+        true
+      );
+      // After short delay, open App Store / Play Store
+      setTimeout(function() {
+        // Opens App Store on iOS, Play Store on Android, fallback to site
+        var ua = navigator.userAgent;
+        if (/iPad|iPhone|iPod/.test(ua)) {
+          window.open('https://apps.apple.com/app/gigscript/id000000000', '_blank');
+        } else if (/Android/.test(ua)) {
+          window.open('https://play.google.com/store/apps/details?id=com.yourname.gigscript', '_blank');
+        } else {
+          window.open('https://gigscript.pekkahuuskonen.com#pricing', '_blank');
+        }
+      }, 1200);
+    }).catch(function() {
+      // Fallback: select all text in editor
+      var ta = document.getElementById('ed');
+      ta.select();
+      document.execCommand('copy');
+      showToast(
+        ST.lang === 'fi'
+          ? '✓ Kopioitu! Liitä GigScriptissä "Liitä leikepöydältä"'
+          : '✓ Copied! Paste in GigScript using "Paste from clipboard"',
+        true
+      );
+    });
+  } catch(e) {
+    showToast(ST.lang === 'fi' ? 'Kopioi manuaalisesti (Ctrl+A, Ctrl+C)' : 'Copy manually (Ctrl+A, Ctrl+C)', false);
+  }
+}
+
+function showToast(msg, success) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = success ? '#f5a623' : '#c0392b';
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3500);
+}
+
 // ── Language ────────────────────────────────────────────────────────────────
 function setLang(l) {
   ST.lang = l;
   document.getElementById('b-fi').className = 'btn' + (l==='fi' ? ' btn-on' : '');
   document.getElementById('b-en').className = 'btn' + (l==='en' ? ' btn-on' : '');
+  // Toggle site bar GigScript button language
+  document.getElementById('btn-gs-fi').style.display = l === 'fi' ? 'inline-flex' : 'none';
+  document.getElementById('btn-gs-en').style.display = l === 'en' ? 'inline-flex' : 'none';
   applyUI(); render();
 }
 
@@ -841,10 +971,16 @@ var SAMPLE = [
 ].join('\n');
 
 // ── Init ────────────────────────────────────────────────────────────────────
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  ST.dark = true;
-  document.body.classList.add('dark');
-  document.getElementById('mode-icon').className = 'ti ti-sun';
+// Default to dark mode (matches GigScript branding)
+ST.dark = true;
+document.body.classList.add('dark');
+document.getElementById('mode-icon').className = 'ti ti-sun';
+
+// Override with system preference if light
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+  ST.dark = false;
+  document.body.classList.remove('dark');
+  document.getElementById('mode-icon').className = 'ti ti-moon';
 }
 
 document.getElementById('ed').value = SAMPLE;
