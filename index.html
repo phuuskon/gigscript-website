@@ -158,8 +158,44 @@
     .lang-btn:hover { border-color: var(--amber); color: var(--amber); }
     .lang-btn.active { border-color: var(--amber); color: var(--amber); }
 
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
     @media (max-width: 680px) {
-      .nav-links { display: none; }
+      .menu-toggle {
+        display: block; /* Näytetään painike puhelimella */
+      }
+
+      .nav-links {
+        display: none; /* Piilossa oletuksena puhelimella */
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: rgba(15, 14, 12, 0.96);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem;
+        gap: 1.2rem;
+        align-items: flex-start;
+      }
+
+      /* Kun valikolle annetaan .open-luokka JavaScriptillä, se tulee näkyviin */
+      .nav-links.open {
+        display: flex;
+      }
+      
+      /* Muutetaan kielivalitsin ja latauspainike riviin mobiilissa */
+      .nav-links li {
+        width: 100%;
+      }
     }
 
     /* ── Hero ───────────────────────────────────────── */
@@ -558,6 +594,7 @@
 <nav>
   <div class="nav-inner">
     <div class="nav-logo">Gig<span>Script</span></div>
+    <button class="menu-toggle" aria-label="Toggle menu">☰</button>
     <ul class="nav-links">
       <li><a href="#features"  data-en>Features</a><a href="#features"   data-fi>Ominaisuudet</a></li>
       <li><a href="#how"       data-en>How it works</a><a href="#how"    data-fi>Näin se toimii</a></li>
@@ -1219,6 +1256,24 @@
     document.getElementById('btn-fi').classList.toggle('active', lang === 'fi');
     localStorage.setItem('gs_lang', lang);
   }
+
+  // ── Mobiilivalikon avaaminen ja sulkeminen ─────────
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.nav-links');
+
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    // Muutetaan ikoni ☰ -> ✕ kun valikko on auki
+    menuToggle.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+  });
+
+  // Suljetaan valikko automaattisesti, kun jotain linkkiä klikataan
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuToggle.textContent = '☰';
+    });
+  });
 
   // Detect saved or browser language on load
   const saved = localStorage.getItem('gs_lang');
