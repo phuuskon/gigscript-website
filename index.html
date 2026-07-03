@@ -550,6 +550,44 @@
     @media (prefers-reduced-motion: reduce) {
       .ticker-content { animation: none; }
     }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 680px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: rgba(15, 14, 12, 0.96);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem;
+        gap: 1.2rem;
+        align-items: flex-start;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links li {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body class="lang-en">
@@ -558,6 +596,7 @@
 <nav>
   <div class="nav-inner">
     <div class="nav-logo">Gig<span>Script</span></div>
+    <button class="menu-toggle" aria-label="Toggle menu">☰</button>
     <ul class="nav-links">
       <li><a href="#features"  data-en>Features</a><a href="#features"   data-fi>Ominaisuudet</a></li>
       <li><a href="#how"       data-en>How it works</a><a href="#how"    data-fi>Näin toimii</a></li>
@@ -1248,6 +1287,25 @@
 </div><!-- #main-content -->
 
 <script>
+
+  // ── Mobiilivalikon avaaminen ja sulkeminen ─────────
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.nav-links');
+
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      menuToggle.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuToggle.textContent = '☰';
+      });
+    });
+  }
+
   // ── Language toggle ────────────────────────────────
   function setLang(lang) {
     document.body.className = 'lang-' + lang;
