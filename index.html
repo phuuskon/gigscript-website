@@ -158,44 +158,8 @@
     .lang-btn:hover { border-color: var(--amber); color: var(--amber); }
     .lang-btn.active { border-color: var(--amber); color: var(--amber); }
 
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text);
-      font-size: 1.8rem;
-      cursor: pointer;
-    }
-
     @media (max-width: 680px) {
-      .menu-toggle {
-        display: block; /* Näytetään painike puhelimella */
-      }
-
-      .nav-links {
-        display: none; /* Piilossa oletuksena puhelimella */
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        right: 0;
-        background: rgba(15, 14, 12, 0.96);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--border);
-        padding: 1.5rem;
-        gap: 1.2rem;
-        align-items: flex-start;
-      }
-
-      /* Kun valikolle annetaan .open-luokka JavaScriptillä, se tulee näkyviin */
-      .nav-links.open {
-        display: flex;
-      }
-      
-      /* Muutetaan kielivalitsin ja latauspainike riviin mobiilissa */
-      .nav-links li {
-        width: 100%;
-      }
+      .nav-links { display: none; }
     }
 
     /* ── Hero ───────────────────────────────────────── */
@@ -594,10 +558,9 @@
 <nav>
   <div class="nav-inner">
     <div class="nav-logo">Gig<span>Script</span></div>
-    <button class="menu-toggle" aria-label="Toggle menu">☰</button>
     <ul class="nav-links">
       <li><a href="#features"  data-en>Features</a><a href="#features"   data-fi>Ominaisuudet</a></li>
-      <li><a href="#how"       data-en>How it works</a><a href="#how"    data-fi>Näin se toimii</a></li>
+      <li><a href="#how"       data-en>How it works</a><a href="#how"    data-fi>Näin toimii</a></li>
       <li><a href="#pricing"   data-en>Pricing</a><a href="#pricing"     data-fi>Hinnoittelu</a></li>
       <li><a href="editor/"    data-en>ChordPro Editor</a><a href="editor/" data-fi>ChordPro-editori</a></li>
       <li><a href="#support"   data-en>Support</a><a href="#support"     data-fi>Tuki</a></li>
@@ -622,13 +585,13 @@
 <section class="hero">
   <div class="hero-badge">
     <span>🎸</span>
-    <span data-en>iOS &amp; Android — launching soon</span>
-    <span data-fi>iOS &amp; Android — tulossa pian</span>
+    <span data-en>iOS &amp; Android — coming to App Store</span>
+    <span data-fi>iOS &amp; Android — tulossa App Storeen</span>
   </div>
 
   <h1>
     <span data-en>Your lyrics.<br>Your chords.<br><em>Auto-scrolling.</em></span>
-    <span data-fi>Sanat.<br>Soinnut.<br><em>Automaattisesti.</em></span>
+    <span data-fi>Sanat. Soinnut.<br><em>Automaattisesti.</em></span>
   </h1>
 
   <p class="hero-sub">
@@ -909,23 +872,23 @@
         <h3 data-en>ChordPro support</h3>
         <h3 data-fi>ChordPro-tuki</h3>
         <p data-en>Chords displayed above lyrics in amber, perfectly aligned. Full transposition with semitone steps. European H notation supported.</p>
-        <p data-fi>Soinnut näkyvät sanojen yläpuolella, täsmälleen kohdistettuina. Transponointi puolisävelaskelein. H-notaatio tuettu.</p>
+        <p data-fi>Soinnut näkyvät sanojen yläpuolella amberilla, täsmälleen kohdistettuina. Transponointi puolisävelaskelein. H-notaatio tuettu.</p>
       </div>
 
       <div class="feature-card">
         <span class="feature-icon">⊡</span>
         <h3 data-en>Fit-to-screen mode</h3>
         <h3 data-fi>Sovita näyttöön -tila</h3>
-        <p data-en>Short song? GigScript auto-scales the font so the entire song fills the screen without scrolling. Tap to show controls.</p>
-        <p data-fi>Lyhyt biisi? GigScript skaalaa fontin automaattisesti niin että koko kappale mahtuu näytölle. Näpäytä nähdäksesi kontrollit.</p>
+        <p data-en>Short song? GigScript auto-scales the font so the entire song fills the screen without scrolling. Controls hide automatically — tap to reveal. Long songs that don't fit get a clear notification.</p>
+        <p data-fi>Lyhyt biisi? GigScript skaalaa fontin automaattisesti niin että koko kappale mahtuu näytölle. Kontrollit piilotetaan automaattisesti — napauta nähdäksesi ne. Liian pitkistä kappaleista tulee selkeä ilmoitus.</p>
       </div>
 
       <div class="feature-card">
         <span class="feature-icon">📋</span>
         <h3 data-en>Setlists &amp; performance mode</h3>
-        <h3 data-fi>Settilistat &amp; esiintymistila</h3>
-        <p data-en>Build setlists, drag to reorder, set per-song keys and notes. Swipe left/right on stage to advance through your set.</p>
-        <p data-fi>Rakenna settilistoja, järjestä raahaamalla, aseta sävellaji ja huomiot per kappale. Pyyhkäise vasemmalle/oikealle esiintymistilassa.</p>
+        <h3 data-fi>Setlistat &amp; esiintymistila</h3>
+        <p data-en>Build setlists, drag to reorder. The song picker shows your full library with alphabet index — tap to add. Set per-song key reminders and notes. Swipe left/right on stage to advance.</p>
+        <p data-fi>Rakenna settilistoja, järjestä raahaamalla. Kappaleiden valintanäytöllä näet koko kirjaston aakkoshakemistolla — napauta lisätäksesi. Aseta sävellaji ja huomiot per kappale. Pyyhkäise vasemmalle/oikealle esiintymistilassa.</p>
       </div>
 
       <div class="feature-card">
@@ -940,8 +903,8 @@
         <span class="feature-icon">☁</span>
         <h3 data-en>Band sync — no server needed</h3>
         <h3 data-fi>Bändisynkka — ei palvelinta</h3>
-        <p data-en>Point everyone to the same shared folder on Dropbox, Google Drive, or iCloud. Songs and setlists sync automatically. Works cross-platform: iOS and Android in the same band.</p>
-        <p data-fi>Osoita kaikki samaan jaettuun kansioon Dropboxissa, Google Drivessa tai iCloudissa. Kappaleet ja settilistat synkronoituvat automaattisesti. Toimii cross-platform: iOS ja Android samassa bändissä.</p>
+        <p data-en>Point everyone to the same shared folder on Dropbox, Google Drive, or iCloud. Songs sync using content hashing — only real changes trigger a transfer. Conflicts are detected and resolved with a clear UI. Works cross-platform: iOS and Android in the same band.</p>
+        <p data-fi>Osoita kaikki samaan jaettuun kansioon Dropboxissa, Google Drivessa tai iCloudissa. Kappaleet synkronoidaan sisältöhashilla — vain todelliset muutokset siirretään. Ristiriidat havaitaan ja ratkaistaan selkeällä käyttöliittymällä. Toimii cross-platform: iOS ja Android samassa bändissä.</p>
       </div>
     </div>
   </div>
@@ -953,10 +916,10 @@
 <section id="how">
   <div class="container">
     <p class="eyebrow" data-en>How it works</p>
-    <p class="eyebrow" data-fi>Näin se toimii</p>
+    <p class="eyebrow" data-fi>Näin toimii</p>
     <h2>
       <span data-en>Stage-ready in three steps</span>
-      <span data-fi>Lavakunnossa kolmella askeleella</span>
+      <span data-fi>Lavakunnossa kolmessa askeleessa</span>
     </h2>
 
     <div class="steps">
@@ -964,22 +927,22 @@
         <div class="step-num">01</div>
         <h3 data-en>Add your songs</h3>
         <h3 data-fi>Lisää kappaleesi</h3>
-        <p data-en>Type lyrics, paste from the clipboard, import a .chordpro or .txt file, or drag in a PDF. GigScript auto-detects ChordPro format.</p>
-        <p data-fi>Kirjoita sanat, liitä leikepöydältä, tuo .chordpro, .txt-tiedosto tai PDF sisään. GigScript tunnistaa ChordPro-muodon automaattisesti.</p>
+        <p data-en>Type lyrics, paste from the clipboard, import a .chordpro, .cho, .crd or .txt file, or drag in a PDF. GigScript auto-detects the format.</p>
+        <p data-fi>Kirjoita sanat, liitä leikepöydältä, tuo .chordpro, .cho, .crd tai .txt-tiedosto, tai vedä PDF sisään. GigScript tunnistaa muodon automaattisesti.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
         <h3 data-en>Build a setlist</h3>
-        <h3 data-fi>Rakenna settilista</h3>
-        <p data-en>Add songs, drag to reorder, set per-song notes like "capo 2" or key overrides. Share the setlist with your band via a shared cloud folder.</p>
-        <p data-fi>Lisää kappaleita, järjestä raahaamalla, aseta huomiot kuten "capo 2" tai sävellajin muutos. Jaa settilista bändille jaetun pilvipalvelukansion kautta.</p>
+        <h3 data-fi>Rakenna setlisti</h3>
+        <p data-en>Add songs using the song picker with alphabet index, drag to reorder. Set per-song key reminders and notes. Each song appears only once per setlist. Share with your band via a shared cloud folder.</p>
+        <p data-fi>Lisää kappaleita kappaleiden valintanäytöllä jossa on aakkoshakemisto, järjestä raahaamalla. Aseta sävellaji- ja keikkahuomiot per kappale. Sama kappale voi olla settilistalla vain kerran. Jaa bändille jaetun pilvipalvelukansion kautta.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
         <h3 data-en>Take the stage</h3>
         <h3 data-fi>Astu lavalle</h3>
         <p data-en>Tap Run, adjust speed once, and play. Swipe between songs. The screen never turns off. GigScript stays out of your way.</p>
-        <p data-fi>Paina Aja, säädä nopeus kerran, ja soita. Pyyhkäise kappaleiden välillä. Näyttö ei sammu koskaan. GigScript toimii.</p>
+        <p data-fi>Paina Aja, säädä nopeus kerran, ja soita. Pyyhkäise kappaleiden välillä. Näyttö ei sammu koskaan. GigScript ei häiritse.</p>
       </div>
     </div>
   </div>
@@ -1017,7 +980,7 @@
         <p class="eyebrow" data-fi>Ilmainen</p>
         <div class="price">€0</div>
         <p class="price-note" data-en>Forever free, no account needed</p>
-        <p class="price-note" data-fi>Ilmainen ikuisesti, tiliä ei tarvita</p>
+        <p class="price-note" data-fi>Ilmainen ikuisesti, ei tiliä tarvita</p>
         <ul class="feature-list">
           <li data-en>Unlimited songs</li>
           <li data-fi>Rajaton kappalemäärä</li>
@@ -1026,7 +989,7 @@
           <li data-en>Fit-to-screen mode</li>
           <li data-fi>Sovita näyttöön -tila</li>
           <li data-en>1 setlist</li>
-          <li data-fi>1 settilista</li>
+          <li data-fi>1 setlisti</li>
           <li class="muted" data-en>ChordPro &amp; transposition</li>
           <li class="muted" data-fi>ChordPro ja transponointi</li>
           <li class="muted" data-en>PDF import</li>
@@ -1057,7 +1020,7 @@
           <li data-en>PDF import &amp; auto-scroll</li>
           <li data-fi>PDF-tuonti ja automaattinen scroll</li>
           <li data-en>Unlimited setlists</li>
-          <li data-fi>Rajattomat settilistat</li>
+          <li data-fi>Rajattomat setlistat</li>
           <li data-en>Band sync (Dropbox, Google Drive, iCloud)</li>
           <li data-fi>Bändisynkka (Dropbox, Google Drive, iCloud)</li>
         </ul>
@@ -1101,12 +1064,36 @@
         <div class="faq-a">Everyone in the band points GigScript to the same shared folder in their Dropbox, Google Drive, or iCloud. GigScript reads and writes songs and setlists directly to that folder — no servers, no accounts, just files you control.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Can I use GigScript on both iPhone and iPad?</div>
-        <div class="faq-a">Yes. One purchase covers all your iOS devices. GigScript is optimized for both iPhone and iPad, and works in portrait orientation.</div>
+        <div class="faq-q">Can I use GigScript on both iPhone and iPad, and on Android?</div>
+        <div class="faq-a">Yes. GigScript runs on iOS (iPhone and iPad) and Android. One purchase covers all your iOS devices; the Android version is purchased separately on Google Play. The app is optimized for tablets on both platforms.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">What is European H notation?</div>
         <div class="faq-a">In Nordic and German notation, B major is written as H and B♭ is written as B. GigScript supports this convention natively, including transposition — so Hm transposes correctly to C#m, not Cm.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I add the same song twice in a setlist?</div>
+        <div class="faq-a">No — each song can appear only once per setlist. This keeps things simple and avoids confusion on stage. If you need the same song in a different key, transpose it during the performance using the +/− buttons.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What happens when two band members edit the same song?</div>
+        <div class="faq-a">GigScript detects the conflict using content hashing and shows a clear resolution screen — choose the device version or the cloud version. No data is lost.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What file formats can I import?</div>
+        <div class="faq-a">GigScript supports .chordpro, .cho, .crd, .txt, and .pdf files — import from your device, from the clipboard, or place them directly in your shared cloud folder. GigScript auto-detects the format.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can the same song appear twice in a setlist?</div>
+        <div class="faq-a">No — each song can appear only once per setlist. This keeps things simple on stage. If you need the same song in a different key, transpose it on the fly with the +/− buttons during the performance.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What happens when two band members edit the same song?</div>
+        <div class="faq-a">GigScript detects the conflict using content hashing and shows a clear resolution screen — choose the device version or the cloud version. No data is lost.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What file formats can I import?</div>
+        <div class="faq-a">GigScript supports .chordpro, .cho, .crd, .txt, and .pdf — import from your device, from the clipboard, or place files directly in your shared cloud folder. GigScript auto-detects the format.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">I have a question not covered here.</div>
@@ -1128,16 +1115,28 @@
         <div class="faq-a">Jokainen bändin jäsen osoittaa GigScriptin samaan jaettuun kansioon Dropboxissa, Google Drivessa tai iCloudissa. GigScript lukee ja kirjoittaa kappaleet ja setlistat suoraan sinne — ei palvelimia, ei tilejä, vain tiedostoja jotka sinä hallitset.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Voinko käyttää GigScriptia sekä iPhonella että iPadilla?</div>
-        <div class="faq-a">Kyllä. Yksi ostos kattaa kaikki iOS-laitteesi. GigScript on optimoitu sekä iPhonelle että iPadille.</div>
+        <div class="faq-q">Voinko käyttää GigScriptia sekä iPhonella, iPadilla että Androidilla?</div>
+        <div class="faq-a">Kyllä. GigScript toimii iOS:llä (iPhone ja iPad) sekä Androidilla. Yksi ostos kattaa kaikki iOS-laitteesi; Android-versio ostetaan erikseen Google Playsta. Sovellus on optimoitu tableteille molemmilla alustoilla.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Mikä on H-notaatio?</div>
         <div class="faq-a">Pohjoismaisessa ja saksalaisessa notaatiossa B-duuri merkitään H:ksi ja B-molli B:ksi. GigScript tukee tätä käytäntöä natiivisti, transponointi mukaan lukien — Hm transponoidaan oikein C#m:ksi, ei Cm:ksi.</div>
       </div>
       <div class="faq-item">
+        <div class="faq-q">Voiko sama kappale olla settilistalla kahdesti?</div>
+        <div class="faq-a">Ei — sama kappale voi esiintyä settilistalla vain kerran. Tämä pitää asiat yksinkertaisina lavalla. Jos tarvitset samaa kappaletta eri sävellajissa, käytä +/− transponointinappeja esiintymistilassa.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Mitä tapahtuu kun kaksi bändiläistä muokkaa samaa kappaletta?</div>
+        <div class="faq-a">GigScript havaitsee ristiriidan sisältöhashauksella ja näyttää selkeän ratkaisunäytön — valitse laiteversio tai pilvipalveluversio. Mitään ei menetetä.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Mitä tiedostomuotoja voin tuoda?</div>
+        <div class="faq-a">GigScript tukee .chordpro, .cho, .crd, .txt ja .pdf -tiedostoja — tuo laitteelta, leikepöydältä tai sijoita tiedostot suoraan jaettuun pilvipalvelukansioon. GigScript tunnistaa muodon automaattisesti.</div>
+      </div>
+      <div class="faq-item">
         <div class="faq-q">Minulla on kysymys jota ei ole tässä.</div>
-        <div class="faq-a">Lähetä sähköpostia osoitteeseen <a href="mailto:pekka.huuskonen@gmail.com">pekka.huuskonen@gmail.com</a> ja vastaamme sinulle.</div>
+        <div class="faq-a">Lähetä sähköpostia osoitteeseen <a href="mailto:support@gigscript.app">support@gigscript.app</a> ja vastaamme sinulle.</div>
       </div>
     </div>
   </div>
@@ -1190,13 +1189,13 @@
 
       <div data-fi>
         <h2>Yleiskatsaus</h2>
-        <p>GigScript on rakennettu yksityisyys edellä. Sovellus tallentaa kappaleet, settilistat ja asetukset paikallisesti laitteellesi. Emme kerää henkilötietoja, luo käyttäjätilejä emmekä lähetä sisältöäsi palvelimillemme.</p>
+        <p>GigScript on rakennettu yksityisyys edellä. Sovellus tallentaa kappaleet, setlistat ja asetukset paikallisesti laitteellesi. Emme kerää henkilötietoja, luo käyttäjätilejä emmekä lähetä sisältöäsi palvelimillemme.</p>
 
         <h2>Keräämämme tiedot</h2>
         <p>Emme kerää henkilötietoja. GigScript ei vaadi tiliä tai rekisteröitymistä. Seuraavat tiedot pysyvät täysin laitteellasi:</p>
         <ul>
           <li>Luomasi kappaleet, sanat ja sointutaulukot</li>
-          <li>Settilistat ja keikkahuomiot</li>
+          <li>Setlistat ja keikkahuomiot</li>
           <li>Sovelluksen asetukset (kieli, fonttikoko, scrollausnopeus)</li>
           <li>Pilvipalvelun yhteystunnisteet (tallennetaan laitteen suojattuun avainketjuun)</li>
         </ul>
@@ -1239,7 +1238,7 @@
       <li><a href="editor/"    data-en>ChordPro Editor</a><a href="editor/" data-fi>ChordPro-editori</a></li>
       <li><a href="#" onclick="showPrivacy(); return false;" data-en>Privacy Policy</a>
           <a href="#" onclick="showPrivacy(); return false;" data-fi>Tietosuoja</a></li>
-      <li><a href="mailto:pekka.huuskonen@gmail.com">pekka.huuskonen@gmail.com</a></li>
+      <li><a href="mailto:support@gigscript.app">support@gigscript.app</a></li>
     </ul>
     <p class="footer-copy" data-en>© 2026 GigScript. Made with ♩ for musicians everywhere.</p>
     <p class="footer-copy" data-fi>© 2026 GigScript. Tehty ♩ muusikoille kaikkialla.</p>
@@ -1256,24 +1255,6 @@
     document.getElementById('btn-fi').classList.toggle('active', lang === 'fi');
     localStorage.setItem('gs_lang', lang);
   }
-
-  // ── Mobiilivalikon avaaminen ja sulkeminen ─────────
-  const menuToggle = document.querySelector('.menu-toggle');
-  const navLinks = document.querySelector('.nav-links');
-
-  menuToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-    // Muutetaan ikoni ☰ -> ✕ kun valikko on auki
-    menuToggle.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
-  });
-
-  // Suljetaan valikko automaattisesti, kun jotain linkkiä klikataan
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      menuToggle.textContent = '☰';
-    });
-  });
 
   // Detect saved or browser language on load
   const saved = localStorage.getItem('gs_lang');
