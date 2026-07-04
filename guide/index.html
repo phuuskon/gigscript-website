@@ -445,7 +445,7 @@
       <img src="img/01_song_list.png" alt="Song list with alphabet index" style="border-radius:var(--radius);" />
       <div class="screenshot-caption">
         <span data-en>The song list with alphabet index sidebar. Tap a letter to jump directly to songs starting with that letter.</span>
-        <span data-fi>Kappalelista kirjainindeksipalkilla. Napauta kirjainta hypätäksesi suoraan kyseisellä kirjaimella alkaviin kappaleisiin.</span>
+        <span data-fi>Kappalelista aakkoshakemistolla.Kappalelista aakkoshakemistolla. Napauta kirjainta hypätäksesi suoraan kyseisellä kirjaimella alkaviin kappaleisiin.</span>
       </div>
     </div>
 
@@ -454,7 +454,7 @@
         <div class="step-num">1</div>
         <div class="step-body">
           <h3><span data-en>Add a new song</span><span data-fi>Lisää uusi kappale</span></h3>
-          <p><span data-en>Tap <span class="btn-name">+ New</span> in the top right. Enter the song title, artist, and lyrics. Choose between plain text or ChordPro format.</span>
+          <p><span data-en>Tap <span class="btn-name">+ New</span> in the top right. Enter the song title, artist name, and lyrics. Choose between plain text or ChordPro format.</span>
           <span data-fi>Napauta <span class="btn-name">+ Uusi</span> oikeassa yläkulmassa. Syötä kappaleen nimi, artisti ja sanat. Valitse vapaa teksti tai ChordPro-muoto.</span></p>
         </div>
       </div>
@@ -487,14 +487,14 @@
         <div class="step-body">
           <h3><span data-en>Delete a song</span><span data-fi>Poista kappale</span></h3>
           <p><span data-en>Swipe left on the song card (iOS) or long-press (Android) to reveal the delete option. Deleting a song removes it from all setlists automatically.</span>
-          <span data-fi>Pyyhkäise kappalekortilla vasemmalle (iOS) tai paina pitkään (Android) nähdäksesi poisto-vaihtoehdon. Kappaleen poistaminen poistaa sen automaattisesti kaikista settilistoista.</span></p>
+          <span data-fi>Pyyhkäise kappalekortilla vasemmalle (iOS) tai paina pitkään (Android) nähdäksesi poistopainikkeen. Kappaleen poistaminen poistaa sen automaattisesti kaikista settilistoista.</span></p>
         </div>
       </div>
     </div>
 
     <div class="note">
       <strong><span data-en>Song length limits:</span><span data-fi>Kappaleen pituusrajoitukset:</span></strong>
-      <span data-en> Plain text: 500 lines / 15,000 characters. ChordPro: 300 lines / 10,000 characters. A character counter appears when you approach the limit.</span>
+      <span data-en> Plain text: 500 lines / 15,000 characters. ChordPro: 300 lines / 10,000 characters. A character counter appears as you near the limit.</span>
       <span data-fi> Vapaa teksti: 500 riviä / 15 000 merkkiä. ChordPro: 300 riviä / 10 000 merkkiä. Merkkimäärälaskuri ilmestyy kun lähestyt rajaa.</span>
     </div>
   </div>
@@ -504,8 +504,8 @@
     <p class="section-eyebrow">ChordPro</p>
     <h2><span data-en>Using ChordPro format</span><span data-fi>ChordPro-muodon käyttö</span></h2>
     <p class="section-lead">
-      <span data-en>ChordPro is a text format for songs with chords. GigScript displays chords in amber above the lyrics, perfectly aligned.</span>
-      <span data-fi>ChordPro on tekstimuoto kappaleille jossa on soinnut. GigScript näyttää soinnut amberina sanojen yläpuolella, täydellisesti kohdistettuna.</span>
+      <span data-en>ChordPro is a text format used for chord sheets and lyrics. GigScript displays chords in amber above the lyrics, perfectly aligned.</span>
+      <span data-fi>ChordPro on tekstimuoto kappaleille jossa on soinnut. GigScript näyttää soinnut oranssinkeltaisina sanojen yläpuolella, täydellisesti kohdistettuna.</span>
     </p>
 
     <div class="screenshots-2col">
@@ -520,7 +520,7 @@
         <img src="img/03_teleprompter_chords.png" alt="ChordPro in teleprompter" style="border-radius:var(--radius);" />
         <div class="screenshot-caption">
           <span data-en>Chords displayed in amber above the lyrics, perfectly aligned.</span>
-          <span data-fi>Soinnut amberina sanojen yläpuolella, täydellisesti kohdistettuna.</span>
+          <span data-fi>Soinnut oranssinkeltaisina sanojen yläpuolella, täydellisesti kohdistettuna.</span>
         </div>
       </div>
     </div>
@@ -531,7 +531,7 @@
         <div class="step-num">1</div>
         <div class="step-body">
           <h3><span data-en>Chords in square brackets</span><span data-fi>Soinnut hakasulkeissa</span></h3>
-          <p><span data-en>Place chords directly in the lyric line where they fall: <code>[Am]Words go [G]here</code>. GigScript lifts the chords above the text automatically.</span>
+          <p><span data-en>Place chords directly within the lyric line where the chord changes occur: <code>[Am]Words go [G]here</code>. GigScript lifts the chords above the text automatically.</span>
           <span data-fi>Sijoita soinnut suoraan sanojen sekaan kohtaan jossa ne soitetaan: <code>[Am]Sanat [G]menevät tähän</code>. GigScript nostaa soinnut automaattisesti tekstin yläpuolelle.</span></p>
         </div>
       </div>
@@ -540,7 +540,7 @@
         <div class="step-body">
           <h3><span data-en>Directives for metadata</span><span data-fi>Direktiivit metatiedoille</span></h3>
           <p><span data-en>Use curly-brace directives at the top of the song:</span>
-          <span data-fi>Käytä aaltosuljedirektiiviä kappaleen alussa:</span></p>
+          <span data-fi>Käytä aaltosulkeisiin merkittyjä direktiivejä kappaleen alussa:</span></p>
           <p><code>{title: Song Name}</code><br>
           <code>{artist: Artist Name}</code><br>
           <code>{key: Am}</code><br>
@@ -552,7 +552,7 @@
         <div class="step-body">
           <h3><span data-en>Transpose on the fly</span><span data-fi>Transponoi lennossa</span></h3>
           <p><span data-en>In the teleprompter, use the <span class="btn-name">TRANSPOSE −</span> and <span class="btn-name">+</span> buttons to shift all chords up or down by semitones. The range is −6 to +6. Both Anglo (B) and European (H) notations are supported.</span>
-          <span data-fi>Teleprompterissa käytä <span class="btn-name">TRANSPONOI −</span> ja <span class="btn-name">+</span> nappeja siirtääksesi kaikkia sointuja ylös tai alas puolisävelaskelein. Alue on −6:sta +6:een. Sekä Anglo (B) että eurooppalainen (H) notaatio on tuettu.</span></p>
+          <span data-fi>Teleprompterissa käytä <span class="btn-name">TRANSPONOI −</span> ja <span class="btn-name">+</span> painikkeita siirtääksesi kaikkia sointuja ylös tai alas puolisävelaskelein. Alue on −6:sta +6:een. Sekä Anglo (B) että eurooppalainen (H) notaatio on tuettu.</span></p>
         </div>
       </div>
       <div class="step">
@@ -568,7 +568,7 @@
     <div class="tip">
       <strong><span data-en>Tip:</span><span data-fi>Vinkki:</span></strong>
       <span data-en> You can import existing ChordPro files (<code>.chordpro</code>, <code>.cho</code>, <code>.crd</code>) directly — GigScript parses them automatically. Many chord sheet websites offer ChordPro downloads.</span>
-      <span data-fi> Voit tuoda olemassa olevia ChordPro-tiedostoja (<code>.chordpro</code>, <code>.cho</code>, <code>.crd</code>) suoraan — GigScript parsii ne automaattisesti. Monet sointulevysivustot tarjoavat ChordPro-latauksia.</span>
+      <span data-fi> Voit tuoda olemassa olevia ChordPro-tiedostoja (<code>.chordpro</code>, <code>.cho</code>, <code>.crd</code>) suoraan — GigScript parsii ne automaattisesti. Monet sointulappu- ja sanoitussivustot tarjoavat ChordPro-latauksia.</span>
     </div>
   </div>
 
@@ -578,14 +578,14 @@
     <h2><span data-en>Using the teleprompter</span><span data-fi>Teleprompterin käyttö</span></h2>
     <p class="section-lead">
       <span data-en>Open any song from the list to launch the teleprompter. Tap the screen to show or hide the controls.</span>
-      <span data-fi>Avaa mikä tahansa kappale listasta käynnistääksesi teleprompterin. Napauta ruutua näyttääksesi tai piilottaaksesi kontrollit.</span>
+      <span data-fi>Avaa mikä tahansa kappale listasta käynnistääksesi teleprompterin. Napauta ruutua näyttääksesi tai piilottaaksesi painikkeet.</span>
     </p>
 
     <div class="screenshot">
       <img src="img/04_teleprompter_controls.png" alt="Teleprompter with controls" style="border-radius:var(--radius);" />
       <div class="screenshot-caption">
-        <span data-en>The teleprompter with all controls visible — speed, font size, transpose, and action buttons. Tap anywhere on the lyrics to hide them.</span>
-        <span data-fi>Teleprompteri kaikki kontrollit näkyvillä — nopeus, fonttikoko, transponointi ja toimintanapit. Napauta missä tahansa sanoissa piilottaaksesi ne.</span>
+        <span data-en>The teleprompter with all controls visible: speed, font size, transpose, and action buttons. Tap anywhere on the lyrics to hide them.</span>
+        <span data-fi>Teleprompteri kaikki painikkeeet näkyvillä: nopeus, fonttikoko, transponointi ja toimintapainikkeet. Napauta missä tahansa sanoissa piilottaaksesi ne.</span>
       </div>
     </div>
 
@@ -595,12 +595,12 @@
         <span data-fi><strong>Nopeus</strong> — säädä vieritysnopeus − ja + napeilla kappaleen soidessa.</span>
       </li>
       <li>
-        <span data-en><strong>Font size</strong> — make text larger or smaller to suit reading distance.</span>
+        <span data-en><strong>Font size</strong> — make text larger or smaller to suit your reading distance.</span>
         <span data-fi><strong>Fontti</strong> — suurenna tai pienennä tekstiä sopimaan lukuetäisyydelle.</span>
       </li>
       <li>
         <span data-en><strong>Play / Pause</strong> — start or pause automatic scrolling.</span>
-        <span data-fi><strong>Käynnistä / Tauko</strong> — aloita tai keskeytä automaattinen vieritys.</span>
+        <span data-fi><strong>Käynnistä / keskeytä</strong> — aloita tai keskeytä automaattinen vieritys.</span>
       </li>
       <li>
         <span data-en><strong>Reset ↺</strong> — jump back to the top of the song at any time.</span>
@@ -608,7 +608,7 @@
       </li>
       <li>
         <span data-en><strong>Fit to screen ⊡</strong> — auto-scale font so the whole song fits without scrolling. See below.</span>
-        <span data-fi><strong>Sovita näytölle ⊡</strong> — skaalaa fontti automaattisesti niin koko kappale mahtuu ilman vieritystä. Katso alla.</span>
+        <span data-fi><strong>Sovita näytölle ⊡</strong> — skaalaa fontti automaattisesti niin, että koko kappale mahtuu ilman vieritystä. Katso alla.</span>
       </li>
       <li>
         <span data-en><strong>Screen stays on</strong> — GigScript keeps the display lit during a session so it never goes dark on stage.</span>
@@ -617,7 +617,7 @@
     </ul>
 
     <div class="note">
-      <strong><span data-en>Transpose and chord hide are Pro features.</span><span data-fi>Transponointi ja sointujen piilotus ovat Pro-ominaisuuksia.</span></strong>
+      <strong><span data-en>Transposition and hiding chords are Pro features.</span><span data-fi>Transponointi ja sointujen piilotus ovat Pro-ominaisuuksia.</span></strong>
       <span data-en> A 🔒 icon appears on those controls for free users — tap it to learn more about GigScript Pro.</span>
       <span data-fi> 🔒-kuvake näkyy kyseisten kontrollien kohdalla ilmaiskäyttäjille — napauta sitä saadaksesi lisätietoja GigScript Prosta.</span>
     </div>
@@ -644,7 +644,7 @@
         <img src="img/05_fit_mode.png" alt="Fit mode" style="border-radius:var(--radius);" />
         <div class="screenshot-caption">
           <span data-en>Fit mode — entire song on one screen, controls hidden</span>
-          <span data-fi>Sovitustila — koko kappale yhdellä näytöllä, kontrollit piilotettu</span>
+          <span data-fi>Sovitustila — koko kappale yhdessä näkymässä, painikkeet piilotettu</span>
         </div>
       </div>
     </div>
@@ -661,9 +661,9 @@
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-body">
-          <h3><span data-en>Controls hide automatically</span><span data-fi>Kontrollit piilotetaan automaattisesti</span></h3>
+          <h3><span data-en>Controls hide automatically</span><span data-fi>Painikkeet piilotetaan automaattisesti</span></h3>
           <p><span data-en>In fit mode, scroll controls are hidden to maximise reading area. Tap the screen once to reveal them.</span>
-          <span data-fi>Sovitustilassa vierityksen kontrollit piilotetaan lukunäytön maksimoimiseksi. Napauta ruutua kerran nähdäksesi ne.</span></p>
+          <span data-fi>Sovitustilassa vierityksen painikkeet piilotetaan lukunäytön maksimoimiseksi. Napauta ruutua kerran nähdäksesi ne.</span></p>
         </div>
       </div>
       <div class="step">
