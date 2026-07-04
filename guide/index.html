@@ -52,12 +52,12 @@
       height: 60px;
     }
     .nav-logo {
-      font-size: 0.75rem;
+      font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
-      letter-spacing: 0.2em;
-      color: var(--amber);
+      font-size: 1.15rem;
+      color: var(--text);
+      letter-spacing: -0.02em;
       text-decoration: none;
-      text-transform: uppercase;
     }
     .nav-links {
       display: flex;
@@ -358,13 +358,14 @@
       .screenshots-2col { grid-template-columns: 1fr; }
     }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <!-- ── Nav ── -->
 <nav>
   <div class="nav-inner">
-    <a class="nav-logo" href="https://gigscript.pekkahuuskonen.com">GigScript</a>
+    <a class="nav-logo" href="https://gigscript.pekkahuuskonen.com">Gig<span style="color:var(--amber)">Script</span></a>
     <button class="menu-toggle" aria-label="Toggle menu">☰</button>
     <ul class="nav-links">
       <li><a href="https://gigscript.pekkahuuskonen.com/#features" data-en>Features</a><a href="https://gigscript.pekkahuuskonen.com/#features" data-fi>Ominaisuudet</a></li>
