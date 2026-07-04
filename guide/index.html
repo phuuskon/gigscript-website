@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GigScript — User Guide</title>
+  <meta name="description" content="Learn how to use GigScript — add songs, build setlists, use the teleprompter, and sync with your band." />
+  <meta name="author" content="Pekka Huuskonen" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f0e0c;
+      --surface:   #1a1916;
+      --border:    #2e2c28;
+      --amber:     #d4922a;
+      --amber-dim: #a06e1e;
+      --text:      #e8e4dc;
+      --muted:     #8a8070;
+      --danger:    #c0392b;
+      --success:   #27ae60;
+      --radius:    10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15,14,12,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--amber);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .lang-toggle {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .lang-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lang-btn.active {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--amber);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 600px;
+    }
+
+    /* ── TOC ── */
+    .toc {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+    .toc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.15s;
+    }
+    .toc-card:hover { border-color: var(--amber); }
+    .toc-card-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .toc-card-title { font-weight: 700; font-size: 0.9rem; }
+
+    /* ── Main content ── */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+    }
+
+    .section {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--amber);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .section h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .section-lead {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      max-width: 600px;
+    }
+
+    /* Steps */
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .step {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--amber);
+      color: #000;
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .step-body h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .step-body p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .step-body p + p { margin-top: 0.5rem; }
+
+    /* Screenshot placeholder */
+    .screenshot {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    .screenshot img {
+      width: 100%;
+      display: block;
+      border-radius: var(--radius);
+    }
+    .screenshot-placeholder {
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .screenshot-placeholder-icon { font-size: 2rem; opacity: 0.4; }
+    .screenshot-caption {
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      font-style: italic;
+    }
+
+    /* Two-col screenshots */
+    .screenshots-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    code {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: "Courier New", monospace;
+      font-size: 0.85em;
+      color: var(--amber);
+    }
+
+    .note {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--amber);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .note strong { color: var(--text); }
+
+    .tip {
+      background: rgba(39,174,96,0.08);
+      border: 1px solid rgba(39,174,96,0.25);
+      border-left: 3px solid var(--success);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .tip strong { color: var(--text); }
+
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    .feature-list li {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .feature-list li::before {
+      content: "✓";
+      color: var(--amber);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Keyboard shortcut style for button names */
+    .btn-name {
+      display: inline-block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 0.85em;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--amber); }
+
+    /* ── Responsive ── */
+    @media (max-width: 680px) {
+      .menu-toggle { display: block; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0; right: 0;
+        background: rgba(15,14,12,0.96);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 1.5rem;
+        gap: 1.2rem;
+        align-items: flex-start;
+      }
+      .nav-links.open { display: flex; }
+      .toc-grid { grid-template-columns: repeat(3, 1fr); }
+      .screenshots-2col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="https://gigscript.pekkahuuskonen.com">GigScript</a>
+    <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="https://gigscript.pekkahuuskonen.com/#features" data-en>Features</a><a href="https://gigscript.pekkahuuskonen.com/#features" data-fi>Ominaisuudet</a></li>
+      <li><a href="https://gigscript.pekkahuuskonen.com/#pricing" data-en>Pricing</a><a href="https://gigscript.pekkahuuskonen.com/#pricing" data-fi>Hinnoittelu</a></li>
+      <li><a href="https://gigscript.pekkahuuskonen.com/#support" data-en>Support</a><a href="https://gigscript.pekkahuuskonen.com/#support" data-fi>Tuki</a></li>
+      <li>
+        <div class="lang-toggle">
+          <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" id="btn-fi" onclick="setLang('fi')">FI</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<div class="hero">
+  <p class="hero-eyebrow"><span data-en>Documentation</span><span data-fi>Ohjeistus</span></p>
+  <h1>
+    <span data-en>GigScript<br>User Guide</span>
+    <span data-fi>GigScript<br>Käyttöopas</span>
+  </h1>
+  <p>
+    <span data-en>Everything you need to know to get the most out of GigScript — from adding your first song to running a full setlist on stage.</span>
+    <span data-fi>Kaikki mitä tarvitset GigScriptin täyteen hyödyntämiseen — ensimmäisen kappaleen lisäämisestä kokonaisen settilistan ajamiseen lavalla.</span>
+  </p>
+</div>
+
+<!-- ── TOC ── -->
+<div class="toc">
+  <div class="toc-grid">
+    <a class="toc-card" href="#songs">
+      <div class="toc-card-icon">🎵</div>
+      <div class="toc-card-title"><span data-en>Songs</span><span data-fi>Kappaleet</span></div>
+    </a>
+    <a class="toc-card" href="#chordpro">
+      <div class="toc-card-icon">🎸</div>
+      <div class="toc-card-title">ChordPro</div>
+    </a>
+    <a class="toc-card" href="#teleprompter">
+      <div class="toc-card-icon">▶</div>
+      <div class="toc-card-title"><span data-en>Teleprompter</span><span data-fi>Teleprompteri</span></div>
+    </a>
+    <a class="toc-card" href="#fit">
+      <div class="toc-card-icon">⊡</div>
+      <div class="toc-card-title"><span data-en>Fit to screen</span><span data-fi>Sovita näytölle</span></div>
+    </a>
+    <a class="toc-card" href="#setlists">
+      <div class="toc-card-icon">📋</div>
+      <div class="toc-card-title"><span data-en>Setlists</span><span data-fi>Settilistat</span></div>
+    </a>
+    <a class="toc-card" href="#pdf">
+      <div class="toc-card-icon">📄</div>
+      <div class="toc-card-title">PDF</div>
+    </a>
+    <a class="toc-card" href="#sync">
+      <div class="toc-card-icon">☁</div>
+      <div class="toc-card-title"><span data-en>Band sync</span><span data-fi>Bändisynkka</span></div>
+    </a>
+  </div>
+</div>
+
+<!-- ── Content ── -->
+<div class="content">
+
+  <!-- Songs -->
+  <div class="section" id="songs">
+    <p class="section-eyebrow"><span data-en>Song library</span><span data-fi>Kappaleet</span></p>
+    <h2><span data-en>Adding and managing songs</span><span data-fi>Kappaleiden lisääminen ja hallinta</span></h2>
+    <p class="section-lead">
+      <span data-en>Your song library is the heart of GigScript. Songs are sorted alphabetically with a letter index on the right for quick navigation.</span>
+      <span data-fi>Kappalekirjasto on GigScriptin ydin. Kappaleet on järjestetty aakkosjärjestykseen ja oikeassa reunassa on kirjainindeksi nopeaa navigointia varten.</span>
+    </p>
+
+    <!-- Screenshot placeholder: song list -->
+    <div class="screenshot">
+      <div class="screenshot-placeholder">
+        <div class="screenshot-placeholder-icon">📱</div>
+        <span data-en>Screenshot: Song list with alphabet index</span>
+        <span data-fi>Kuvakaappaus: Kappalelista kirjainindeksillä</span>
+      </div>
+      <div class="screenshot-caption">
+        <span data-en>The song list with alphabet index sidebar. Tap a letter to jump directly to songs starting with that letter.</span>
+        <span data-fi>Kappalelista kirjainindeksipalkilla. Napauta kirjainta hypätäksesi suoraan kyseisellä kirjaimella alkaviin kappaleisiin.</span>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3><span data-en>Add a new song</span><span data-fi>Lisää uusi kappale</span></h3>
+          <p><span data-en>Tap <span class="btn-name">+ New</span> in the top right. Enter the song title, artist, and lyrics. Choose between plain text or ChordPro format.</span>
+          <span data-fi>Napauta <span class="btn-name">+ Uusi</span> oikeassa yläkulmassa. Syötä kappaleen nimi, artisti ja sanat. Valitse vapaa teksti tai ChordPro-muoto.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3><span data-en>Import from a file</span><span data-fi>Tuo tiedostosta</span></h3>
+          <p><span data-en>In the song editor, tap <span class="btn-name">Import file</span> to open a file picker. GigScript supports <code>.chordpro</code>, <code>.cho</code>, <code>.crd</code>, <code>.txt</code>, and <code>.pdf</code> files.</span>
+          <span data-fi>Kappalemuokkaimessa napauta <span class="btn-name">Tuo tiedosto</span> avataksesi tiedostonvalitsimen. GigScript tukee <code>.chordpro</code>, <code>.cho</code>, <code>.crd</code>, <code>.txt</code> ja <code>.pdf</code> tiedostoja.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3><span data-en>Paste from clipboard</span><span data-fi>Liitä leikepöydältä</span></h3>
+          <p><span data-en>Tap <span class="btn-name">Paste from clipboard</span> to import text you've copied from another app. GigScript automatically detects ChordPro format.</span>
+          <span data-fi>Napauta <span class="btn-name">Liitä leikepöydältä</span> tuodaksesi tekstin jonka olet kopioinut toisesta sovelluksesta. GigScript tunnistaa ChordPro-muodon automaattisesti.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3><span data-en>Edit a song</span><span data-fi>Muokkaa kappaletta</span></h3>
+          <p><span data-en>Tap the ✎ pencil button on any song card to open the editor.</span>
+          <span data-fi>Napauta ✎-kynäpainiketta missä tahansa kappalekortissa avataksesi muokkaimen.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3><span data-en>Delete a song</span><span data-fi>Poista kappale</span></h3>
+          <p><span data-en>Swipe left on the song card (iOS) or long-press (Android) to reveal the delete option. Deleting a song removes it from all setlists automatically.</span>
+          <span data-fi>Pyyhkäise kappalekortilla vasemmalle (iOS) tai paina pitkään (Android) nähdäksesi poisto-vaihtoehdon. Kappaleen poistaminen poistaa sen automaattisesti kaikista settilistoista.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong><span data-en>Song length limits:</span><span data-fi>Kappaleen pituusrajoitukset:</span></strong>
+      <span data-en> Plain text: 500 lines / 15,000 characters. ChordPro: 300 lines / 10,000 characters. A character counter appears when you approach the limit.</span>
+      <span data-fi> Vapaa teksti: 500 riviä / 15 000 merkkiä. ChordPro: 300 riviä / 10 000 merkkiä. Merkkimäärälaskuri ilmestyy kun lähestyt rajaa.</span>
+    </div>
+  </div>
+
+  <!-- ChordPro -->
+  <div class="section" id="chordpro">
+    <p class="section-eyebrow">ChordPro</p>
+    <h2><span data-en>Using ChordPro format</span><span data-fi>ChordPro-muodon käyttö</span></h2>
+    <p class="section-lead">
+      <span data-en>ChordPro is a text format for songs with chords. GigScript displays chords in amber above the lyrics, perfectly aligned.</span>
+      <span data-fi>ChordPro on tekstimuoto kappaleille jossa on soinnut. GigScript näyttää soinnut amberina sanojen yläpuolella, täydellisesti kohdistettuna.</span>
+    </p>
+
+    <div class="screenshots-2col">
+      <div class="screenshot">
+        <div class="screenshot-placeholder">
+          <div class="screenshot-placeholder-icon">✏️</div>
+          <span data-en>Screenshot: ChordPro editor</span>
+          <span data-fi>Kuvakaappaus: ChordPro-muokkain</span>
+        </div>
+        <div class="screenshot-caption">
+          <span data-en>ChordPro in the editor</span>
+          <span data-fi>ChordPro muokkaimessa</span>
+        </div>
+      </div>
+      <div class="screenshot">
+        <div class="screenshot-placeholder">
+          <div class="screenshot-placeholder-icon">🎸</div>
+          <span data-en>Screenshot: ChordPro in teleprompter</span>
+          <span data-fi>Kuvakaappaus: ChordPro teleprompterissa</span>
+        </div>
+        <div class="screenshot-caption">
+          <span data-en>Chords displayed in teleprompter</span>
+          <span data-fi>Soinnut teleprompterissa</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:1rem;"><span data-en>Basic syntax</span><span data-fi>Perussyntaksi</span></h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3><span data-en>Chords in square brackets</span><span data-fi>Soinnut hakasulkeissa</span></h3>
+          <p><span data-en>Place chords directly in the lyric line where they fall: <code>[Am]Words go [G]here</code>. GigScript lifts the chords above the text automatically.</span>
+          <span data-fi>Sijoita soinnut suoraan sanojen sekaan kohtaan jossa ne soitetaan: <code>[Am]Sanat [G]menevät tähän</code>. GigScript nostaa soinnut automaattisesti tekstin yläpuolelle.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3><span data-en>Directives for metadata</span><span data-fi>Direktiivit metatiedoille</span></h3>
+          <p><span data-en>Use curly-brace directives at the top of the song:</span>
+          <span data-fi>Käytä aaltosuljedirektiiviä kappaleen alussa:</span></p>
+          <p><code>{title: Song Name}</code><br>
+          <code>{artist: Artist Name}</code><br>
+          <code>{key: Am}</code><br>
+          <code>{verse}</code> / <code>{chorus}</code> / <code>{bridge}</code></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3><span data-en>Transpose on the fly</span><span data-fi>Transponoi lennossa</span></h3>
+          <p><span data-en>In the teleprompter, use the <span class="btn-name">TRANSPOSE −</span> and <span class="btn-name">+</span> buttons to shift all chords up or down by semitones. The range is −6 to +6. Both Anglo (B) and European (H) notations are supported.</span>
+          <span data-fi>Teleprompterissa käytä <span class="btn-name">TRANSPONOI −</span> ja <span class="btn-name">+</span> nappeja siirtääksesi kaikkia sointuja ylös tai alas puolisävelaskelein. Alue on −6:sta +6:een. Sekä Anglo (B) että eurooppalainen (H) notaatio on tuettu.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3><span data-en>Hide chords</span><span data-fi>Piilota soinnut</span></h3>
+          <p><span data-en>Tap the ♩ chord button in the teleprompter to hide chords and show only lyrics — useful for vocalists who don't need chord notation.</span>
+          <span data-fi>Napauta ♩-sointupainiketta teleprompterissa piilottaaksesi soinnut ja näyttääksesi vain sanat — hyödyllinen laulajille jotka eivät tarvitse sointunotaatiota.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <strong><span data-en>Tip:</span><span data-fi>Vinkki:</span></strong>
+      <span data-en> You can import existing ChordPro files (<code>.chordpro</code>, <code>.cho</code>, <code>.crd</code>) directly — GigScript parses them automatically. Many chord sheet websites offer ChordPro downloads.</span>
+      <span data-fi> Voit tuoda olemassa olevia ChordPro-tiedostoja (<code>.chordpro</code>, <code>.cho</code>, <code>.crd</code>) suoraan — GigScript parsii ne automaattisesti. Monet sointulevysivustot tarjoavat ChordPro-latauksia.</span>
+    </div>
+  </div>
+
+  <!-- Teleprompter -->
+  <div class="section" id="teleprompter">
+    <p class="section-eyebrow"><span data-en>Teleprompter</span><span data-fi>Teleprompteri</span></p>
+    <h2><span data-en>Using the teleprompter</span><span data-fi>Teleprompterin käyttö</span></h2>
+    <p class="section-lead">
+      <span data-en>Open any song from the list to launch the teleprompter. Tap the screen to show or hide the controls.</span>
+      <span data-fi>Avaa mikä tahansa kappale listasta käynnistääksesi teleprompterin. Napauta ruutua näyttääksesi tai piilottaaksesi kontrollit.</span>
+    </p>
+
+    <div class="screenshot">
+      <div class="screenshot-placeholder">
+        <div class="screenshot-placeholder-icon">▶</div>
+        <span data-en>Screenshot: Teleprompter with controls</span>
+        <span data-fi>Kuvakaappaus: Teleprompteri kontrolleilla</span>
+      </div>
+      <div class="screenshot-caption">
+        <span data-en>The teleprompter with all controls visible. Tap anywhere on the lyrics to hide them.</span>
+        <span data-fi>Teleprompteri kaikki kontrollit näkyvillä. Napauta missä tahansa sanoissa piilottaaksesi ne.</span>
+      </div>
+    </div>
+
+    <ul class="feature-list" style="margin-bottom:1.5rem;">
+      <li>
+        <span data-en><strong>Speed</strong> — adjust scroll speed with − and + while the song is playing.</span>
+        <span data-fi><strong>Nopeus</strong> — säädä vieritysnopeus − ja + napeilla kappaleen soidessa.</span>
+      </li>
+      <li>
+        <span data-en><strong>Font size</strong> — make text larger or smaller to suit reading distance.</span>
+        <span data-fi><strong>Fontti</strong> — suurenna tai pienennä tekstiä sopimaan lukuetäisyydelle.</span>
+      </li>
+      <li>
+        <span data-en><strong>Play / Pause</strong> — start or pause automatic scrolling.</span>
+        <span data-fi><strong>Käynnistä / Tauko</strong> — aloita tai keskeytä automaattinen vieritys.</span>
+      </li>
+      <li>
+        <span data-en><strong>Reset ↺</strong> — jump back to the top of the song at any time.</span>
+        <span data-fi><strong>Nollaa ↺</strong> — hyppää kappaleen alkuun milloin tahansa.</span>
+      </li>
+      <li>
+        <span data-en><strong>Fit to screen ⊡</strong> — auto-scale font so the whole song fits without scrolling. See below.</span>
+        <span data-fi><strong>Sovita näytölle ⊡</strong> — skaalaa fontti automaattisesti niin koko kappale mahtuu ilman vieritystä. Katso alla.</span>
+      </li>
+      <li>
+        <span data-en><strong>Screen stays on</strong> — GigScript keeps the display lit during a session so it never goes dark on stage.</span>
+        <span data-fi><strong>Näyttö pysyy päällä</strong> — GigScript pitää näytön päällä session aikana jotta se ei sammu lavalla.</span>
+      </li>
+    </ul>
+
+    <div class="note">
+      <strong><span data-en>Transpose and chord hide are Pro features.</span><span data-fi>Transponointi ja sointujen piilotus ovat Pro-ominaisuuksia.</span></strong>
+      <span data-en> A 🔒 icon appears on those controls for free users — tap it to learn more about GigScript Pro.</span>
+      <span data-fi> 🔒-kuvake näkyy kyseisten kontrollien kohdalla ilmaiskäyttäjille — napauta sitä saadaksesi lisätietoja GigScript Prosta.</span>
+    </div>
+  </div>
+
+  <!-- Fit to screen -->
+  <div class="section" id="fit">
+    <p class="section-eyebrow"><span data-en>Fit to screen</span><span data-fi>Sovita näytölle</span></p>
+    <h2><span data-en>Fit the whole song on screen</span><span data-fi>Koko kappale yhdelle näytölle</span></h2>
+    <p class="section-lead">
+      <span data-en>For short songs — a chorus, a bridge, a riff — fit mode scales the font so the entire song is visible at once. No scrolling needed.</span>
+      <span data-fi>Lyhyille kappaleille — kertosäe, silta, riffi — sovitustila skaalaa fontin niin että koko kappale on näkyvissä kerralla. Ei vieritystä tarvita.</span>
+    </p>
+
+    <div class="screenshots-2col">
+      <div class="screenshot">
+        <div class="screenshot-placeholder">
+          <div class="screenshot-placeholder-icon">↕</div>
+          <span data-en>Screenshot: Normal scroll mode</span>
+          <span data-fi>Kuvakaappaus: Normaali vieritystila</span>
+        </div>
+        <div class="screenshot-caption">
+          <span data-en>Normal scroll mode</span>
+          <span data-fi>Normaali vieritystila</span>
+        </div>
+      </div>
+      <div class="screenshot">
+        <div class="screenshot-placeholder">
+          <div class="screenshot-placeholder-icon">⊡</div>
+          <span data-en>Screenshot: Fit mode — whole song visible</span>
+          <span data-fi>Kuvakaappaus: Sovitustila — koko kappale näkyvissä</span>
+        </div>
+        <div class="screenshot-caption">
+          <span data-en>Fit mode — entire song on one screen</span>
+          <span data-fi>Sovitustila — koko kappale yhdellä näytöllä</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3><span data-en>Activate fit mode</span><span data-fi>Aktivoi sovitustila</span></h3>
+          <p><span data-en>Tap <span class="btn-name">⊡ Fit</span> in the controls bar. GigScript measures the content and finds the largest font size that fits the screen.</span>
+          <span data-fi>Napauta <span class="btn-name">⊡ Sovita</span> kontrollirivissä. GigScript mittaa sisällön ja löytää suurimman fonttikoon joka mahtuu näytölle.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3><span data-en>Controls hide automatically</span><span data-fi>Kontrollit piilotetaan automaattisesti</span></h3>
+          <p><span data-en>In fit mode, scroll controls are hidden to maximise reading area. Tap the screen once to reveal them.</span>
+          <span data-fi>Sovitustilassa vierityksen kontrollit piilotetaan lukunäytön maksimoimiseksi. Napauta ruutua kerran nähdäksesi ne.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3><span data-en>Exit fit mode</span><span data-fi>Poistu sovitustilasta</span></h3>
+          <p><span data-en>Tap the screen to show controls, then tap <span class="btn-name">↕ Scroll</span> to return to scroll mode.</span>
+          <span data-fi>Napauta ruutua näyttääksesi kontrollit, sitten napauta <span class="btn-name">↕ Skrollaus</span> palataksesi vieritystilaan.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong><span data-en>Song too long?</span><span data-fi>Kappale liian pitkä?</span></strong>
+      <span data-en> If the song doesn't fit at a readable size, GigScript notifies you and stays in scroll mode. Use auto-scroll instead.</span>
+      <span data-fi> Jos kappale ei mahdu luettavaan kokoon, GigScript ilmoittaa siitä ja pysyy vieritystilassa. Käytä automaattista vieritystä sen sijaan.</span>
+    </div>
+  </div>
+
+  <!-- Setlists -->
+  <div class="section" id="setlists">
+    <p class="section-eyebrow"><span data-en>Setlists</span><span data-fi>Settilistat</span></p>
+    <h2><span data-en>Building and running setlists</span><span data-fi>Settilistojen rakentaminen ja ajaminen</span></h2>
+    <p class="section-lead">
+      <span data-en>Build setlists for your gigs, run them on stage with swipe navigation, and keep key reminders and notes per song.</span>
+      <span data-fi>Rakenna settilistat keikoillesi, aja niitä lavalla pyyhkäisynavigoinnilla ja pidä sävellaji- ja keikkahuomiot per kappale.</span>
+    </p>
+
+    <div class="screenshot">
+      <div class="screenshot-placeholder">
+        <div class="screenshot-placeholder-icon">📋</div>
+        <span data-en>Screenshot: Setlist view with songs</span>
+        <span data-fi>Kuvakaappaus: Settilistaänäkymä kappaleilla</span>
+      </div>
+      <div class="screenshot-caption">
+        <span data-en>Setlist view — drag ☰ to reorder, tap ✕ to remove a song.</span>
+        <span data-fi>Settilistaänäkymä — vedä ☰ järjestelläksesi, napauta ✕ poistaaksesi kappaleen.</span>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3><span data-en>Create a setlist</span><span data-fi>Luo settilista</span></h3>
+          <p><span data-en>Go to the Gigs tab and tap <span class="btn-name">+ New setlist</span>. Give it a name, optional date and venue.</span>
+          <span data-fi>Mene Keikat-välilehdelle ja napauta <span class="btn-name">+ Uusi settilista</span>. Anna sille nimi, valinnainen päivämäärä ja keikkapaikka.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3><span data-en>Add songs</span><span data-fi>Lisää kappaleita</span></h3>
+          <p><span data-en>Tap <span class="btn-name">Edit list</span> to open the song picker. Your full library is shown with an alphabet index — tap a song to add it to the setlist. Each song can only appear once.</span>
+          <span data-fi>Napauta <span class="btn-name">Muokkaa listaa</span> avataksesi kappaleiden valintanäytön. Koko kirjasto näytetään aakkosindeksillä — napauta kappaletta lisätäksesi sen settilistaan. Sama kappale voi olla listalla vain kerran.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3><span data-en>Reorder songs</span><span data-fi>Järjestä kappaleet</span></h3>
+          <p><span data-en>Drag the ☰ handle to reorder songs in the setlist. Order is saved automatically.</span>
+          <span data-fi>Vedä ☰-kahvaa järjestääksesi kappaleet settilistalla. Järjestys tallentuu automaattisesti.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3><span data-en>Set key and notes per song</span><span data-fi>Aseta sävellaji ja huomiot per kappale</span></h3>
+          <p><span data-en>On the setlist view, each song has a key field (e.g. <code>G</code> or <code>capo 2</code>) and a notes field. These appear on the cue card during performance.</span>
+          <span data-fi>Settilistaänäkymässä jokaisella kappaleella on sävellaji-kenttä (esim. <code>G</code> tai <code>capo 2</code>) ja huomio-kenttä. Nämä näkyvät kuiskauskortilla esiintymisen aikana.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3><span data-en>Run the setlist on stage</span><span data-fi>Aja settilista lavalla</span></h3>
+          <p><span data-en>Tap ▶ to launch performance mode. Swipe left to advance to the next song, swipe right to go back. At the end, GigScript shows a "Gig over!" message.</span>
+          <span data-fi>Napauta ▶ käynnistääksesi esiintymistilan. Pyyhkäise vasemmalle siirtyäksesi seuraavaan kappaleeseen, oikealle mennäksesi takaisin. Lopussa GigScript näyttää "Keikka ohi!" -viestin.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="screenshot">
+      <div class="screenshot-placeholder">
+        <div class="screenshot-placeholder-icon">🎤</div>
+        <span data-en>Screenshot: Performance mode with cue card</span>
+        <span data-fi>Kuvakaappaus: Esiintymistila kuiskauskortilla</span>
+      </div>
+      <div class="screenshot-caption">
+        <span data-en>Performance mode — swipe left/right to navigate between songs.</span>
+        <span data-fi>Esiintymistila — pyyhkäise vasemmalle/oikealle navigoidaksesi kappaleiden välillä.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PDF -->
+  <div class="section" id="pdf">
+    <p class="section-eyebrow">PDF</p>
+    <h2><span data-en>Using PDF sheet music</span><span data-fi>PDF-nuottien käyttö</span></h2>
+    <p class="section-lead">
+      <span data-en>Import any PDF — sheet music, chord charts, lyrics — and scroll through it with the teleprompter's auto-scroll.</span>
+      <span data-fi>Tuo mikä tahansa PDF — nuotit, sointutaulukot, sanat — ja vieritä sen läpi teleprompterin automaattisella vierityksellä.</span>
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3><span data-en>Import a PDF</span><span data-fi>Tuo PDF</span></h3>
+          <p><span data-en>In the song editor, tap <span class="btn-name">Import file</span> and select a PDF from your device. The PDF is attached to the song and stored locally.</span>
+          <span data-fi>Kappalemuokkaimessa napauta <span class="btn-name">Tuo tiedosto</span> ja valitse PDF laitteeltasi. PDF liitetään kappaleeseen ja tallennetaan paikallisesti.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3><span data-en>Use the teleprompter with PDF</span><span data-fi>Käytä teleprompteri PDF:n kanssa</span></h3>
+          <p><span data-en>Open the song as usual. GigScript shows the PDF with the same speed and font-size controls. Use auto-scroll to move through multi-page PDFs.</span>
+          <span data-fi>Avaa kappale normaalisti. GigScript näyttää PDF:n samoilla nopeus- ja fonttikokokontrolleilla. Käytä automaattista vieritystä usean sivun PDF:ien läpi liikkumiseen.</span></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3><span data-en>Sync PDFs with your band</span><span data-fi>Synkronoi PDF:t bändin kanssa</span></h3>
+          <p><span data-en>When you sync with band sync, PDF files are automatically uploaded to a <code>pdfs/</code> subfolder in the shared cloud folder. Other band members download the PDF automatically on their next sync.</span>
+          <span data-fi>Kun synkronoit bändisynkalla, PDF-tiedostot ladataan automaattisesti <code>pdfs/</code>-alikansioon jaetussa pilvipalvelukansiossa. Muut bändin jäsenet lataavat PDF:n automaattisesti seuraavassa synkkauksessaan.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong><span data-en>PDF import is a Pro feature.</span><span data-fi>PDF-tuonti on Pro-ominaisuus.</span></strong>
+      <span data-en> Upgrade to GigScript Pro to import PDF sheet music and sync it with your band.</span>
+      <span data-fi> Päivitä GigScript Prohon tuodaksesi PDF-nuotteja ja synkronoidaksesi ne bändin kanssa.</span>
+    </div>
+  </div>
+
+  <!-- Sync -->
+  <div class="section" id="sync">
+    <p class="section-eyebrow"><span data-en>Band sync</span><span data-fi>Bändisynkka</span></p>
+    <h2><span data-en>Sharing songs with your band</span><span data-fi>Kappaleiden jakaminen bändin kanssa</span></h2>
+    <p class="section-lead">
+      <span data-en>GigScript Pro includes band sync — share your entire song library with the band via a shared folder on Dropbox or Google Drive.</span>
+      <span data-fi>GigScript Pro sisältää bändisynkkan — jaa koko kappalekirjastosi bändin kanssa jaetun kansion kautta Dropboxissa tai Google Drivessa.</span>
+    </p>
+
+    <ul class="feature-list">
+      <li>
+        <span data-en>Works cross-platform — iOS and Android in the same band</span>
+        <span data-fi>Toimii cross-platform — iOS ja Android samassa bändissä</span>
+      </li>
+      <li>
+        <span data-en>Only real changes are transferred — unchanged songs are skipped</span>
+        <span data-fi>Vain todelliset muutokset siirretään — muuttumattomat kappaleet ohitetaan</span>
+      </li>
+      <li>
+        <span data-en>Conflict detection — if two people edit the same song, you choose which version to keep</span>
+        <span data-fi>Ristiriitojen havainnointi — jos kaksi henkilöä muokkaa samaa kappaletta, valitset kumpi versio säilytetään</span>
+      </li>
+      <li>
+        <span data-en>PDF files sync automatically alongside songs</span>
+        <span data-fi>PDF-tiedostot synkronoituvat automaattisesti kappaleiden rinnalla</span>
+      </li>
+      <li>
+        <span data-en>Sync is always manual — nothing unexpected happens on stage</span>
+        <span data-fi>Synkka on aina manuaalinen — lavalla ei tapahdu mitään odottamatonta</span>
+      </li>
+    </ul>
+
+    <div style="margin-top:1.5rem;">
+      <a href="https://gigscript.pekkahuuskonen.com/bandsync/" style="
+        display:inline-block;
+        background:var(--amber);
+        color:#000;
+        font-weight:700;
+        padding:0.75rem 1.5rem;
+        border-radius:8px;
+        text-decoration:none;
+        font-size:0.9rem;
+      ">
+        <span data-en>→ Full band sync setup guide</span>
+        <span data-fi>→ Bändisynkkan käyttöönotto-opas</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>
+    <a href="https://gigscript.pekkahuuskonen.com" data-en>← Back to GigScript</a>
+    <a href="https://gigscript.pekkahuuskonen.com" data-fi>← Takaisin GigScriptiin</a>
+    &nbsp;·&nbsp;
+    <a href="mailto:pekka.huuskonen@gmail.com">pekka.huuskonen@gmail.com</a>
+  </p>
+  <p style="margin-top:0.5rem;">© 2026 GigScript. <span data-en>Made with ♩ for musicians everywhere.</span><span data-fi>Tehty ♩ muusikoille kaikkialla.</span></p>
+</footer>
+
+<script>
+  const STORAGE_KEY = 'gs_lang';
+
+  function setLang(lang) {
+    localStorage.setItem(STORAGE_KEY, lang);
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-en]').forEach(el => {
+      el.style.display = lang === 'en' ? '' : 'none';
+    });
+    document.querySelectorAll('[data-fi]').forEach(el => {
+      el.style.display = lang === 'fi' ? '' : 'none';
+    });
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-fi').classList.toggle('active', lang === 'fi');
+  }
+
+  const saved = localStorage.getItem(STORAGE_KEY)
+    || (navigator.language.startsWith('fi') ? 'fi' : 'en');
+  setLang(saved);
+
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navLinks   = document.querySelector('.nav-links');
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      menuToggle.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+    });
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuToggle.textContent = '☰';
+      });
+    });
+  }
+</script>
+</body>
+</html>
