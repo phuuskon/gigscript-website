@@ -608,8 +608,10 @@
       <li><a href="#support"   data-en>Support</a><a href="#support"     data-fi>Tuki</a></li>
       <li><a href="guide/"     data-en>Guide</a><a href="guide/"       data-fi>Opas</a></li>
       <li><a href="bandsync/"  data-en>Band sync</a><a href="bandsync/" data-fi>Bändisynkronointi</a></li>
-      <li><a href="#" onclick="showPrivacy(); return false;" data-en>Privacy</a>
-          <a href="#" onclick="showPrivacy(); return false;" data-fi>Tietosuoja</a></li>
+      <li>
+        <a href="/privacy/" data-en>Privacy</a>
+        <a href="/privacy/" data-fi>Tietosuoja</a>
+      </li>
       <li>
         <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
         <button class="lang-btn" id="btn-fi" onclick="setLang('fi')">FI</button>
@@ -1202,96 +1204,13 @@
       </div>
       <div class="faq-item">
         <div class="faq-q">Minulla on kysymys jota ei ole tässä.</div>
-        <div class="faq-a">Lähetä sähköpostia osoitteeseen <a href="mailto:support@gigscript.app">support@gigscript.app</a> ja vastaamme sinulle.</div>
+        <div class="faq-a">Lähetä sähköpostia osoitteeseen <a href="mailto:pekka.huuskonen@gmail.com">pekka.huuskonen@gmail.com</a> ja vastaamme sinulle.</div>
       </div>
     </div>
   </div>
 </section>
 
 </div><!-- #main -->
-
-<!-- ── Privacy policy ─────────────────────────────────── -->
-<div id="privacy">
-  <section>
-    <div class="container prose">
-      <p class="eyebrow" data-en>Privacy Policy</p>
-      <p class="eyebrow" data-fi>Tietosuojakäytäntö</p>
-      <h1 data-en>Privacy Policy</h1>
-      <h1 data-fi>Tietosuojakäytäntö</h1>
-      <p class="muted mt-1" data-en>Last updated: July 2026</p>
-      <p class="muted mt-1" data-fi>Päivitetty: heinäkuu 2026</p>
-
-      <div data-en>
-        <h2>Overview</h2>
-        <p>GigScript is built with privacy by design. The app stores your songs, setlists, and settings locally on your device. We do not collect personal data, create user accounts, or transmit your content to any server we operate.</p>
-
-        <h2>Data we collect</h2>
-        <p>We collect no personal data. GigScript does not require an account or registration. The following data stays entirely on your device:</p>
-        <ul>
-          <li>Songs, lyrics, and chord charts you create</li>
-          <li>Setlists and performance notes</li>
-          <li>App preferences (language, font size, scroll speed)</li>
-          <li>Cloud provider connection tokens (stored in the device's secure keychain)</li>
-        </ul>
-
-        <h2>Cloud sync (optional)</h2>
-        <p>If you choose to enable band sync, GigScript connects to the cloud provider you choose — Dropbox, Google Drive, or iCloud. This connection is between your device and your own cloud account. GigScript does not see or store your cloud credentials; authentication is handled by the provider's own secure OAuth flow. Files are read from and written to a folder you designate in your own account.</p>
-
-        <h2>Analytics and crash reporting</h2>
-        <p>GigScript does not include any analytics SDKs, advertising SDKs, or third-party tracking. We do not collect usage statistics, session data, or crash logs through any third party.</p>
-
-        <h2>In-app purchases</h2>
-        <p>Purchases are processed by Apple (App Store) or Google (Google Play). GigScript does not handle payment information directly. RevenueCat is used to verify purchase status; it receives a purchase receipt from the store but does not receive any payment card data. RevenueCat's privacy policy is available at <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">revenuecat.com/privacy</a>.</p>
-
-        <h2>Children's privacy</h2>
-        <p>GigScript is not directed at children under 13. We do not knowingly collect data from children.</p>
-
-        <h2>Changes to this policy</h2>
-        <p>If we make material changes to this policy, we will update the date at the top of this page and, if the changes are significant, notify users through the app.</p>
-
-        <h2>Contact</h2>
-        <p>Questions about this policy? Email <a href="mailto:privacy@gigscript.app">privacy@gigscript.app</a>.</p>
-      </div>
-
-      <div data-fi>
-        <h2>Yleiskatsaus</h2>
-        <p>GigScript on rakennettu yksityisyys edellä. Sovellus tallentaa kappaleet, setlistat ja asetukset paikallisesti laitteellesi. Emme kerää henkilötietoja, luo käyttäjätilejä emmekä lähetä sisältöäsi palvelimillemme.</p>
-
-        <h2>Keräämämme tiedot</h2>
-        <p>Emme kerää henkilötietoja. GigScript ei vaadi tiliä tai rekisteröitymistä. Seuraavat tiedot pysyvät täysin laitteellasi:</p>
-        <ul>
-          <li>Luomasi kappaleet, sanat ja sointutaulukot</li>
-          <li>Setlistat ja keikkahuomiot</li>
-          <li>Sovelluksen asetukset (kieli, fonttikoko, scrollausnopeus)</li>
-          <li>Pilvipalvelun yhteystunnisteet (tallennetaan laitteen suojattuun avainketjuun)</li>
-        </ul>
-
-        <h2>Pilvisynkronointi (valinnainen)</h2>
-        <p>Jos otat bändisynkan käyttöön, GigScript yhdistää valitsemasi pilvipalvelun — Dropboxin, Google Driven tai iCloudin — omaan tiliisi. GigScript ei näe eikä tallenna pilvipalvelun tunnistietojasi; tunnistautuminen tapahtuu palveluntarjoajan omassa OAuth-virtauksessa. Tiedostoja luetaan ja kirjoitetaan sinun itse valitsemaasi kansioon omalla tililläsi.</p>
-
-        <h2>Analytiikka ja kaatumisraportointi</h2>
-        <p>GigScript ei sisällä analytiikka-SDK:ita, mainonta-SDK:ita tai kolmannen osapuolen seurantaa. Emme kerää käyttötilastoja, istuntotietoja tai kaatumislokeja minkään kolmannen osapuolen kautta.</p>
-
-        <h2>Sovelluksen sisäiset ostot</h2>
-        <p>Ostot käsitellään Applen (App Store) tai Googlen (Google Play) toimesta. GigScript ei käsittele maksutietoja suoraan. RevenueCatia käytetään ostotilan varmentamiseen; se vastaanottaa kaupan kuittitiedot, mutta ei maksukorttitietoja. RevenueCatin tietosuojakäytäntö löytyy osoitteesta <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">revenuecat.com/privacy</a>.</p>
-
-        <h2>Lasten yksityisyys</h2>
-        <p>GigScript ei ole suunnattu alle 13-vuotiaille. Emme tietoisesti kerää lasten tietoja.</p>
-
-        <h2>Muutokset tähän käytäntöön</h2>
-        <p>Jos teemme oleellisia muutoksia tähän käytäntöön, päivitämme tämän sivun päivämäärän ja ilmoitamme merkittävistä muutoksista sovelluksen kautta.</p>
-
-        <h2>Yhteystiedot</h2>
-        <p>Kysymyksiä tästä käytännöstä? Sähköposti: <a href="mailto:privacy@gigscript.app">privacy@gigscript.app</a>.</p>
-      </div>
-
-      <p class="mt-3">
-        <a href="#" onclick="hidePrivacy(); return false;" data-en>← Back to GigScript</a>
-        <a href="#" onclick="hidePrivacy(); return false;" data-fi>← Takaisin GigScriptiin</a>
-      </p>
-    </div>
-  </section>
-</div><!-- #privacy -->
 
 <!-- ── Footer ─────────────────────────────────────────── -->
 <footer>
@@ -1302,9 +1221,9 @@
       <li><a href="#pricing"   data-en>Pricing</a><a href="#pricing"    data-fi>Hinnoittelu</a></li>
       <li><a href="#support"   data-en>Support</a><a href="#support"    data-fi>Tuki</a></li>
       <li><a href="editor/"    data-en>ChordPro Editor</a><a href="editor/" data-fi>ChordPro-editori</a></li>
-      <li><a href="#" onclick="showPrivacy(); return false;" data-en>Privacy Policy</a>
-          <a href="#" onclick="showPrivacy(); return false;" data-fi>Tietosuoja</a></li>
-      <li><a href="mailto:support@gigscript.app">support@gigscript.app</a></li>
+      <li><a href="/privacy/" data-en>Privacy</a>
+          <a href="/privacy/" data-fi>Tietosuoja</a></li>
+      <li><a href="mailto:pekka.huuskonen@gmail.com">pekka.huuskonen@gmail.com</a></li>
     </ul>
     <p class="footer-copy" data-en>© 2026 GigScript. Made with ♩ for musicians everywhere.</p>
     <p class="footer-copy" data-fi>© 2026 GigScript. Tehty ♩ muusikoille kaikkialla.</p>
@@ -1360,17 +1279,6 @@
     });
   });
 
-  // ── Privacy page ───────────────────────────────────
-  function showPrivacy() {
-    document.getElementById('main').style.display = 'none';
-    document.getElementById('privacy').style.display = 'block';
-    window.scrollTo(0, 0);
-  }
-  function hidePrivacy() {
-    document.getElementById('privacy').style.display = 'none';
-    document.getElementById('main').style.display = 'block';
-    window.scrollTo(0, 0);
-  }
 </script>
 </body>
 </html>

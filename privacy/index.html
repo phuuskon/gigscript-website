@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GigScript — Privacy Policy / Tietosuojaseloste</title>
+  <meta name="description" content="GigScript privacy policy — how your data is handled." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0f0e0c;
+      --surface: #1a1916;
+      --border:  #2e2c28;
+      --amber:   #d4922a;
+      --text:    #e8e4dc;
+      --muted:   #8a8070;
+      --radius:  10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15,14,12,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--amber); }
+
+    .lang-toggle {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .lang-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lang-btn.active {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    .eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--amber);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .updated {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 2.5rem 0 0.75rem;
+      color: var(--text);
+    }
+
+    p {
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      color: var(--muted);
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    ul li {
+      margin-bottom: 0.4rem;
+    }
+
+    a { color: var(--amber); }
+    a:hover { text-decoration: underline; }
+
+    .highlight {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--amber);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .highlight strong { color: var(--text); }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 3rem 0;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--amber); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="https://gigscript.pekkahuuskonen.com">Gig<span>Script</span></a>
+    <div class="lang-toggle">
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-fi" onclick="setLang('fi')">FI</button>
+    </div>
+  </div>
+</nav>
+
+<div class="content">
+
+  <!-- ── English ── -->
+  <div id="lang-en" data-en>
+    <p class="eyebrow">Legal</p>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: July 7, 2026</p>
+
+    <div class="highlight">
+      <strong>The short version:</strong> GigScript does not collect, store, or share your personal data on its own servers. Your songs and setlists stay on your device and, if you choose, in your own cloud storage account.
+    </div>
+
+    <h2>1. Who we are</h2>
+    <p>GigScript is developed and maintained by Pekka Huuskonen, an individual developer based in Finland. You can reach us at <a href="mailto:pekka.huuskonen@gmail.com">pekka.huuskonen@gmail.com</a>.</p>
+
+    <h2>2. What data GigScript processes</h2>
+
+    <h2>2.1 Data stored locally on your device</h2>
+    <p>GigScript stores the following data exclusively on your device using the operating system's local storage:</p>
+    <ul>
+      <li>Songs you create or import (lyrics, chords, metadata)</li>
+      <li>Setlists and their contents</li>
+      <li>Application settings (language preference, notation style)</li>
+      <li>Sync preferences (chosen cloud provider, folder name)</li>
+    </ul>
+    <p>This data never leaves your device unless you explicitly enable cloud sync.</p>
+
+    <h2>2.2 Cloud sync (optional)</h2>
+    <p>If you choose to enable Band Sync, GigScript will connect to a cloud storage service of your choice (Dropbox or Google Drive). In that case:</p>
+    <ul>
+      <li>Your songs and setlists are uploaded to <strong>your own account</strong> on that service — not to any GigScript server.</li>
+      <li>GigScript only accesses the specific folder you designate. It does not read, modify, or delete any other files in your cloud storage.</li>
+      <li>Authentication is handled directly by Dropbox or Google using the OAuth 2.0 standard. GigScript never sees or stores your Dropbox or Google password.</li>
+      <li>Access tokens (used to communicate with the cloud service) are stored securely on your device using the operating system's secure storage.</li>
+    </ul>
+    <p>You can disconnect cloud sync at any time from the Band Sync screen. Disconnecting removes the stored tokens from your device.</p>
+
+    <h2>2.3 In-app purchases</h2>
+    <p>GigScript offers a one-time Pro upgrade. Purchases are processed by Apple (App Store) or Google (Google Play). GigScript does not receive or store your payment information. When RevenueCat is used to manage entitlements, it operates under its own <a href="https://www.revenuecat.com/privacy" target="_blank">privacy policy</a>.</p>
+
+    <h2>3. Data GigScript does NOT collect</h2>
+    <p>GigScript does not collect, transmit, or have access to:</p>
+    <ul>
+      <li>Your name, email address, or any account information</li>
+      <li>Usage analytics or behavioral tracking</li>
+      <li>Crash reports sent to GigScript servers</li>
+      <li>Device identifiers or advertising IDs</li>
+      <li>Location data</li>
+      <li>Contacts or any other data from your device</li>
+    </ul>
+
+    <h2>4. Third-party services</h2>
+    <p>When you use certain features, third-party services may process data under their own privacy policies:</p>
+    <ul>
+      <li><strong>Dropbox</strong> — <a href="https://www.dropbox.com/privacy" target="_blank">dropbox.com/privacy</a></li>
+      <li><strong>Google Drive / Google Sign-In</strong> — <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></li>
+      <li><strong>Apple App Store</strong> — <a href="https://www.apple.com/legal/privacy/" target="_blank">apple.com/legal/privacy</a></li>
+      <li><strong>Google Play</strong> — <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></li>
+      <li><strong>Expo / EAS</strong> (build and distribution platform) — <a href="https://expo.dev/privacy" target="_blank">expo.dev/privacy</a></li>
+    </ul>
+
+    <h2>5. Children's privacy</h2>
+    <p>GigScript is not directed at children under 13. We do not knowingly collect personal information from children.</p>
+
+    <h2>6. Changes to this policy</h2>
+    <p>We may update this privacy policy from time to time. The updated version will be published at this URL with a new "Last updated" date. We encourage you to review this page periodically.</p>
+
+    <h2>7. Contact</h2>
+    <p>If you have any questions about this privacy policy, please contact us at <a href="mailto:pekka.huuskonen@gmail.com">pekka.huuskonen@gmail.com</a>.</p>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ── Finnish ── -->
+  <div id="lang-fi" data-fi>
+    <p class="eyebrow">Juridinen</p>
+    <h1>Tietosuojaseloste</h1>
+    <p class="updated">Päivitetty: 7. heinäkuuta 2026</p>
+
+    <div class="highlight">
+      <strong>Lyhyesti:</strong> GigScript ei kerää, tallenna eikä jaa henkilötietojasi omille palvelimilleen. Kappaleesi ja settilistasi pysyvät laitteellasi ja halutessasi omassa pilvipalvelutilissäsi.
+    </div>
+
+    <h2>1. Kuka olemme</h2>
+    <p>GigScriptin kehittää ja ylläpitää Pekka Huuskonen, yksityinen kehittäjä Suomesta. Tavoitat meidät osoitteesta <a href="mailto:pekka.huuskonen@gmail.com">pekka.huuskonen@gmail.com</a>.</p>
+
+    <h2>2. Mitä tietoja GigScript käsittelee</h2>
+
+    <h2>2.1 Laitteelle paikallisesti tallennettu tieto</h2>
+    <p>GigScript tallentaa seuraavat tiedot yksinomaan laitteellesi käyttöjärjestelmän paikalliseen tallennukseen:</p>
+    <ul>
+      <li>Luomasi tai tuomasi kappaleet (sanat, soinnut, metatiedot)</li>
+      <li>Settilistat ja niiden sisältö</li>
+      <li>Sovelluksen asetukset (kielivalinta, notaatiotyyli)</li>
+      <li>Synkronointiasetus (valittu pilvipalvelu, kansion nimi)</li>
+    </ul>
+    <p>Nämä tiedot eivät koskaan poistu laitteeltasi, ellei pilvisynkronointi ole erikseen käytössä.</p>
+
+    <h2>2.2 Pilvisynkronointi (valinnainen)</h2>
+    <p>Jos otat käyttöön bändisynkronoinnin, GigScript muodostaa yhteyden valitsemaasi pilvipalveluun (Dropbox tai Google Drive). Tällöin:</p>
+    <ul>
+      <li>Kappaleesi ja settilistasi ladataan <strong>omaan tiliisi</strong> kyseisessä palvelussa — ei GigScriptin palvelimille.</li>
+      <li>GigScript käyttää vain määrittämääsi kansiota. Se ei lue, muokkaa tai poista muita tiedostojasi pilvipalvelussa.</li>
+      <li>Kirjautuminen tapahtuu suoraan Dropboxin tai Googlen kautta OAuth 2.0 -standardia käyttäen. GigScript ei koskaan näe tai tallenna Dropbox- tai Google-salasanaasi.</li>
+      <li>Käyttöoikeustunnukset (joita käytetään pilvipalvelun kanssa viestimiseen) tallennetaan turvallisesti laitteellesi käyttöjärjestelmän suojattuun tallennustilaan.</li>
+    </ul>
+    <p>Voit katkaista pilvisynkronoinnin milloin tahansa bändisynkronointi-näytöltä. Katkaisu poistaa tallennetut tunnukset laitteeltasi.</p>
+
+    <h2>2.3 Sovelluksen sisäiset ostokset</h2>
+    <p>GigScript tarjoaa kertaluonteisen Pro-päivityksen. Ostot käsittelee Apple (App Store) tai Google (Google Play). GigScript ei vastaanota tai tallenna maksutietojasi. Kun RevenueCat-palvelua käytetään oikeuksien hallintaan, se toimii oman <a href="https://www.revenuecat.com/privacy" target="_blank">tietosuojapolitiikkansa</a> mukaisesti.</p>
+
+    <h2>3. Tietoja joita GigScript EI kerää</h2>
+    <p>GigScript ei kerää, välitä tai käytä:</p>
+    <ul>
+      <li>Nimeäsi, sähköpostiosoitettasi tai muita tilitietoja</li>
+      <li>Käyttöanalytiikkaa tai käyttäytymisseurantaa</li>
+      <li>Kaatumisraportteja GigScriptin palvelimille</li>
+      <li>Laitetunnisteita tai mainostunnuksia</li>
+      <li>Sijaintitietoja</li>
+      <li>Yhteystietoja tai muita laitteesi tietoja</li>
+    </ul>
+
+    <h2>4. Kolmannen osapuolen palvelut</h2>
+    <p>Tiettyjen ominaisuuksien käyttö saattaa käsitellä tietoja kolmannen osapuolen palveluissa niiden omien tietosuojakäytäntöjen mukaisesti:</p>
+    <ul>
+      <li><strong>Dropbox</strong> — <a href="https://www.dropbox.com/privacy" target="_blank">dropbox.com/privacy</a></li>
+      <li><strong>Google Drive / Google-kirjautuminen</strong> — <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></li>
+      <li><strong>Apple App Store</strong> — <a href="https://www.apple.com/legal/privacy/" target="_blank">apple.com/legal/privacy</a></li>
+      <li><strong>Google Play</strong> — <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></li>
+      <li><strong>Expo / EAS</strong> (build- ja jakelupalvelu) — <a href="https://expo.dev/privacy" target="_blank">expo.dev/privacy</a></li>
+    </ul>
+
+    <h2>5. Lasten tietosuoja</h2>
+    <p>GigScript ei ole suunnattu alle 13-vuotiaille lapsille. Emme tietoisesti kerää henkilötietoja lapsilta.</p>
+
+    <h2>6. Muutokset tähän selosteeseen</h2>
+    <p>Voimme päivittää tätä tietosuojaselostetta ajoittain. Päivitetty versio julkaistaan tässä osoitteessa uudella päivämäärällä. Suosittelemme tarkistamaan tämän sivun säännöllisesti.</p>
+
+    <h2>7. Yhteydenotto</h2>
+    <p>Jos sinulla on kysyttävää tästä tietosuojaselosteesta, ota yhteyttä osoitteeseen <a href="mailto:pekka.huuskonen@gmail.com">pekka.huuskonen@gmail.com</a>.</p>
+  </div>
+
+</div>
+
+<footer>
+  <p>
+    <a href="https://gigscript.pekkahuuskonen.com">← GigScript</a>
+    &nbsp;·&nbsp;
+    <a href="mailto:pekka.huuskonen@gmail.com">pekka.huuskonen@gmail.com</a>
+  </p>
+  <p style="margin-top:0.5rem;">© 2026 Pekka Huuskonen</p>
+</footer>
+
+<script>
+  const STORAGE_KEY = 'gs_lang';
+
+  function setLang(lang) {
+    localStorage.setItem(STORAGE_KEY, lang);
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-en]').forEach(el => {
+      el.style.display = lang === 'en' ? '' : 'none';
+    });
+    document.querySelectorAll('[data-fi]').forEach(el => {
+      el.style.display = lang === 'fi' ? '' : 'none';
+    });
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-fi').classList.toggle('active', lang === 'fi');
+  }
+
+  const saved = localStorage.getItem(STORAGE_KEY)
+    || (navigator.language.startsWith('fi') ? 'fi' : 'en');
+  setLang(saved);
+</script>
+</body>
+</html>
