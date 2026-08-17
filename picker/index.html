@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GigScript — Select Folder</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f0e0c;
+      color: #e8e4dc;
+      font-family: -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .loading {
+      text-align: center;
+      color: #8a8070;
+      font-size: 16px;
+    }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid #2e2c28;
+      border-top-color: #d4922a;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error {
+      color: #c0392b;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+  <script src="https://apis.google.com/js/api.js"></script>
+</head>
+<body>
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    Loading folder picker...
+  </div>
+  <div class="error" id="error" style="display:none"></div>
+
+  <script>
+    // Get params from URL
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const key = params.get('key');
+    const scheme = params.get('scheme') || 'gigscript';
+
+    if (!token || !key) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('error').style.display = 'block';
+      document.getElementById('error').textContent =
+        'Missing token or key parameter.';
+    } else {
+      gapi.load('picker', onPickerApiLoad);
+    }
+
+    function onPickerApiLoad() {
+      try {
+        var view = new google.picker.DocsView(
+            google.picker.ViewId.DOCS)
+          .setIncludeFolders(true)
+          .setSelectFolderEnabled(true)
+          .setMimeTypes('application/vnd.google-apps.folder');
+
+        var sharedView = new google.picker.DocsView(
+            google.picker.ViewId.DOCS)
+          .setIncludeFolders(true)
+          .setSelectFolderEnabled(true)
+          .setMimeTypes('application/vnd.google-apps.folder')
+          .setEnableDrives(true);
+
+        var picker = new google.picker.PickerBuilder()
+          .addView(view)
+          .addView(sharedView)
+          .setOAuthToken(token)
+          .setDeveloperKey(key)
+          .enableFeature(google.picker.Feature.SUPPORT_DRIVES)
+          .setCallback(pickerCallback)
+          .setTitle('Select sync folder')
+          .build();
+
+        document.getElementById('loading').style.display = 'none';
+        picker.setVisible(true);
+      } catch(e) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('error').textContent = 'Error: ' + e.message;
+      }
+    }
+
+    function pickerCallback(data) {
+      if (data.action === google.picker.Action.PICKED) {
+        var folder = data.docs[0];
+        var url = scheme + '://picker?id=' +
+          encodeURIComponent(folder.id) +
+          '&name=' + encodeURIComponent(folder.name);
+        window.location.href = url;
+      } else if (data.action === google.picker.Action.CANCEL) {
+        var url = scheme + '://picker?cancelled=true';
+        window.location.href = url;
+      }
+    }
+  </script>
+</body>
+</html>
