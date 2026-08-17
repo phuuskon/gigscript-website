@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GigScript — Band Sync Setup Guide</title>
-  <meta name="description" content="Step-by-step guide to setting up band sync in GigScript using Dropbox, Google Drive, or iCloud." />
+  <meta name="description" content="Step-by-step guide to setting up band sync in GigScript using Dropbox (Google Drive and iCloud coming soon)." />
   <meta name="author" content="Pekka Huuskonen" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -364,13 +364,13 @@
     <span data-fi>Bändisynkronointi<br>Käyttöönotto-opas</span>
   </h1>
   <p>
-    <span data-en>Step-by-step instructions for sharing songs with your band using Dropbox, Google Drive, or iCloud. No servers, no accounts — just a shared folder everyone connects to.</span>
-    <span data-fi>Vaiheittaiset ohjeet kappaleiden jakamiseen bändin kesken Dropboxin, Google Driven tai iCloudin avulla. Ei palvelimia, ei tilejä — vain jaettu kansio johon kaikki osoittavat.</span>
+    <span data-en>Step-by-step instructions for sharing songs with your band using Dropbox. Google Drive and iCloud are coming soon. No servers, no accounts — just a shared folder everyone connects to.</span>
+    <span data-fi>Vaiheittaiset ohjeet kappaleiden jakamiseen bändin kesken Dropboxin avulla. Google Drive ja iCloud tulossa pian. Ei palvelimia, ei tilejä — vain jaettu kansio johon kaikki osoittavat.</span>
   </p>
 
   <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
     <span class="provider-badge">📦 Dropbox</span>
-    <span class="provider-badge">🟢 Google Drive</span>
+    <span class="provider-badge coming">🟢 Google Drive — <span data-en>Coming soon</span><span data-fi>Tulossa</span></span>
     <span class="provider-badge coming">☁ iCloud — <span data-en>Coming soon</span><span data-fi>Tulossa</span></span>
   </div>
 </div>
@@ -388,10 +388,10 @@
       <div class="toc-card-title">Dropbox</div>
       <div class="toc-card-sub"><span data-en>iOS &amp; Android</span><span data-fi>iOS &amp; Android</span></div>
     </a>
-    <a class="toc-card" href="#google-drive">
+    <a class="toc-card coming-soon" href="#google-drive">
       <div class="toc-card-icon">🟢</div>
       <div class="toc-card-title">Google Drive</div>
-      <div class="toc-card-sub"><span data-en>iOS &amp; Android</span><span data-fi>iOS &amp; Android</span></div>
+      <div class="toc-card-sub"><span data-en>Coming soon</span><span data-fi>Tulossa</span></div>
     </a>
     <a class="toc-card coming-soon" href="#icloud">
       <div class="toc-card-icon">☁</div>
@@ -428,7 +428,7 @@
         <div class="step-num">1</div>
         <div class="step-body">
           <h3><span data-en>One person creates a shared folder</span><span data-fi>Yksi henkilö luo jaetun kansion</span></h3>
-          <p><span data-en>In Dropbox or Google Drive, create a folder (e.g. <code>GigScript-Band</code>) and share it with edit access to everyone in the band.</span><span data-fi>Luo Dropboxissa tai Google Drivessa kansio (esim. <code>GigScript-bändi</code>) ja jaa se muokkausoikeudella kaikille bändin jäsenille.</span></p>
+          <p><span data-en>In Dropbox, create a folder (e.g. <code>GigScript-Band</code>) and share it with edit access to everyone in the band.</span><span data-fi>Luo Dropboxissa kansio (esim. <code>GigScript-bändi</code>) ja jaa se muokkausoikeudella kaikille bändin jäsenille.</span></p>
         </div>
       </div>
       <div class="step">
@@ -543,80 +543,17 @@
   <!-- Google Drive -->
   <div class="section" id="google-drive">
     <p class="section-eyebrow">Google Drive</p>
-    <h2><span data-en>Setting up Google Drive sync</span><span data-fi>Google Drive -synkronointin käyttöönotto</span></h2>
+    <h2>
+      Google Drive — <span data-en>Coming soon</span><span data-fi>Tulossa pian</span>
+    </h2>
     <p class="section-lead">
-      <span data-en>Works on both iOS and Android. Setup is similar to Dropbox — create a shared folder, everyone connects to it.</span>
-      <span data-fi>Toimii sekä iOS:llä että Androidilla. Käyttöönotto on samankaltainen kuin Dropboxilla — luo jaettu kansio, kaikki yhdistävät siihen.</span>
+      <span data-en>Google Drive sync is under development and will be available in a future update. It will work on both iOS and Android.</span>
+      <span data-fi>Google Drive -synkronointi on kehitteillä ja tulee saataville tulevassa päivityksessä. Se toimii sekä iOS:llä että Androidilla.</span>
     </p>
-
-    <h3 style="margin-bottom:1rem; color:var(--amber)"><span data-en>Step 1 — Create and share the folder (done once)</span><span data-fi>Vaihe 1 — Luo ja jaa kansio (tehdään kerran)</span></h3>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h3><span data-en>Open Google Drive in a browser</span><span data-fi>Avaa Google Drive selaimessa</span></h3>
-          <p><span data-en>Go to <a href="https://drive.google.com" style="color:var(--amber)">drive.google.com</a> and sign in with your Google account.</span><span data-fi>Mene osoitteeseen <a href="https://drive.google.com" style="color:var(--amber)">drive.google.com</a> ja kirjaudu Google-tililläsi.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h3><span data-en>Create a new folder</span><span data-fi>Luo uusi kansio</span></h3>
-          <p><span data-en>Click <strong>New → Folder</strong> and name it e.g. <code>GigScript-Band</code>.</span><span data-fi>Paina <strong>Uusi → Kansio</strong> ja anna sille nimi esim. <code>GigScript-bändi</code>.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h3><span data-en>Share with the band</span><span data-fi>Jaa bändille</span></h3>
-          <p><span data-en>Right-click the folder → <strong>Share</strong> → enter each band member's Gmail address → set role to <strong>Editor</strong> → Send.</span><span data-fi>Klikkaa kansiota hiiren oikealla painikkeella → <strong>Jaa</strong> → syötä jokaisen bändin jäsenen Gmail-osoite → aseta rooliksi <strong>Muokkaaja</strong> → Lähetä.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-body">
-          <h3><span data-en>Band members accept</span><span data-fi>Bändin jäsenet hyväksyvät</span></h3>
-          <p><span data-en>Each person receives an email from Google Drive containing a link to the shared folder.</span><span data-fi>Jokainen saa sähköpostin Google Drivelta, joka sisältää linkin jaettuun kansioon.</span></p>
-        </div>
-      </div>
-    </div>
-
-    <h3 style="margin:2rem 0 1rem; color:var(--amber)"><span data-en>Step 2 — Connect GigScript (every band member)</span><span data-fi>Vaihe 2 — Yhdistä GigScript (jokainen bändin jäsen)</span></h3>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h3><span data-en>Open Band Sync in GigScript</span><span data-fi>Avaa Bändisynkronointi GigScriptissä</span></h3>
-          <p><span data-en>Tap the ☁ cloud button in the song list header.</span><span data-fi>Napauta ☁-painiketta kappalelistan yläpalkissa.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h3><span data-en>Connect Google Drive</span><span data-fi>Yhdistä Google Drive</span></h3>
-          <p><span data-en>Tap <strong>Connect</strong> next to Google Drive. Sign in with your Google account (each band member with their own account) and allow access.</span><span data-fi>Napauta <strong>Yhdistä</strong> Google Driven vieressä. Kirjaudu Google-tililläsi (jokainen bändin jäsen omalla tilillään) ja salli käyttöoikeus.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h3><span data-en>Enter the shared folder name</span><span data-fi>Syötä jaetun kansion nimi</span></h3>
-          <p><span data-en>Type the exact folder name — e.g. <code>GigScript-Band</code>. Everyone must use the same name exactly.</span><span data-fi>Kirjoita täsmälleen sama kansion nimi — esim. <code>GigScript-bändi</code>. Kaikkien täytyy käyttää samaa nimeä täsmälleen.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-body">
-          <h3><span data-en>Tap "Sync now"</span><span data-fi>Paina "Synkkaa nyt"</span></h3>
-          <p><span data-en>Upload your songs and download everyone else's.</span><span data-fi>Lataa omat kappaleesi ja lataa muiden kappaleet.</span></p>
-        </div>
-      </div>
-    </div>
-
     <div class="note">
-      <strong><span data-en>Note:</span><span data-fi>Huomio:</span></strong>
-      <span data-en> Google Drive requires a Gmail account for each band member. The first time you connect, Google will ask you to allow GigScript to access your Drive files.</span>
-      <span data-fi> Google Drive vaatii Gmail-tilin jokaiselle bändin jäsenelle. Ensimmäisellä yhdistämiskerralla Google pyytää sinua sallimaan GigScriptin pääsyn Drive-tiedostoihisi.</span>
+      <strong><span data-en>In the meantime:</span><span data-fi>Sillä välin:</span></strong>
+      <span data-en> iOS and Android users can share songs using Dropbox — it works cross-platform.</span>
+      <span data-fi> iOS- ja Android-käyttäjät voivat jakaa kappaleita Dropboxin avulla — se toimii alustariippumattomasti.</span>
     </div>
   </div>
 
@@ -632,8 +569,8 @@
     </p>
     <div class="note">
       <strong><span data-en>In the meantime:</span><span data-fi>Sillä välin:</span></strong>
-      <span data-en> iOS and Android users can share songs using Dropbox or Google Drive — both work cross-platform.</span>
-      <span data-fi> iOS- ja Android-käyttäjät voivat jakaa kappaleita Dropboxin tai Google Driven avulla — molemmat toimivat alustariippumattomasti.</span>
+      <span data-en> iOS and Android users can share songs using Dropbox — it works cross-platform.</span>
+      <span data-fi> iOS- ja Android-käyttäjät voivat jakaa kappaleita Dropboxin avulla — se toimii alustariippumattomasti.</span>
     </div>
   </div>
 
@@ -695,7 +632,7 @@
         <div class="step-num" style="background:var(--surface); color:var(--amber); border:1px solid var(--amber)">?</div>
         <div class="step-body">
           <h3><span data-en>Does everyone need the same cloud account?</span><span data-fi>Tarvitseeko kaikilla olla sama pilvipalvelutili?</span></h3>
-          <p><span data-en>No — everyone uses their own account. The shared folder is what connects you. In Dropbox, share the folder via email. In Google Drive, share via Gmail address.</span><span data-fi>Ei — jokainen käyttää omaa tiliään. Jaettu kansio on se mikä yhdistää teidät. Dropboxissa jaa kansio sähköpostilla. Google Drivessa jaa Gmail-osoitteella.</span></p>
+          <p><span data-en>No — everyone uses their own account. The shared folder is what connects you. In Dropbox, share the folder via email.</span><span data-fi>Ei — jokainen käyttää omaa tiliään. Jaettu kansio on se mikä yhdistää teidät. Dropboxissa jaa kansio sähköpostilla.</span></p>
         </div>
       </div>
 
@@ -703,7 +640,7 @@
         <div class="step-num" style="background:var(--surface); color:var(--amber); border:1px solid var(--amber)">?</div>
         <div class="step-body">
           <h3><span data-en>Can iOS and Android users share the same folder?</span><span data-fi>Voivatko iOS- ja Android-käyttäjät jakaa saman kansion?</span></h3>
-          <p><span data-en>Yes. GigScript sync is fully cross-platform. iOS and Android users can sync to the same Dropbox or Google Drive folder without any issues.</span><span data-fi>Kyllä. GigScript-synkronointi on täysin cross-platform. iOS- ja Android-käyttäjät voivat synkronoida samaan Dropbox- tai Google Drive -kansioon ongelmitta.</span></p>
+          <p><span data-en>Yes. GigScript sync is fully cross-platform. iOS and Android users can sync to the same Dropbox folder without any issues.</span><span data-fi>Kyllä. GigScript-synkronointi on täysin cross-platform. iOS- ja Android-käyttäjät voivat synkronoida samaan Dropbox-kansioon ongelmitta.</span></p>
         </div>
       </div>
 
