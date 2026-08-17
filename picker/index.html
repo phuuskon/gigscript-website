@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GigScript — Folder Lookup</title>
+  <title>GigScript — Select Folder</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -42,143 +42,129 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
     h1 { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
-    .folder-name {
-      color: #d4922a;
-      font-weight: 700;
+    p { color: #8a8070; font-size: 0.85rem; line-height: 1.5; margin-bottom: 16px; }
+    .btn {
+      display: block;
+      width: 100%;
+      background: #d4922a;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 14px;
       font-size: 1rem;
-      margin-bottom: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 10px;
     }
-    p { color: #8a8070; font-size: 0.85rem; line-height: 1.5; }
+    .btn-cancel {
+      background: none;
+      color: #8a8070;
+      border: 1px solid #2e2c28;
+      margin-bottom: 0;
+    }
     .error {
       color: #c0392b;
       background: rgba(192,57,43,0.1);
       border: 1px solid rgba(192,57,43,0.3);
       border-radius: 8px;
-      padding: 16px;
-      font-size: 0.9rem;
-      margin-top: 16px;
-      display: none;
+      padding: 12px;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
       text-align: left;
-    }
-    .retry-btn {
       display: none;
-      margin-top: 16px;
-      background: #d4922a;
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 24px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      width: 100%;
-    }
-    .cancel-btn {
-      display: none;
-      margin-top: 8px;
-      background: none;
-      color: #8a8070;
-      border: 1px solid #2e2c28;
-      border-radius: 8px;
-      padding: 12px 24px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      width: 100%;
     }
   </style>
+  <script src="https://apis.google.com/js/api.js"></script>
 </head>
 <body>
   <div class="card">
     <div class="logo">Gig<span>Script</span></div>
     <div class="spinner" id="spinner"></div>
-    <h1 id="status">Looking up folder...</h1>
-    <div class="folder-name" id="folderName"></div>
-    <p id="subtext">Please wait while we find your sync folder.</p>
+    <h1 id="status">Loading...</h1>
+    <p id="subtext">Opening folder picker</p>
     <div class="error" id="error"></div>
-    <button class="retry-btn" id="retryBtn" onclick="lookup()">Try again</button>
-    <button class="cancel-btn" id="cancelBtn" onclick="cancel()">Cancel</button>
+    <button class="btn" id="openBtn" style="display:none" onclick="openPicker()">
+      Open folder picker
+    </button>
+    <button class="btn btn-cancel" id="cancelBtn" style="display:none" onclick="cancel()">
+      Cancel
+    </button>
   </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
-    const name = params.get('name');
+    const key = params.get('key');
     const scheme = params.get('scheme') || 'gigscript';
-
-    document.getElementById('folderName').textContent =
-      name ? '📁 ' + name : '';
-
-    function showError(msg) {
-      document.getElementById('spinner').style.display = 'none';
-      document.getElementById('status').textContent = 'Folder not found';
-      document.getElementById('subtext').textContent = '';
-      const errEl = document.getElementById('error');
-      errEl.textContent = msg;
-      errEl.style.display = 'block';
-      document.getElementById('retryBtn').style.display = 'block';
-      document.getElementById('cancelBtn').style.display = 'block';
-    }
 
     function cancel() {
       window.location.href = scheme + '://picker?cancelled=true';
     }
 
-    async function lookup() {
-      if (!token || !name) {
-        showError('Missing folder name or authentication token. Please go back to the app and try again.');
-        return;
-      }
+    function showError(msg) {
+      document.getElementById('spinner').style.display = 'none';
+      document.getElementById('status').textContent = 'Error';
+      document.getElementById('subtext').textContent = '';
+      const errEl = document.getElementById('error');
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+      document.getElementById('openBtn').style.display = 'block';
+      document.getElementById('cancelBtn').style.display = 'block';
+    }
 
-      document.getElementById('spinner').style.display = 'block';
-      document.getElementById('status').textContent = 'Looking up folder...';
-      document.getElementById('subtext').textContent = 'Please wait while we find your sync folder.';
+    function openPicker() {
       document.getElementById('error').style.display = 'none';
-      document.getElementById('retryBtn').style.display = 'none';
-      document.getElementById('cancelBtn').style.display = 'none';
+      document.getElementById('openBtn').style.display = 'none';
+      document.getElementById('spinner').style.display = 'block';
+      document.getElementById('status').textContent = 'Opening picker...';
 
-      try {
-        // Search in user's own Drive
-        const q1 = `name='${name.replace(/'/g, "\\'")}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
-        const res1 = await fetch(
-          'https://www.googleapis.com/drive/v3/files?' +
-          'q=' + encodeURIComponent(q1) +
-          '&fields=files(id,name,shared)' +
-          '&includeItemsFromAllDrives=true' +
-          '&supportsAllDrives=true',
-          { headers: { Authorization: 'Bearer ' + token } }
-        );
+      gapi.load('picker', () => {
+        try {
+          var view = new google.picker.DocsView(
+              google.picker.ViewId.DOCS)
+            .setIncludeFolders(true)
+            .setSelectFolderEnabled(true)
+            .setMimeTypes('application/vnd.google-apps.folder');
 
-        if (!res1.ok) {
-          const err = await res1.json();
-          showError('Drive API error: ' + (err.error?.message ?? res1.status));
-          return;
+          var picker = new google.picker.PickerBuilder()
+            .addView(view)
+            .setOAuthToken(token)
+            .setDeveloperKey(key)
+            .enableFeature(google.picker.Feature.SUPPORT_DRIVES)
+            .setCallback(pickerCallback)
+            .setTitle('Select sync folder')
+            .build();
+
+          document.getElementById('spinner').style.display = 'none';
+          document.getElementById('status').textContent = 'Select a folder';
+          document.getElementById('subtext').textContent = 'Choose the shared folder your band uses for sync.';
+          document.getElementById('cancelBtn').style.display = 'block';
+
+          picker.setVisible(true);
+        } catch(e) {
+          showError('Could not open picker: ' + e.message);
         }
+      });
+    }
 
-        const data1 = await res1.json();
-        const folder = data1.files?.[0];
-
-        if (folder) {
-          // Found — return to app
-          window.location.href =
-            scheme + '://picker?id=' +
-            encodeURIComponent(folder.id) +
-            '&name=' + encodeURIComponent(folder.name);
-        } else {
-          showError(
-            'Folder "' + name + '" not found in your Google Drive.\n\n' +
-            'Make sure:\n' +
-            '• The folder exists in your Drive\n' +
-            '• It has been shared with your Google account\n' +
-            '• The folder name matches exactly (case sensitive)'
-          );
-        }
-      } catch (err) {
-        showError('Network error: ' + err.message);
+    function pickerCallback(data) {
+      if (data.action === google.picker.Action.PICKED) {
+        var folder = data.docs[0];
+        window.location.href =
+          scheme + '://picker?id=' +
+          encodeURIComponent(folder.id) +
+          '&name=' + encodeURIComponent(folder.name);
+      } else if (data.action === google.picker.Action.CANCEL) {
+        cancel();
       }
     }
 
-    // Start lookup automatically
-    lookup();
+    // Start
+    if (!token || !key) {
+      showError('Missing authentication parameters. Please go back to the app and try again.');
+    } else {
+      openPicker();
+    }
   </script>
 </body>
 </html>
