@@ -25,12 +25,7 @@
       max-width: 400px;
       text-align: center;
     }
-    .logo {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 24px;
-      letter-spacing: -0.02em;
-    }
+    .logo { font-size: 1.1rem; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; }
     .logo span { color: #d4922a; }
     .spinner {
       width: 44px; height: 44px;
@@ -44,34 +39,24 @@
     h1 { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
     p { color: #8a8070; font-size: 0.85rem; line-height: 1.5; margin-bottom: 16px; }
     .btn {
-      display: block;
-      width: 100%;
-      background: #d4922a;
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      padding: 14px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
+      display: block; width: 100%;
+      background: #d4922a; color: #000;
+      border: none; border-radius: 8px;
+      padding: 14px; font-size: 1rem;
+      font-weight: 700; cursor: pointer;
       margin-bottom: 10px;
     }
     .btn-cancel {
-      background: none;
-      color: #8a8070;
-      border: 1px solid #2e2c28;
-      margin-bottom: 0;
+      background: none; color: #8a8070;
+      border: 1px solid #2e2c28; margin-bottom: 0;
     }
     .error {
       color: #c0392b;
       background: rgba(192,57,43,0.1);
       border: 1px solid rgba(192,57,43,0.3);
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 0.85rem;
-      margin-bottom: 16px;
-      text-align: left;
-      display: none;
+      border-radius: 8px; padding: 12px;
+      font-size: 0.85rem; margin-bottom: 16px;
+      text-align: left; display: none;
     }
   </style>
   <script src="https://apis.google.com/js/api.js"></script>
@@ -83,12 +68,8 @@
     <h1 id="status">Loading...</h1>
     <p id="subtext">Opening folder picker</p>
     <div class="error" id="error"></div>
-    <button class="btn" id="openBtn" style="display:none" onclick="openPicker()">
-      Open folder picker
-    </button>
-    <button class="btn btn-cancel" id="cancelBtn" style="display:none" onclick="cancel()">
-      Cancel
-    </button>
+    <button class="btn" id="openBtn" style="display:none" onclick="openPicker()">Open folder picker</button>
+    <button class="btn btn-cancel" id="cancelBtn" style="display:none" onclick="cancel()">Cancel</button>
   </div>
 
   <script>
@@ -125,20 +106,25 @@
             .setIncludeFolders(true)
             .setSelectFolderEnabled(true);
 
+          var currentOrigin =
+            window.location.protocol + '//' +
+            window.location.host;
+
           var builder = new google.picker.PickerBuilder()
             .addView(view)
             .setOAuthToken(token)
+            .setDeveloperKey(key)
+            .setOrigin(currentOrigin)
             .enableFeature(google.picker.Feature.SUPPORT_DRIVES)
             .setCallback(pickerCallback)
             .setTitle('Select sync folder');
-
-          if (key) builder = builder.setDeveloperKey(key);
 
           var picker = builder.build();
 
           document.getElementById('spinner').style.display = 'none';
           document.getElementById('status').textContent = 'Select a folder';
-          document.getElementById('subtext').textContent = 'Choose the shared folder your band uses for sync.';
+          document.getElementById('subtext').textContent =
+            'Choose the shared folder your band uses for sync.';
           document.getElementById('cancelBtn').style.display = 'block';
 
           picker.setVisible(true);
@@ -162,6 +148,8 @@
 
     if (!token) {
       showError('Missing authentication token. Please go back to the app and try again.');
+    } else if (!key) {
+      showError('Missing API key. Please go back to the app and try again.');
     } else {
       openPicker();
     }
