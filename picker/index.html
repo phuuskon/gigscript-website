@@ -3,109 +3,182 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GigScript — Select Folder</title>
+  <title>GigScript — Folder Lookup</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: #0f0e0c;
       color: #e8e4dc;
-      font-family: -apple-system, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      padding: 24px;
     }
-    .loading {
+    .card {
+      background: #1a1916;
+      border: 1px solid #2e2c28;
+      border-radius: 14px;
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 400px;
       text-align: center;
-      color: #8a8070;
-      font-size: 16px;
     }
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+    .logo span { color: #d4922a; }
     .spinner {
-      width: 40px; height: 40px;
+      width: 44px; height: 44px;
       border: 3px solid #2e2c28;
       border-top-color: #d4922a;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin: 0 auto 16px;
+      margin: 0 auto 20px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+    h1 { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
+    .folder-name {
+      color: #d4922a;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+    p { color: #8a8070; font-size: 0.85rem; line-height: 1.5; }
     .error {
       color: #c0392b;
-      text-align: center;
-      padding: 20px;
+      background: rgba(192,57,43,0.1);
+      border: 1px solid rgba(192,57,43,0.3);
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 0.9rem;
+      margin-top: 16px;
+      display: none;
+      text-align: left;
+    }
+    .retry-btn {
+      display: none;
+      margin-top: 16px;
+      background: #d4922a;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+    }
+    .cancel-btn {
+      display: none;
+      margin-top: 8px;
+      background: none;
+      color: #8a8070;
+      border: 1px solid #2e2c28;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      width: 100%;
     }
   </style>
-  <script src="https://apis.google.com/js/api.js"></script>
 </head>
 <body>
-  <div class="loading" id="loading">
-    <div class="spinner"></div>
-    Loading folder picker...
+  <div class="card">
+    <div class="logo">Gig<span>Script</span></div>
+    <div class="spinner" id="spinner"></div>
+    <h1 id="status">Looking up folder...</h1>
+    <div class="folder-name" id="folderName"></div>
+    <p id="subtext">Please wait while we find your sync folder.</p>
+    <div class="error" id="error"></div>
+    <button class="retry-btn" id="retryBtn" onclick="lookup()">Try again</button>
+    <button class="cancel-btn" id="cancelBtn" onclick="cancel()">Cancel</button>
   </div>
-  <div class="error" id="error" style="display:none"></div>
 
   <script>
-    // Get params from URL
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
-    const key = params.get('key');
+    const name = params.get('name');
     const scheme = params.get('scheme') || 'gigscript';
 
-    if (!token || !key) {
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('error').style.display = 'block';
-      document.getElementById('error').textContent =
-        'Missing token or key parameter.';
-    } else {
-      gapi.load('picker', onPickerApiLoad);
+    document.getElementById('folderName').textContent =
+      name ? '📁 ' + name : '';
+
+    function showError(msg) {
+      document.getElementById('spinner').style.display = 'none';
+      document.getElementById('status').textContent = 'Folder not found';
+      document.getElementById('subtext').textContent = '';
+      const errEl = document.getElementById('error');
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+      document.getElementById('retryBtn').style.display = 'block';
+      document.getElementById('cancelBtn').style.display = 'block';
     }
 
-    function onPickerApiLoad() {
+    function cancel() {
+      window.location.href = scheme + '://picker?cancelled=true';
+    }
+
+    async function lookup() {
+      if (!token || !name) {
+        showError('Missing folder name or authentication token. Please go back to the app and try again.');
+        return;
+      }
+
+      document.getElementById('spinner').style.display = 'block';
+      document.getElementById('status').textContent = 'Looking up folder...';
+      document.getElementById('subtext').textContent = 'Please wait while we find your sync folder.';
+      document.getElementById('error').style.display = 'none';
+      document.getElementById('retryBtn').style.display = 'none';
+      document.getElementById('cancelBtn').style.display = 'none';
+
       try {
-        var view = new google.picker.DocsView(
-            google.picker.ViewId.DOCS)
-          .setIncludeFolders(true)
-          .setSelectFolderEnabled(true)
-          .setMimeTypes('application/vnd.google-apps.folder');
+        // Search in user's own Drive
+        const q1 = `name='${name.replace(/'/g, "\\'")}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+        const res1 = await fetch(
+          'https://www.googleapis.com/drive/v3/files?' +
+          'q=' + encodeURIComponent(q1) +
+          '&fields=files(id,name,shared)' +
+          '&includeItemsFromAllDrives=true' +
+          '&supportsAllDrives=true',
+          { headers: { Authorization: 'Bearer ' + token } }
+        );
 
-        var sharedView = new google.picker.DocsView(
-            google.picker.ViewId.DOCS)
-          .setIncludeFolders(true)
-          .setSelectFolderEnabled(true)
-          .setMimeTypes('application/vnd.google-apps.folder')
-          .setEnableDrives(true);
+        if (!res1.ok) {
+          const err = await res1.json();
+          showError('Drive API error: ' + (err.error?.message ?? res1.status));
+          return;
+        }
 
-        var picker = new google.picker.PickerBuilder()
-          .addView(view)
-          .addView(sharedView)
-          .setOAuthToken(token)
-          .setDeveloperKey(key)
-          .enableFeature(google.picker.Feature.SUPPORT_DRIVES)
-          .setCallback(pickerCallback)
-          .setTitle('Select sync folder')
-          .build();
+        const data1 = await res1.json();
+        const folder = data1.files?.[0];
 
-        document.getElementById('loading').style.display = 'none';
-        picker.setVisible(true);
-      } catch(e) {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('error').style.display = 'block';
-        document.getElementById('error').textContent = 'Error: ' + e.message;
+        if (folder) {
+          // Found — return to app
+          window.location.href =
+            scheme + '://picker?id=' +
+            encodeURIComponent(folder.id) +
+            '&name=' + encodeURIComponent(folder.name);
+        } else {
+          showError(
+            'Folder "' + name + '" not found in your Google Drive.\n\n' +
+            'Make sure:\n' +
+            '• The folder exists in your Drive\n' +
+            '• It has been shared with your Google account\n' +
+            '• The folder name matches exactly (case sensitive)'
+          );
+        }
+      } catch (err) {
+        showError('Network error: ' + err.message);
       }
     }
 
-    function pickerCallback(data) {
-      if (data.action === google.picker.Action.PICKED) {
-        var folder = data.docs[0];
-        var url = scheme + '://picker?id=' +
-          encodeURIComponent(folder.id) +
-          '&name=' + encodeURIComponent(folder.name);
-        window.location.href = url;
-      } else if (data.action === google.picker.Action.CANCEL) {
-        var url = scheme + '://picker?cancelled=true';
-        window.location.href = url;
-      }
-    }
+    // Start lookup automatically
+    lookup();
   </script>
 </body>
 </html>
