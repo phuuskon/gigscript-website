@@ -1,1070 +1,1903 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GigScript ChordPro Editor — Free Online Tool</title>
-  <meta name="description" content="Free online ChordPro editor — write, preview and transpose chord charts in your browser. Export to GigScript app for iOS and Android.">
-  <meta property="og:title" content="GigScript ChordPro Editor">
-  <meta property="og:description" content="Write and preview ChordPro chord charts in your browser. Export directly to the GigScript app.">
-  <meta property="og:type" content="website">
-  <meta name="author" content="Pekka Huuskonen">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GigScript ChordPro Editor — Free Online Tool</title>
+    <meta
+      name="description"
+      content="Free online ChordPro editor — write, preview and transpose chord charts in your browser. Export to GigScript app for iOS and Android."
+    />
+    <meta property="og:title" content="GigScript ChordPro Editor" />
+    <meta
+      property="og:description"
+      content="Write and preview ChordPro chord charts in your browser. Export directly to the GigScript app."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="author" content="Pekka Huuskonen" />
 
-  <!-- Favicon inline SVG → data URI -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%231a1a2e'/%3E%3Cline x1='10' y1='35' x2='54' y2='35' stroke='rgba(255,255,255,0.18)' stroke-width='0.8'/%3E%3Cline x1='10' y1='41' x2='54' y2='41' stroke='rgba(255,255,255,0.18)' stroke-width='0.8'/%3E%3Cline x1='10' y1='47' x2='54' y2='47' stroke='rgba(255,255,255,0.18)' stroke-width='0.8'/%3E%3Cpath d='M13 28 L9 28 L9 53 L13 53' stroke='rgba(255,255,255,0.5)' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3Ctext x='16' y='50' font-family='Georgia,serif' font-size='22' font-weight='700' fill='%23e8643c'%3EGs%3C/text%3E%3Cpath d='M51 28 L55 28 L55 53 L51 53' stroke='rgba(255,255,255,0.5)' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3Ctext x='32' y='18' font-family='system-ui,sans-serif' font-size='9' font-weight='700' fill='rgba(255,255,255,0.55)' text-anchor='middle'%3EGS%3C/text%3E%3C/svg%3E">
+    <!-- Favicon inline SVG → data URI -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%231a1a2e'/%3E%3Cline x1='10' y1='35' x2='54' y2='35' stroke='rgba(255,255,255,0.18)' stroke-width='0.8'/%3E%3Cline x1='10' y1='41' x2='54' y2='41' stroke='rgba(255,255,255,0.18)' stroke-width='0.8'/%3E%3Cline x1='10' y1='47' x2='54' y2='47' stroke='rgba(255,255,255,0.18)' stroke-width='0.8'/%3E%3Cpath d='M13 28 L9 28 L9 53 L13 53' stroke='rgba(255,255,255,0.5)' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3Ctext x='16' y='50' font-family='Georgia,serif' font-size='22' font-weight='700' fill='%23e8643c'%3EGs%3C/text%3E%3Cpath d='M51 28 L55 28 L55 53 L51 53' stroke='rgba(255,255,255,0.5)' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3Ctext x='32' y='18' font-family='system-ui,sans-serif' font-size='9' font-weight='700' fill='rgba(255,255,255,0.55)' text-anchor='middle'%3EGS%3C/text%3E%3C/svg%3E"
+    />
 
-  <!-- Tabler icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css">
+    <!-- Tabler icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css"
+    />
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    html, body {
-      height: 100%;
-      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-      background: #f1efe8;
-    }
+      html,
+      body {
+        height: 100%;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        background: #f1efe8;
+      }
 
-    /* ── Theme variables ──────────────────────────────── */
-    :root {
-      --s0: #f1efe8;
-      --s1: #e8e6df;
-      --s2: #ffffff;
-      --tp: #2c2c2a;
-      --ts: #5c5b57;
-      --tm: #8a8880;
-      --bd: rgba(0,0,0,0.1);
-      --bds: rgba(0,0,0,0.18);
-      --ac:  #c87d0e;
-      --acbg: rgba(245,166,35,0.12);
-      --acb:  rgba(245,166,35,0.4);
-      --act:  #a86800;
-      --aco:  #0f0e0c;
-      --scbg: rgba(15,110,86,0.1);
-      --scb:  rgba(15,110,86,0.3);
-      --sct:  #0f6e56;
-      --rad:  6px;
-      --mono: 'Menlo','Monaco','Courier New',monospace;
-    }
+      /* ── Theme variables ──────────────────────────────── */
+      :root {
+        --s0: #f1efe8;
+        --s1: #e8e6df;
+        --s2: #ffffff;
+        --tp: #2c2c2a;
+        --ts: #5c5b57;
+        --tm: #8a8880;
+        --bd: rgba(0, 0, 0, 0.1);
+        --bds: rgba(0, 0, 0, 0.18);
+        --ac: #c87d0e;
+        --acbg: rgba(245, 166, 35, 0.12);
+        --acb: rgba(245, 166, 35, 0.4);
+        --act: #a86800;
+        --aco: #0f0e0c;
+        --scbg: rgba(15, 110, 86, 0.1);
+        --scb: rgba(15, 110, 86, 0.3);
+        --sct: #0f6e56;
+        --rad: 6px;
+        --mono: "Menlo", "Monaco", "Courier New", monospace;
+      }
 
-    body.dark {
-      background: #0f0e0c;
-      --s0: #0f0e0c;
-      --s1: #1a1814;
-      --s2: #211f1a;
-      --tp: #f0ead8;
-      --ts: #a89880;
-      --tm: #7a7060;
-      --bd: rgba(255,255,255,0.08);
-      --bds: rgba(255,255,255,0.16);
-      --ac:  #f5a623;
-      --acbg: rgba(245,166,35,0.12);
-      --acb:  rgba(245,166,35,0.35);
-      --act:  #f5a623;
-      --aco:  #0f0e0c;
-      --scbg: rgba(52,211,153,0.1);
-      --scb:  rgba(52,211,153,0.3);
-      --sct:  #34d399;
-    }
+      body.dark {
+        background: #0f0e0c;
+        --s0: #0f0e0c;
+        --s1: #1a1814;
+        --s2: #211f1a;
+        --tp: #f0ead8;
+        --ts: #a89880;
+        --tm: #7a7060;
+        --bd: rgba(255, 255, 255, 0.08);
+        --bds: rgba(255, 255, 255, 0.16);
+        --ac: #f5a623;
+        --acbg: rgba(245, 166, 35, 0.12);
+        --acb: rgba(245, 166, 35, 0.35);
+        --act: #f5a623;
+        --aco: #0f0e0c;
+        --scbg: rgba(52, 211, 153, 0.1);
+        --scb: rgba(52, 211, 153, 0.3);
+        --sct: #34d399;
+      }
 
-    /* ── Back to site banner ──────────────────────────── */
-    .site-bar {
-      background: #0f0e0c;
-      border-bottom: 1px solid #2e2b26;
-      padding: 6px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-shrink: 0;
-    }
-    .site-bar-left {
-      display: flex; align-items: center; gap: 10px;
-    }
-    .site-logo {
-      font-family: system-ui, -apple-system, sans-serif;
-      font-weight: 700; font-size: 13px;
-      color: #f0ead8; letter-spacing: -0.02em;
-      text-decoration: none;
-    }
-    .site-logo span { color: #f5a623; }
-    .site-tag {
-      font-size: 10px; color: #7a7060;
-      letter-spacing: 0.06em; text-transform: uppercase;
-    }
-    .btn-gigscript {
-      display: inline-flex; align-items: center; gap: 5px;
-      background: #f5a623; color: #0f0e0c;
-      border: none; border-radius: 6px;
-      padding: 5px 12px; font-size: 11px; font-weight: 700;
-      cursor: pointer; white-space: nowrap;
-      font-family: inherit; letter-spacing: 0.02em;
-      transition: opacity .15s;
-      text-decoration: none;
-    }
-    .btn-gigscript:hover { opacity: 0.85; }
-    .btn-gigscript i { font-size: 13px; }
+      /* ── Back to site banner ──────────────────────────── */
+      .site-bar {
+        background: #0f0e0c;
+        border-bottom: 1px solid #2e2b26;
+        padding: 6px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-shrink: 0;
+      }
+      .site-bar-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .site-logo {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        color: #f0ead8;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+      }
+      .site-logo span {
+        color: #f5a623;
+      }
+      .site-tag {
+        font-size: 10px;
+        color: #7a7060;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .btn-gigscript {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #f5a623;
+        color: #0f0e0c;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 12px;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        font-family: inherit;
+        letter-spacing: 0.02em;
+        transition: opacity 0.15s;
+        text-decoration: none;
+      }
+      .btn-gigscript:hover {
+        opacity: 0.85;
+      }
+      .btn-gigscript i {
+        font-size: 13px;
+      }
 
-    /* Toast notification */
-    .toast {
-      position: fixed; bottom: 40px; left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: #1a1814; color: #f0ead8;
-      border: 1px solid #f5a623;
-      padding: 8px 18px; border-radius: 8px;
-      font-size: 12px; font-weight: 500;
-      opacity: 0; pointer-events: none;
-      transition: opacity .25s, transform .25s;
-      z-index: 9999; white-space: nowrap;
-    }
-    .toast.show {
-      opacity: 1; transform: translateX(-50%) translateY(0);
-    }
+      /* Toast notification */
+      .toast {
+        position: fixed;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: #1a1814;
+        color: #f0ead8;
+        border: 1px solid #f5a623;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 500;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.25s,
+          transform 0.25s;
+        z-index: 9999;
+        white-space: nowrap;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
 
-    /* ── Layout ───────────────────────────────────────── */
-    .app {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      color: var(--tp);
-      transition: background .15s, color .15s;
-    }
+      /* ── Layout ───────────────────────────────────────── */
+      .app {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        color: var(--tp);
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
 
-    .tb {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 12px;
-      border-bottom: 0.5px solid var(--bd);
-      background: var(--s1);
-      flex-wrap: wrap;
-      flex-shrink: 0;
-      transition: background .15s;
-    }
+      .tb {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 12px;
+        border-bottom: 0.5px solid var(--bd);
+        background: var(--s1);
+        flex-wrap: wrap;
+        flex-shrink: 0;
+        transition: background 0.15s;
+      }
 
-    .tlogo {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--tp);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-right: 4px;
-      white-space: nowrap;
-    }
-    .tlogo small {
-      font-size: 10px;
-      color: var(--tm);
-      font-weight: 400;
-      letter-spacing: 0.5px;
-    }
+      .tlogo {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--tp);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-right: 4px;
+        white-space: nowrap;
+      }
+      .tlogo small {
+        font-size: 10px;
+        color: var(--tm);
+        font-weight: 400;
+        letter-spacing: 0.5px;
+      }
 
-    .sep {
-      width: 0.5px;
-      height: 16px;
-      background: var(--bds);
-      margin: 0 2px;
-      flex-shrink: 0;
-    }
+      .sep {
+        width: 0.5px;
+        height: 16px;
+        background: var(--bds);
+        margin: 0 2px;
+        flex-shrink: 0;
+      }
 
-    .tlabel {
-      font-size: 10px;
-      color: var(--tm);
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      white-space: nowrap;
-    }
+      .tlabel {
+        font-size: 10px;
+        color: var(--tm);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        white-space: nowrap;
+      }
 
-    /* ── Buttons ──────────────────────────────────────── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      height: 26px;
-      padding: 0 9px;
-      font-size: 12px;
-      border-radius: var(--rad);
-      border: 0.5px solid var(--bds);
-      background: var(--s2);
-      color: var(--tp);
-      cursor: pointer;
-      white-space: nowrap;
-      font-family: inherit;
-      transition: background .1s, color .1s;
-    }
-    .btn:hover  { background: var(--s0); }
-    .btn:active { opacity: .8; }
-    .btn i      { font-size: 14px; line-height: 1; }
+      /* ── Buttons ──────────────────────────────────────── */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        height: 26px;
+        padding: 0 9px;
+        font-size: 12px;
+        border-radius: var(--rad);
+        border: 0.5px solid var(--bds);
+        background: var(--s2);
+        color: var(--tp);
+        cursor: pointer;
+        white-space: nowrap;
+        font-family: inherit;
+        transition:
+          background 0.1s,
+          color 0.1s;
+      }
+      .btn:hover {
+        background: var(--s0);
+      }
+      .btn:active {
+        opacity: 0.8;
+      }
+      .btn i {
+        font-size: 14px;
+        line-height: 1;
+      }
 
-    .btn-p { background: var(--acbg); border-color: var(--acb); color: var(--act); }
-    .btn-p:hover { background: var(--ac); color: var(--aco); }
+      .btn-p {
+        background: var(--acbg);
+        border-color: var(--acb);
+        color: var(--act);
+      }
+      .btn-p:hover {
+        background: var(--ac);
+        color: var(--aco);
+      }
 
-    .btn-on {
-      background: var(--ac) !important;
-      color: var(--aco) !important;
-      border-color: var(--ac) !important;
-    }
+      .btn-on {
+        background: var(--ac) !important;
+        color: var(--aco) !important;
+        border-color: var(--ac) !important;
+      }
 
-    .toff {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 26px;
-      min-width: 46px;
-      font-size: 12px;
-      font-weight: 500;
-      background: var(--s0);
-      color: var(--tm);
-      border-radius: var(--rad);
-      padding: 0 5px;
-      transition: background .15s, color .15s;
-    }
+      .lang-select {
+        height: 26px;
+        padding: 0 6px;
+        font-size: 12px;
+        border-radius: var(--rad);
+        border: 0.5px solid var(--bds);
+        background: var(--s2);
+        color: var(--tp);
+        cursor: pointer;
+        font-family: inherit;
+        transition:
+          background 0.1s,
+          color 0.1s;
+      }
+      .lang-select:hover {
+        background: var(--s0);
+      }
 
-    /* ── Main split ───────────────────────────────────── */
-    .main {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-      min-height: 0;
-    }
+      .toff {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 26px;
+        min-width: 46px;
+        font-size: 12px;
+        font-weight: 500;
+        background: var(--s0);
+        color: var(--tm);
+        border-radius: var(--rad);
+        padding: 0 5px;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
 
-    .epane {
-      width: 50%;
-      display: flex;
-      flex-direction: column;
-      border-right: 0.5px solid var(--bd);
-      overflow: hidden;
-      min-width: 280px;
-    }
+      /* ── Main split ───────────────────────────────────── */
+      .main {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+        min-height: 0;
+      }
 
-    .ppane {
-      flex: 1;
-      overflow-y: auto;
-      background: var(--s2);
-      transition: background .15s;
-    }
+      .epane {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        border-right: 0.5px solid var(--bd);
+        overflow: hidden;
+        min-width: 280px;
+      }
 
-    .ph {
-      padding: 4px 12px;
-      font-size: 10px;
-      color: var(--tm);
-      border-bottom: 0.5px solid var(--bd);
-      background: var(--s1);
-      flex-shrink: 0;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: background .15s;
-    }
+      .ppane {
+        flex: 1;
+        overflow-y: auto;
+        background: var(--s2);
+        transition: background 0.15s;
+      }
 
-    /* ── Editor textarea ──────────────────────────────── */
-    #ed {
-      flex: 1;
-      min-height: 0;
-      resize: none;
-      font-family: var(--mono);
-      font-size: 13px;
-      padding: 14px;
-      border: none;
-      outline: none;
-      background: var(--s2);
-      color: var(--tp);
-      line-height: 1.75;
-      transition: background .15s, color .15s;
-    }
+      .ph {
+        padding: 4px 12px;
+        font-size: 10px;
+        color: var(--tm);
+        border-bottom: 0.5px solid var(--bd);
+        background: var(--s1);
+        flex-shrink: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: background 0.15s;
+      }
 
-    /* ── Chord panel ──────────────────────────────────── */
-    .cpanel {
-      border-top: 0.5px solid var(--bd);
-      background: var(--s1);
-      flex-shrink: 0;
-      overflow-y: auto;
-      max-height: 200px;
-      transition: background .15s;
-    }
+      /* ── Editor textarea ──────────────────────────────── */
+      #ed {
+        flex: 1;
+        min-height: 0;
+        resize: none;
+        font-family: var(--mono);
+        font-size: 13px;
+        padding: 14px;
+        border: none;
+        outline: none;
+        background: var(--s2);
+        color: var(--tp);
+        line-height: 1.75;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
 
-    .cgrp {
-      padding: 5px 10px;
-      border-bottom: 0.5px solid var(--bd);
-    }
-    .cgrp:last-child { border-bottom: none; }
+      /* ── Chord panel ──────────────────────────────────── */
+      .cpanel {
+        border-top: 0.5px solid var(--bd);
+        background: var(--s1);
+        flex-shrink: 0;
+        overflow-y: auto;
+        max-height: 200px;
+        transition: background 0.15s;
+      }
 
-    .gl {
-      font-size: 10px;
-      color: var(--tm);
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      margin-bottom: 4px;
-    }
+      .cgrp {
+        padding: 5px 10px;
+        border-bottom: 0.5px solid var(--bd);
+      }
+      .cgrp:last-child {
+        border-bottom: none;
+      }
 
-    .brow { display: flex; flex-wrap: wrap; gap: 3px; }
+      .gl {
+        font-size: 10px;
+        color: var(--tm);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        margin-bottom: 4px;
+      }
 
-    .cb {
-      padding: 2px 7px;
-      font-size: 11px;
-      border-radius: 4px;
-      border: 0.5px solid var(--bds);
-      background: var(--s2);
-      color: var(--tp);
-      cursor: pointer;
-      font-family: var(--mono);
-      line-height: 1.8;
-      transition: background .1s;
-    }
-    .cb:hover { background: var(--acbg); border-color: var(--acb); color: var(--act); }
+      .brow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3px;
+      }
 
-    .db {
-      padding: 2px 7px;
-      font-size: 11px;
-      border-radius: 4px;
-      border: 0.5px solid var(--bds);
-      background: var(--s2);
-      color: var(--ts);
-      cursor: pointer;
-      font-family: var(--mono);
-      line-height: 1.8;
-      transition: background .1s;
-    }
-    .db:hover { background: var(--scbg); border-color: var(--scb); color: var(--sct); }
+      .cb {
+        padding: 2px 7px;
+        font-size: 11px;
+        border-radius: 4px;
+        border: 0.5px solid var(--bds);
+        background: var(--s2);
+        color: var(--tp);
+        cursor: pointer;
+        font-family: var(--mono);
+        line-height: 1.8;
+        transition: background 0.1s;
+      }
+      .cb:hover {
+        background: var(--acbg);
+        border-color: var(--acb);
+        color: var(--act);
+      }
 
-    .crow {
-      display: flex;
-      gap: 6px;
-      padding: 6px 10px;
-      align-items: center;
-    }
-    .crow label {
-      font-size: 10px;
-      color: var(--tm);
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      white-space: nowrap;
-    }
-    .crow input[type="text"] {
-      flex: 1;
-      height: 28px;
-      font-size: 12px;
-      padding: 0 8px;
-      font-family: var(--mono);
-      background: var(--s2);
-      color: var(--tp);
-      border: 0.5px solid var(--bds);
-      border-radius: var(--rad);
-      outline: none;
-      transition: background .15s, color .15s;
-    }
-    .crow input[type="text"]:focus { border-color: var(--acb); }
-    .crow .btn { height: 28px; }
+      .db {
+        padding: 2px 7px;
+        font-size: 11px;
+        border-radius: 4px;
+        border: 0.5px solid var(--bds);
+        background: var(--s2);
+        color: var(--ts);
+        cursor: pointer;
+        font-family: var(--mono);
+        line-height: 1.8;
+        transition: background 0.1s;
+      }
+      .db:hover {
+        background: var(--scbg);
+        border-color: var(--scb);
+        color: var(--sct);
+      }
 
-    .hintbox {
-      font-size: 11px;
-      color: var(--tm);
-      padding: 5px 10px 6px;
-      line-height: 1.5;
-      border-top: 0.5px solid var(--bd);
-    }
-    .hintbox strong { color: var(--ts); font-weight: 500; }
+      .crow {
+        display: flex;
+        gap: 6px;
+        padding: 6px 10px;
+        align-items: center;
+      }
+      .crow label {
+        font-size: 10px;
+        color: var(--tm);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        white-space: nowrap;
+      }
+      .crow input[type="text"] {
+        flex: 1;
+        height: 28px;
+        font-size: 12px;
+        padding: 0 8px;
+        font-family: var(--mono);
+        background: var(--s2);
+        color: var(--tp);
+        border: 0.5px solid var(--bds);
+        border-radius: var(--rad);
+        outline: none;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .crow input[type="text"]:focus {
+        border-color: var(--acb);
+      }
+      .crow .btn {
+        height: 28px;
+      }
 
-    /* ── Footer ───────────────────────────────────────── */
-    .foot {
-      padding: 4px 12px;
-      border-top: 0.5px solid var(--bd);
-      background: var(--s1);
-      font-size: 10px;
-      color: var(--tm);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-shrink: 0;
-      transition: background .15s;
-    }
+      .hintbox {
+        font-size: 11px;
+        color: var(--tm);
+        padding: 5px 10px 6px;
+        line-height: 1.5;
+        border-top: 0.5px solid var(--bd);
+      }
+      .hintbox strong {
+        color: var(--ts);
+        font-weight: 500;
+      }
 
-    /* ── Preview ──────────────────────────────────────── */
-    #preview { padding: 22px 28px; min-height: 100%; }
+      /* ── Footer ───────────────────────────────────────── */
+      .foot {
+        padding: 4px 12px;
+        border-top: 0.5px solid var(--bd);
+        background: var(--s1);
+        font-size: 10px;
+        color: var(--tm);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+        transition: background 0.15s;
+      }
 
-    .sh  { margin-bottom: 16px; }
-    .st  { font-size: 22px; font-weight: 600; margin-bottom: 4px; color: var(--tp); }
-    .sa  { font-size: 14px; color: var(--ts); margin-bottom: 3px; }
-    .sm  { font-size: 12px; color: var(--tm); }
+      /* ── Preview ──────────────────────────────────────── */
+      #preview {
+        padding: 22px 28px;
+        min-height: 100%;
+      }
 
-    .sl {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--act);
-      text-transform: uppercase;
-      letter-spacing: 0.9px;
-      margin: 14px 0 6px;
-      padding-bottom: 3px;
-      border-bottom: 0.5px solid var(--acb);
-      display: inline-block;
-    }
+      .sh {
+        margin-bottom: 16px;
+      }
+      .st {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: var(--tp);
+      }
+      .sa {
+        font-size: 14px;
+        color: var(--ts);
+        margin-bottom: 3px;
+      }
+      .sm {
+        font-size: 12px;
+        color: var(--tm);
+      }
 
-    .chl {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-end;
-      line-height: 1;
-      margin-bottom: 1px;
-    }
-    .seg { display: inline-flex; flex-direction: column; }
-    .ch  { color: var(--act); font-weight: 600; font-size: 13px; min-height: 20px; white-space: nowrap; padding-right: 3px; }
-    .ly  { font-size: 15px; line-height: 1.65; white-space: pre; color: var(--tp); }
+      .sl {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--act);
+        text-transform: uppercase;
+        letter-spacing: 0.9px;
+        margin: 14px 0 6px;
+        padding-bottom: 3px;
+        border-bottom: 0.5px solid var(--acb);
+        display: inline-block;
+      }
 
-    .pcl { font-family: var(--mono); color: var(--act); font-weight: 600; font-size: 13px; margin-bottom: 5px; }
-    .lo  { font-size: 15px; line-height: 1.65; margin-bottom: 1px; color: var(--tp); }
-    .ct  { font-size: 12px; color: var(--tm); font-style: italic; margin: 6px 0; padding: 3px 10px; border-left: 2px solid var(--bds); }
-    .bl  { height: 10px; }
-    .es  { color: var(--tm); font-size: 13px; padding: 40px 0; text-align: center; }
+      .chl {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        line-height: 1;
+        margin-bottom: 1px;
+      }
+      .seg {
+        display: inline-flex;
+        flex-direction: column;
+      }
+      .ch {
+        color: var(--act);
+        font-weight: 600;
+        font-size: 13px;
+        min-height: 20px;
+        white-space: nowrap;
+        padding-right: 3px;
+      }
+      .ly {
+        font-size: 15px;
+        line-height: 1.65;
+        white-space: pre;
+        color: var(--tp);
+      }
 
-    /* ── Print ────────────────────────────────────────── */
-    @media print {
-      .tb, .epane, .foot { display: none !important; }
-      .main { height: auto !important; }
-      .ppane { overflow: visible !important; }
-      body, body.dark { background: #fff; --tp: #000; --ts: #444; --tm: #888; --act: #185fa5; --acb: #185fa5; }
-      #preview { padding: 20px; }
-      .sl { border-bottom: 1pt solid #999; }
-      .ch { font-weight: 700; }
-    }
+      .pcl {
+        font-family: var(--mono);
+        color: var(--act);
+        font-weight: 600;
+        font-size: 13px;
+        margin-bottom: 5px;
+      }
+      .lo {
+        font-size: 15px;
+        line-height: 1.65;
+        margin-bottom: 1px;
+        color: var(--tp);
+      }
+      .ct {
+        font-size: 12px;
+        color: var(--tm);
+        font-style: italic;
+        margin: 6px 0;
+        padding: 3px 10px;
+        border-left: 2px solid var(--bds);
+      }
+      .bl {
+        height: 10px;
+      }
+      .es {
+        color: var(--tm);
+        font-size: 13px;
+        padding: 40px 0;
+        text-align: center;
+      }
 
-    /* ── Responsive ───────────────────────────────────── */
-    @media (max-width: 640px) {
-      .epane { width: 100%; border-right: none; }
-      .ppane { display: none; }
-      .main  { flex-direction: column; }
-    }
-  </style>
-</head>
-<body>
-<div class="toast" id="toast"></div>
-<div class="app">
+      /* ── Print ────────────────────────────────────────── */
+      @media print {
+        .tb,
+        .epane,
+        .foot {
+          display: none !important;
+        }
+        .main {
+          height: auto !important;
+        }
+        .ppane {
+          overflow: visible !important;
+        }
+        body,
+        body.dark {
+          background: #fff;
+          --tp: #000;
+          --ts: #444;
+          --tm: #888;
+          --act: #185fa5;
+          --acb: #185fa5;
+        }
+        #preview {
+          padding: 20px;
+        }
+        .sl {
+          border-bottom: 1pt solid #999;
+        }
+        .ch {
+          font-weight: 700;
+        }
+      }
 
-  <!-- ── Site navigation bar ────────────────────────── -->
-  <div class="site-bar">
-    <div class="site-bar-left">
-      <a href="https://gigscript.pekkahuuskonen.com" class="site-logo"><span>Gig</span>Script</a>
-      <span class="site-tag">ChordPro Editor</span>
-    </div>
-    <button class="btn-gigscript" onclick="openInGigScript()" id="btn-gs-fi" style="display:none">
-      <i class="ti ti-device-mobile"></i> Avaa GigScriptissä
-    </button>
-    <button class="btn-gigscript" onclick="openInGigScript()" id="btn-gs-en">
-      <i class="ti ti-device-mobile"></i> Open in GigScript
-    </button>
-  </div>
-
-  <!-- ── Toolbar 1: File operations ─────────────────── -->
-  <div class="tb">
-    <span class="tlogo">
-      <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
-        <rect width="64" height="64" rx="10" fill="#1a1814"/>
-        <line x1="10" y1="35" x2="54" y2="35" stroke="rgba(245,166,35,0.25)" stroke-width="1"/>
-        <line x1="10" y1="42" x2="54" y2="42" stroke="rgba(245,166,35,0.25)" stroke-width="1"/>
-        <line x1="10" y1="49" x2="54" y2="49" stroke="rgba(245,166,35,0.25)" stroke-width="1"/>
-        <path d="M13 28 L9 28 L9 55 L13 55" stroke="rgba(245,166,35,0.6)" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <text x="16" y="53" font-family="Georgia,serif" font-size="24" font-weight="700" fill="#f5a623">Gs</text>
-        <path d="M51 28 L55 28 L55 55 L51 55" stroke="rgba(245,166,35,0.6)" stroke-width="2" fill="none" stroke-linecap="round"/>
-      </svg>
-      GigScript <small>ChordPro Editor</small>
-    </span>
-    <div class="sep"></div>
-    <button class="btn" onclick="newDoc()"><i class="ti ti-file-plus"></i> <span id="t-new"></span></button>
-    <button class="btn" onclick="document.getElementById('fi').click()"><i class="ti ti-upload"></i> <span id="t-import"></span></button>
-    <input type="file" id="fi" accept=".cho,.chordpro,.chopro,.txt" style="display:none" onchange="doImport(event)">
-    <button class="btn" onclick="doExport()"><i class="ti ti-download"></i> <span id="t-export"></span></button>
-    <div class="sep"></div>
-    <button class="btn btn-p" onclick="doPrint()"><i class="ti ti-printer"></i> <span id="t-print"></span></button>
-  </div>
-
-  <!-- ── Toolbar 2: Settings ────────────────────────── -->
-  <div class="tb">
-    <span class="tlabel" id="t-notlabel"></span>
-    <button class="btn" id="b-am" onclick="setNotation('american')">B / Bb</button>
-    <button class="btn" id="b-eu" onclick="setNotation('european')">H / B</button>
-    <div class="sep"></div>
-    <span class="tlabel" id="t-trlabel"></span>
-    <button class="btn" onclick="doTranspose(-1)" aria-label="-1 semitoni"><i class="ti ti-chevron-left"></i></button>
-    <span class="toff" id="toffset">0 st</span>
-    <button class="btn" onclick="doTranspose(1)" aria-label="+1 semitoni"><i class="ti ti-chevron-right"></i></button>
-    <button class="btn" id="b-rst" onclick="resetTranspose()" style="display:none" aria-label="Nollaa transponointi"><i class="ti ti-refresh"></i></button>
-    <div class="sep"></div>
-    <span class="tlabel" id="t-lnglabel"></span>
-    <button class="btn" id="b-fi" onclick="setLang('fi')">FI</button>
-    <button class="btn" id="b-en" onclick="setLang('en')">EN</button>
-    <div class="sep"></div>
-    <button class="btn" id="b-mode" onclick="toggleMode()" aria-label="Vaihda teema"><i class="ti ti-moon" id="mode-icon"></i></button>
-  </div>
-
-  <!-- ── Main area ───────────────────────────────────── -->
-  <div class="main">
-
-    <!-- Editor pane -->
-    <div class="epane">
-      <div class="ph" id="ph-ed"></div>
-      <textarea id="ed" spellcheck="false"
-        oninput="render()"
-        onkeydown="edKey(event)"></textarea>
-
-      <!-- Chord / directive buttons -->
-      <div class="cpanel">
-        <div class="cgrp"><div class="gl" id="gl-maj"></div><div class="brow" id="mg"></div></div>
-        <div class="cgrp"><div class="gl" id="gl-min"></div><div class="brow" id="mn"></div></div>
-        <div class="cgrp"><div class="gl" id="gl-sev"></div><div class="brow" id="sv"></div></div>
-        <div class="cgrp"><div class="gl" id="gl-sus"></div><div class="brow" id="su"></div></div>
-        <div class="cgrp"><div class="gl" id="gl-dir"></div><div class="brow" id="dv"></div></div>
-        <div class="crow">
-          <label id="lbl-cc"></label>
-          <input type="text" id="cc" onkeydown="if(event.key==='Enter'){event.preventDefault();insCC()}">
-          <button class="btn" onclick="insCC()" id="b-add"></button>
+      /* ── Responsive ───────────────────────────────────── */
+      @media (max-width: 640px) {
+        .epane {
+          width: 100%;
+          border-right: none;
+        }
+        .ppane {
+          display: none;
+        }
+        .main {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toast" id="toast"></div>
+    <div class="app">
+      <!-- ── Site navigation bar ────────────────────────── -->
+      <div class="site-bar">
+        <div class="site-bar-left">
+          <a href="https://gigscript.pekkahuuskonen.com" class="site-logo"
+            ><span>Gig</span>Script</a
+          >
+          <span class="site-tag">ChordPro Editor</span>
         </div>
-        <div class="hintbox"><strong id="hint-t"></strong> <span id="hint-b"></span></div>
+        <button
+          class="btn-gigscript"
+          onclick="openInGigScript()"
+          id="btn-gigscript"
+        >
+          <i class="ti ti-device-mobile"></i> <span id="t-btn-gigscript"></span>
+        </button>
+      </div>
+
+      <!-- ── Toolbar 1: File operations ─────────────────── -->
+      <div class="tb">
+        <span class="tlogo">
+          <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
+            <rect width="64" height="64" rx="10" fill="#1a1814" />
+            <line
+              x1="10"
+              y1="35"
+              x2="54"
+              y2="35"
+              stroke="rgba(245,166,35,0.25)"
+              stroke-width="1"
+            />
+            <line
+              x1="10"
+              y1="42"
+              x2="54"
+              y2="42"
+              stroke="rgba(245,166,35,0.25)"
+              stroke-width="1"
+            />
+            <line
+              x1="10"
+              y1="49"
+              x2="54"
+              y2="49"
+              stroke="rgba(245,166,35,0.25)"
+              stroke-width="1"
+            />
+            <path
+              d="M13 28 L9 28 L9 55 L13 55"
+              stroke="rgba(245,166,35,0.6)"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+            />
+            <text
+              x="16"
+              y="53"
+              font-family="Georgia,serif"
+              font-size="24"
+              font-weight="700"
+              fill="#f5a623"
+            >
+              Gs
+            </text>
+            <path
+              d="M51 28 L55 28 L55 55 L51 55"
+              stroke="rgba(245,166,35,0.6)"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+            />
+          </svg>
+          GigScript <small>ChordPro Editor</small>
+        </span>
+        <div class="sep"></div>
+        <button class="btn" onclick="newDoc()">
+          <i class="ti ti-file-plus"></i> <span id="t-new"></span>
+        </button>
+        <button class="btn" onclick="document.getElementById('fi').click()">
+          <i class="ti ti-upload"></i> <span id="t-import"></span>
+        </button>
+        <input
+          type="file"
+          id="fi"
+          accept=".cho,.chordpro,.chopro,.txt"
+          style="display: none"
+          onchange="doImport(event)"
+        />
+        <button class="btn" onclick="doExport()">
+          <i class="ti ti-download"></i> <span id="t-export"></span>
+        </button>
+        <div class="sep"></div>
+        <button class="btn btn-p" onclick="doPrint()">
+          <i class="ti ti-printer"></i> <span id="t-print"></span>
+        </button>
+      </div>
+
+      <!-- ── Toolbar 2: Settings ────────────────────────── -->
+      <div class="tb">
+        <span class="tlabel" id="t-notlabel"></span>
+        <button class="btn" id="b-am" onclick="setNotation('american')">
+          B / Bb
+        </button>
+        <button class="btn" id="b-eu" onclick="setNotation('european')">
+          H / B
+        </button>
+        <div class="sep"></div>
+        <span class="tlabel" id="t-trlabel"></span>
+        <button class="btn" onclick="doTranspose(-1)" aria-label="-1 semitoni">
+          <i class="ti ti-chevron-left"></i>
+        </button>
+        <span class="toff" id="toffset">0 st</span>
+        <button class="btn" onclick="doTranspose(1)" aria-label="+1 semitoni">
+          <i class="ti ti-chevron-right"></i>
+        </button>
+        <button
+          class="btn"
+          id="b-rst"
+          onclick="resetTranspose()"
+          style="display: none"
+          aria-label="Nollaa transponointi"
+        >
+          <i class="ti ti-refresh"></i>
+        </button>
+        <div class="sep"></div>
+        <span class="tlabel" id="t-lnglabel"></span>
+        <select
+          class="lang-select"
+          id="lang-select"
+          onchange="setLang(this.value)"
+        >
+          <option value="fi">FI</option>
+          <option value="en">EN</option>
+          <option value="sv">SV</option>
+          <option value="de">DE</option>
+          <option value="es">ES</option>
+        </select>
+        <div class="sep"></div>
+        <button
+          class="btn"
+          id="b-mode"
+          onclick="toggleMode()"
+          aria-label="Vaihda teema"
+        >
+          <i class="ti ti-moon" id="mode-icon"></i>
+        </button>
+      </div>
+
+      <!-- ── Main area ───────────────────────────────────── -->
+      <div class="main">
+        <!-- Editor pane -->
+        <div class="epane">
+          <div class="ph" id="ph-ed"></div>
+          <textarea
+            id="ed"
+            spellcheck="false"
+            oninput="render()"
+            onkeydown="edKey(event)"
+          ></textarea>
+
+          <!-- Chord / directive buttons -->
+          <div class="cpanel">
+            <div class="cgrp">
+              <div class="gl" id="gl-maj"></div>
+              <div class="brow" id="mg"></div>
+            </div>
+            <div class="cgrp">
+              <div class="gl" id="gl-min"></div>
+              <div class="brow" id="mn"></div>
+            </div>
+            <div class="cgrp">
+              <div class="gl" id="gl-sev"></div>
+              <div class="brow" id="sv"></div>
+            </div>
+            <div class="cgrp">
+              <div class="gl" id="gl-sus"></div>
+              <div class="brow" id="su"></div>
+            </div>
+            <div class="cgrp">
+              <div class="gl" id="gl-dir"></div>
+              <div class="brow" id="dv"></div>
+            </div>
+            <div class="crow">
+              <label id="lbl-cc"></label>
+              <input
+                type="text"
+                id="cc"
+                onkeydown="
+                  if (event.key === 'Enter') {
+                    event.preventDefault();
+                    insCC();
+                  }
+                "
+              />
+              <button class="btn" onclick="insCC()" id="b-add"></button>
+            </div>
+            <div class="hintbox">
+              <strong id="hint-t"></strong> <span id="hint-b"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview pane -->
+        <div class="ppane">
+          <div class="ph" id="ph-pv"></div>
+          <div id="preview"></div>
+        </div>
+      </div>
+
+      <!-- ── Footer ──────────────────────────────────────── -->
+      <div class="foot">
+        <span id="t-copy"></span>
+        <span>
+          <a
+            href="https://gigscript.pekkahuuskonen.com"
+            style="color: var(--act); text-decoration: none"
+            id="foot-link-fi"
+            data-lang="fi"
+            >← gigscript.pekkahuuskonen.com</a
+          >
+          <a
+            href="https://gigscript.pekkahuuskonen.com"
+            style="color: var(--act); text-decoration: none"
+            id="foot-link-en"
+            data-lang="en"
+            >← gigscript.pekkahuuskonen.com</a
+          >
+        </span>
       </div>
     </div>
 
-    <!-- Preview pane -->
-    <div class="ppane">
-      <div class="ph" id="ph-pv"></div>
-      <div id="preview"></div>
-    </div>
-  </div>
+    <script>
+      "use strict";
 
-  <!-- ── Footer ──────────────────────────────────────── -->
-  <div class="foot">
-    <span id="t-copy"></span>
-    <span>
-      <a href="https://gigscript.pekkahuuskonen.com" style="color:var(--act);text-decoration:none;" id="foot-link-fi" data-lang="fi">← gigscript.pekkahuuskonen.com</a>
-      <a href="https://gigscript.pekkahuuskonen.com" style="color:var(--act);text-decoration:none;" id="foot-link-en" data-lang="en">← gigscript.pekkahuuskonen.com</a>
-    </span>
-  </div>
-</div>
+      // ── Translations ────────────────────────────────────────────────────────────
+      var TR = {
+        fi: {
+          new: "Uusi",
+          import: "Tuo",
+          export: "Vie .cho",
+          print: "Tulosta / PDF",
+          notlabel: "Notaatio",
+          trlabel: "Transponoi",
+          lnglabel: "Kieli",
+          edph: "Editori — ChordPro",
+          pvph: "Esikatselu",
+          maj: "Duurit",
+          min: "Mollit",
+          sev: "Septimit & Maj7",
+          sus: "Sus / Add / muut",
+          dir: "Direktiivit",
+          cc: "Oma sointu",
+          add: "Lisää",
+          hintt: "Erikoissoinnuista:",
+          hintb:
+            "Kirjoita sointu → Enter tai Lisää. Esim: F#7sus4 · Cm7b5 · D/F# · G7(#9) · Fmaj9 · Bb13",
+          empty: "Kirjoita ChordPro-tekstiä editoriin...",
+          ph: "Kirjoita tähän...",
+          copy: "© 2025 Pekka Huuskonen",
+          kw: "Sävellaji:",
+          capo: "Capo:",
+          tempo: "Tempo:",
+          bpm: "bpm",
+          sl: {
+            verse: "Säkeistö",
+            chorus: "Kertosäe",
+            bridge: "Silta",
+            intro: "Intro",
+            outro: "Outro",
+            "pre-chorus": "Esikertosäe",
+            interlude: "Väliosa",
+            solo: "Soolo",
+            tab: "Tabulatuuri",
+            sov: "Säkeistö",
+            soc: "Kertosäe",
+            sob: "Silta",
+          },
+        },
+        en: {
+          new: "New",
+          import: "Import",
+          export: "Export .cho",
+          print: "Print / PDF",
+          notlabel: "Notation",
+          trlabel: "Transpose",
+          lnglabel: "Language",
+          edph: "Editor — ChordPro",
+          pvph: "Preview",
+          maj: "Major",
+          min: "Minor",
+          sev: "Sevenths & Maj7",
+          sus: "Sus / Add / other",
+          dir: "Directives",
+          cc: "Custom chord",
+          add: "Add",
+          hintt: "Advanced chords:",
+          hintb:
+            "Type a chord → Add or Enter. Examples: F#7sus4 · Cm7b5 · D/F# · G7(#9) · Fmaj9 · Bb13",
+          empty: "Start writing ChordPro in the editor...",
+          ph: "Write here...",
+          copy: "© 2025 Pekka Huuskonen",
+          kw: "Key:",
+          capo: "Capo:",
+          tempo: "Tempo:",
+          bpm: "bpm",
+          sl: {
+            verse: "Verse",
+            chorus: "Chorus",
+            bridge: "Bridge",
+            intro: "Intro",
+            outro: "Outro",
+            "pre-chorus": "Pre-chorus",
+            interlude: "Interlude",
+            solo: "Solo",
+            tab: "Tab",
+            sov: "Verse",
+            soc: "Chorus",
+            sob: "Bridge",
+          },
+        },
+        sv: {
+          new: "Ny",
+          import: "Importera",
+          export: "Exportera .cho",
+          print: "Skriv ut / PDF",
+          notlabel: "Notskrift",
+          trlabel: "Transponera",
+          lnglabel: "Språk",
+          edph: "Editor — ChordPro",
+          pvph: "Förhandsgranskning",
+          maj: "Dur",
+          min: "Moll",
+          sev: "Septim & Maj7",
+          sus: "Sus / Add / övriga",
+          dir: "Direktiv",
+          cc: "Anpassat ackord",
+          add: "Lägg till",
+          hintt: "Avancerade ackord:",
+          hintb:
+            "Skriv ett ackord → Lägg till eller Enter. Exempel: F#7sus4 · Cm7b5 · D/F# · G7(#9) · Fmaj9 · Bb13",
+          empty: "Börja skriva ChordPro i editorn...",
+          ph: "Skriv här...",
+          copy: "© 2025 Pekka Huuskonen",
+          kw: "Tonart:",
+          capo: "Capo:",
+          tempo: "Tempo:",
+          bpm: "bpm",
+          sl: {
+            verse: "Vers",
+            chorus: "Refräng",
+            bridge: "Bridge",
+            intro: "Intro",
+            outro: "Outro",
+            "pre-chorus": "Pre-chorus",
+            interlude: "Interlude",
+            solo: "Solo",
+            tab: "Tab",
+            sov: "Vers",
+            soc: "Refräng",
+            sob: "Bridge",
+          },
+        },
+        de: {
+          new: "Neu",
+          import: "Importieren",
+          export: "Exportieren .cho",
+          print: "Drucken / PDF",
+          notlabel: "Notationsart",
+          trlabel: "Transponieren",
+          lnglabel: "Sprache",
+          edph: "Editor — ChordPro",
+          pvph: "Vorschau",
+          maj: "Dur",
+          min: "Moll",
+          sev: "Septakkorde & Maj7",
+          sus: "Sus / Add / sonstige",
+          dir: "Direktiven",
+          cc: "Benutzerdefinierter Akkord",
+          add: "Hinzufügen",
+          hintt: "Erweiterte Akkorde:",
+          hintb:
+            "Akkord eingeben → Hinzufügen oder Eingabe. Beispiele: F#7sus4 · Cm7b5 · D/F# · G7(#9) · Fmaj9 · Bb13",
+          empty: "Beginne mit der ChordPro-Eingabe im Editor...",
+          ph: "Hier schreiben...",
+          copy: "© 2025 Pekka Huuskonen",
+          kw: "Tonart:",
+          capo: "Kapodaster:",
+          tempo: "Tempo:",
+          bpm: "BPM",
+          sl: {
+            verse: "Strophe",
+            chorus: "Refrain",
+            bridge: "Bridge",
+            intro: "Intro",
+            outro: "Outro",
+            "pre-chorus": "Pre-Chorus",
+            interlude: "Interlude",
+            solo: "Solo",
+            tab: "Tab",
+            sov: "Strophe",
+            soc: "Refrain",
+            sob: "Bridge",
+          },
+        },
+        es: {
+          new: "Nuevo",
+          import: "Importar",
+          export: "Exportar .cho",
+          print: "Imprimir / PDF",
+          notlabel: "Notación",
+          trlabel: "Transponer",
+          lnglabel: "Idioma",
+          edph: "Editor — ChordPro",
+          pvph: "Vista previa",
+          maj: "Mayor",
+          min: "Menor",
+          sev: "Séptimas y Maj7",
+          sus: "Sus / Add / otros",
+          dir: "Directivas",
+          cc: "Acorde personalizado",
+          add: "Añadir",
+          hintt: "Acordes avanzados:",
+          hintb:
+            "Escribe un acorde → Añadir o Enter. Ejemplos: F#7sus4 · Cm7b5 · D/F# · G7(#9) · Fmaj9 · Bb13",
+          empty: "Empieza a escribir ChordPro en el editor...",
+          ph: "Escribe aquí...",
+          copy: "© 2025 Pekka Huuskonen",
+          kw: "Tono:",
+          capo: "Cejilla:",
+          tempo: "Tempo:",
+          bpm: "bpm",
+          sl: {
+            verse: "Estrofa",
+            chorus: "Estribillo",
+            bridge: "Puente",
+            intro: "Intro",
+            outro: "Outro",
+            "pre-chorus": "Pre-estribillo",
+            interlude: "Interludio",
+            solo: "Solo",
+            tab: "Tab",
+            sov: "Estrofa",
+            soc: "Estribillo",
+            sob: "Puente",
+          },
+        },
+      };
 
-<script>
-'use strict';
-
-// ── Translations ────────────────────────────────────────────────────────────
-var TR = {
-  fi: {
-    new:'Uusi', import:'Tuo', export:'Vie .cho', print:'Tulosta / PDF',
-    notlabel:'Notaatio', trlabel:'Transponoi', lnglabel:'Kieli',
-    edph:'Editori — ChordPro', pvph:'Esikatselu',
-    maj:'Duurit', min:'Mollit', sev:'Septimit & Maj7', sus:'Sus / Add / muut', dir:'Direktiivit',
-    cc:'Oma sointu', add:'Lisää',
-    hintt:'Erikoissoinnuista:',
-    hintb:'Kirjoita sointu → Enter tai Lisää. Esim: F#7sus4 · Cm7b5 · D/F# · G7(#9) · Fmaj9 · Bb13',
-    empty:'Kirjoita ChordPro-tekstiä editoriin...', ph:'Kirjoita tähän...',
-    copy:'© 2025 Pekka Huuskonen',
-    kw:'Sävellaji:', capo:'Capo:', tempo:'Tempo:', bpm:'bpm',
-    sl: { verse:'Säkeistö', chorus:'Kertosäe', bridge:'Silta', intro:'Intro', outro:'Outro',
-          'pre-chorus':'Esikertosäe', interlude:'Väliosa', solo:'Soolo', tab:'Tabulatuuri',
-          sov:'Säkeistö', soc:'Kertosäe', sob:'Silta' }
-  },
-  en: {
-    new:'New', import:'Import', export:'Export .cho', print:'Print / PDF',
-    notlabel:'Notation', trlabel:'Transpose', lnglabel:'Language',
-    edph:'Editor — ChordPro', pvph:'Preview',
-    maj:'Major', min:'Minor', sev:'Sevenths & Maj7', sus:'Sus / Add / other', dir:'Directives',
-    cc:'Custom chord', add:'Add',
-    hintt:'Advanced chords:',
-    hintb:'Type a chord → Add or Enter. Examples: F#7sus4 · Cm7b5 · D/F# · G7(#9) · Fmaj9 · Bb13',
-    empty:'Start writing ChordPro in the editor...', ph:'Write here...',
-    copy:'© 2025 Pekka Huuskonen',
-    kw:'Key:', capo:'Capo:', tempo:'Tempo:', bpm:'bpm',
-    sl: { verse:'Verse', chorus:'Chorus', bridge:'Bridge', intro:'Intro', outro:'Outro',
-          'pre-chorus':'Pre-chorus', interlude:'Interlude', solo:'Solo', tab:'Tab',
-          sov:'Verse', soc:'Chorus', sob:'Bridge' }
-  }
-};
-
-// ── Chord data (American notation, internal) ────────────────────────────────
-var CHORDS = {
-  maj: ['C','D','E','F','G','A','B','Bb','Eb','Ab','Db','Gb','F#'],
-  min: ['Am','Dm','Em','Fm','Gm','Bm','C#m','F#m','G#m','Bbm','Cm','Ebm'],
-  sev: ['C7','D7','E7','F7','G7','A7','B7','Am7','Em7','Dm7','Gm7','Bm7','Cmaj7','Fmaj7','Gmaj7','Amaj7'],
-  sus: ['Dsus2','Asus2','Esus4','Csus4','Gsus4','Cadd9','Gadd9','D/F#','G/B','A/E','C/G','E7sus4','F#m7']
-};
-
-var DIRS = [
-  ['{verse}',null],['{chorus}',null],['{bridge}',null],
-  ['{intro}',null],['{outro}',null],['{pre-chorus}',null],
-  ['{comment: }',9],['{title: }',8],['{artist: }',9],
-  ['{key: }',6],['{capo: }',7],['{tempo: }',8]
-];
-
-// ── Chromatic scales ────────────────────────────────────────────────────────
-var SC = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
-var SF = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
-
-var META  = ['title','artist','subtitle','key','capo','tempo','composer','lyricist'];
-var SKEYS = ['verse','chorus','bridge','intro','outro','pre-chorus','interlude','solo','tab','sov','soc','sob'];
-var ENDS  = ['eov','eoc','eob'];
-
-// ── App state ───────────────────────────────────────────────────────────────
-// Read language from localStorage — same key as main site (gs_lang)
-// Falls back to browser language, then 'fi'
-var _savedLang = (function() {
-  try { return localStorage.getItem('gs_lang'); } catch(e) { return null; }
-})();
-var _browserLang = (navigator.language || '').slice(0, 2);
-var _initLang = _savedLang || (_browserLang === 'en' ? 'en' : 'fi');
-
-var ST = { lang: _initLang, notation: 'american', offset: 0, dark: false };
-
-function L(k)  { return TR[ST.lang][k] || k; }
-function Ls(k) { return (TR[ST.lang].sl || {})[k] || k; }
-
-// ── Transposition ───────────────────────────────────────────────────────────
-function noteIdx(n, e) {
-  if (e) { if (n === 'H') return 11; if (n === 'B') return 10; }
-  var i = SC.indexOf(n);
-  if (i < 0) i = SF.indexOf(n);
-  return i;
-}
-function idxNote(i, f, e) {
-  i = ((i % 12) + 12) % 12;
-  if (e) { if (i === 11) return 'H'; if (i === 10) return 'B'; }
-  return (f && SF[i] !== SC[i]) ? SF[i] : SC[i];
-}
-function transRoot(r, s, f, e) {
-  var i = noteIdx(r, e);
-  return i < 0 ? r : idxNote(i + s, f, e);
-}
-function transChord(c, s, f, e) {
-  if (!s) return c;
-  var m = c.match(/^([A-GH][b#]?)(.*?)(?:\/([A-GH][b#]?)(.*))?$/);
-  if (!m || noteIdx(m[1], e) < 0) return c;
-  var r = transRoot(m[1], s, f, e) + (m[2] || '');
-  if (m[3] !== undefined) r += '/' + transRoot(m[3], s, f, e) + (m[4] || '');
-  return r;
-}
-function detectFlats(t, e) {
-  var km = t.match(/\{key:\s*([^}]+)\}/i);
-  if (km) {
-    var k = km[1].trim();
-    return e ? (/^[FB]/.test(k) || /[A-GH]b/.test(k)) : /^F[^#]|[A-G]b/.test(k);
-  }
-  var cc = t.match(/\[([^\]]*)\]/g) || [];
-  var fl = cc.filter(function(c){ return /[A-G]b/.test(c); }).length;
-  if (e) fl += cc.filter(function(c){ return /^\[B[^b]/.test(c); }).length;
-  return fl > cc.filter(function(c){ return /[A-H]#/.test(c); }).length;
-}
-function transposeText(t, s) {
-  var e = ST.notation === 'european', f = detectFlats(t, e);
-  return t.replace(/\[([^\]]*)\]/g, function(_, c){ return '[' + transChord(c, s, f, e) + ']'; });
-}
-
-// ── Notation conversion ─────────────────────────────────────────────────────
-function cvRoot(r, toEu) {
-  if (toEu) { if (r==='Bb'||r==='A#') return 'B'; if (r==='B') return 'H'; }
-  else       { if (r==='H') return 'B'; if (r==='B') return 'Bb'; }
-  return r;
-}
-function cvChord(c, toEu) {
-  var m = c.match(/^([A-GH][b#]?)(.*?)(?:\/([A-GH][b#]?)(.*))?$/);
-  if (!m) return c;
-  var r = cvRoot(m[1], toEu) + (m[2] || '');
-  if (m[3] !== undefined) r += '/' + cvRoot(m[3], toEu) + (m[4] || '');
-  return r;
-}
-function cvText(t, toEu) {
-  return t.replace(/\[([^\]]*)\]/g, function(_, c){ return '[' + cvChord(c, toEu) + ']'; });
-}
-function dispChord(c) {
-  return ST.notation === 'european' ? cvChord(c, true) : c;
-}
-
-// ── Preview renderer ────────────────────────────────────────────────────────
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-function parseDir(l) {
-  var m = l.match(/^\{([^:}]+)(?::([^}]*))?\}/);
-  if (!m) return null;
-  return { k: m[1].trim().toLowerCase(), v: (m[2]||'').trim() };
-}
-function renderCL(line) {
-  var parts = line.split(/(\[[^\]]*\])/);
-  var hasL = parts.some(function(p, i){ return i % 2 === 0 && p !== ''; });
-  if (!hasL) {
-    var ch = (line.match(/\[([^\]]*)\]/g)||[]).map(function(c){ return esc(dispChord(c.slice(1,-1))); });
-    return '<div class="pcl">' + ch.join('  ') + '</div>';
-  }
-  var segs = [], chord = '';
-  parts.forEach(function(p) {
-    if (/^\[[^\]]*\]$/.test(p)) { chord = dispChord(p.slice(1,-1)); }
-    else { segs.push({chord:chord, lyric:p}); chord = ''; }
-  });
-  if (chord) segs.push({chord:chord, lyric:''});
-  var inner = segs.map(function(s) {
-    var c = s.chord ? '<span class="ch">' + esc(s.chord) + '</span>' : '<span class="ch"></span>';
-    var l = '<span class="ly">' + (s.lyric ? esc(s.lyric) : ' ') + '</span>';
-    return '<span class="seg">' + c + l + '</span>';
-  }).join('');
-  return '<div class="chl">' + inner + '</div>';
-}
-function render() {
-  var text = document.getElementById('ed').value;
-  if (!text.trim()) {
-    document.getElementById('preview').innerHTML = '<div class="es">' + L('empty') + '</div>';
-    return;
-  }
-  var lines = text.split('\n'), meta = {}, h = '';
-  lines.forEach(function(l) {
-    var d = parseDir(l.trim());
-    if (d && META.indexOf(d.k) >= 0) meta[d.k] = d.v;
-  });
-  if (meta.title || meta.artist) {
-    h += '<div class="sh">';
-    if (meta.title)  h += '<div class="st">' + esc(meta.title) + '</div>';
-    if (meta.artist || meta.subtitle) h += '<div class="sa">' + esc(meta.artist || meta.subtitle) + '</div>';
-    var mp = [
-      meta.key   ? L('kw')    + ' ' + meta.key   : '',
-      meta.capo  ? L('capo')  + ' ' + meta.capo  : '',
-      meta.tempo ? L('tempo') + ' ' + meta.tempo + ' ' + L('bpm') : ''
-    ].filter(Boolean).join(' · ');
-    if (mp) h += '<div class="sm">' + esc(mp) + '</div>';
-    h += '</div>';
-  }
-  lines.forEach(function(line) {
-    var t = line.trim();
-    if (t.charAt(0) === '#') return;
-    var d = parseDir(t);
-    if (d) {
-      if (SKEYS.indexOf(d.k) >= 0) {
-        h += '<div class="sl">' + esc(d.v || Ls(d.k)) + '</div>';
-      } else if (ENDS.indexOf(d.k) >= 0) {
-        // end markers: no output
-      } else if (d.k === 'c' || d.k === 'comment' || d.k === 'ci') {
-        h += '<div class="ct">' + esc(d.v) + '</div>';
+      // ── UI strings not covered by TR (toasts, GigScript button) ────────────────
+      var UI = {
+        fi: {
+          toast_empty: "Editori on tyhjä",
+          toast_copied: '✓ Kopioitu! Liitä GigScriptissä "Liitä leikepöydältä"',
+          toast_copy_manual: "Kopioi manuaalisesti (Ctrl+A, Ctrl+C)",
+          btn_gigscript: "Avaa GigScriptissä",
+        },
+        en: {
+          toast_empty: "Editor is empty",
+          toast_copied:
+            '✓ Copied! Paste in GigScript using "Paste from clipboard"',
+          toast_copy_manual: "Copy manually (Ctrl+A, Ctrl+C)",
+          btn_gigscript: "Open in GigScript",
+        },
+        sv: {
+          toast_empty: "Editorn är tom",
+          toast_copied:
+            '✓ Kopierad! Klistra in i GigScript med "Klistra in från urklipp"',
+          toast_copy_manual: "Kopiera manuellt (Ctrl+A, Ctrl+C)",
+          btn_gigscript: "Öppna i GigScript",
+        },
+        de: {
+          toast_empty: "Editor ist leer",
+          toast_copied:
+            "✓ Kopiert! In GigScript über „Aus Zwischenablage einfügen“ einfügen",
+          toast_copy_manual: "Manuell kopieren (Ctrl+A, Ctrl+C)",
+          btn_gigscript: "In GigScript öffnen",
+        },
+        es: {
+          toast_empty: "El editor está vacío",
+          toast_copied:
+            '✓ ¡Copiado! Pega en GigScript usando "Pegar desde el portapapeles"',
+          toast_copy_manual: "Copiar manualmente (Ctrl+A, Ctrl+C)",
+          btn_gigscript: "Abrir en GigScript",
+        },
+      };
+      function U(k) {
+        return (UI[ST.lang] || UI.en)[k] || k;
       }
-      return;
-    }
-    if (t === '') { h += '<div class="bl"></div>'; return; }
-    h += line.indexOf('[') >= 0 ? renderCL(line) : '<div class="lo">' + esc(line) + '</div>';
-  });
-  document.getElementById('preview').innerHTML = h;
-}
 
-// ── Editor helpers ──────────────────────────────────────────────────────────
-function ins(t) {
-  var ta = document.getElementById('ed');
-  var s = ta.selectionStart, e = ta.selectionEnd;
-  ta.value = ta.value.substring(0,s) + t + ta.value.substring(e);
-  ta.selectionStart = ta.selectionEnd = s + t.length;
-  ta.focus(); render();
-}
-function insDL(t) {
-  var ta = document.getElementById('ed'), s = ta.selectionStart, val = ta.value;
-  var bef = val.substring(0,s), aft = val.substring(ta.selectionEnd);
-  var pre  = (bef.length > 0 && bef.charAt(bef.length-1) !== '\n') ? '\n' : '';
-  var post = (aft.length > 0 && aft.charAt(0) !== '\n') ? '\n' : '';
-  var i2 = pre + t + post;
-  ta.value = bef + i2 + aft;
-  ta.selectionStart = ta.selectionEnd = s + i2.length;
-  ta.focus(); render();
-}
-function insD(tpl, off) {
-  var ta = document.getElementById('ed'), s = ta.selectionStart, val = ta.value;
-  var bef = val.substring(0,s), aft = val.substring(ta.selectionEnd);
-  var pre  = (bef.length > 0 && bef.charAt(bef.length-1) !== '\n') ? '\n' : '';
-  var post = (aft.length > 0 && aft.charAt(0) !== '\n') ? '\n' : '';
-  var i2 = pre + tpl + post;
-  ta.value = bef + i2 + aft;
-  ta.selectionStart = ta.selectionEnd = s + pre.length + off;
-  ta.focus(); render();
-}
-function insCC() {
-  var inp = document.getElementById('cc'), c = inp.value.trim();
-  if (c) { ins('[' + c + ']'); inp.value = ''; inp.focus(); }
-}
-function edKey(e) {
-  if (e.key === 'Tab') { e.preventDefault(); ins('    '); }
-}
+      // ── Chord data (American notation, internal) ────────────────────────────────
+      var CHORDS = {
+        maj: [
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "A",
+          "B",
+          "Bb",
+          "Eb",
+          "Ab",
+          "Db",
+          "Gb",
+          "F#",
+        ],
+        min: [
+          "Am",
+          "Dm",
+          "Em",
+          "Fm",
+          "Gm",
+          "Bm",
+          "C#m",
+          "F#m",
+          "G#m",
+          "Bbm",
+          "Cm",
+          "Ebm",
+        ],
+        sev: [
+          "C7",
+          "D7",
+          "E7",
+          "F7",
+          "G7",
+          "A7",
+          "B7",
+          "Am7",
+          "Em7",
+          "Dm7",
+          "Gm7",
+          "Bm7",
+          "Cmaj7",
+          "Fmaj7",
+          "Gmaj7",
+          "Amaj7",
+        ],
+        sus: [
+          "Dsus2",
+          "Asus2",
+          "Esus4",
+          "Csus4",
+          "Gsus4",
+          "Cadd9",
+          "Gadd9",
+          "D/F#",
+          "G/B",
+          "A/E",
+          "C/G",
+          "E7sus4",
+          "F#m7",
+        ],
+      };
 
-// ── File operations ─────────────────────────────────────────────────────────
-function newDoc() {
-  document.getElementById('ed').value = '';
-  ST.offset = 0; updOff(); render();
-}
-function doImport(e) {
-  var f = e.target.files[0]; if (!f) return;
-  var r = new FileReader();
-  r.onload = function(ev) {
-    document.getElementById('ed').value = ev.target.result;
-    ST.offset = 0; updOff(); render();
-  };
-  r.readAsText(f, 'UTF-8'); e.target.value = '';
-}
-function doExport() {
-  var c = document.getElementById('ed').value; if (!c.trim()) return;
-  var m = c.match(/\{title:\s*([^}]+)\}/i);
-  var title = m ? m[1].trim() : 'kappale';
-  var fn = title.replace(/[^\w\s\-äöåÄÖÅ]/g,'').trim().replace(/\s+/g,'_') + '.cho';
-  var a = document.createElement('a');
-  a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(c);
-  a.download = fn; a.click();
-}
-function doPrint() { window.print(); }
+      var DIRS = [
+        ["{verse}", null],
+        ["{chorus}", null],
+        ["{bridge}", null],
+        ["{intro}", null],
+        ["{outro}", null],
+        ["{pre-chorus}", null],
+        ["{comment: }", 9],
+        ["{title: }", 8],
+        ["{artist: }", 9],
+        ["{key: }", 6],
+        ["{capo: }", 7],
+        ["{tempo: }", 8],
+      ];
 
-// ── Transpose ───────────────────────────────────────────────────────────────
-function doTranspose(s) {
-  var ta = document.getElementById('ed');
-  ta.value = transposeText(ta.value, s);
-  ST.offset += s; updOff(); render();
-}
-function resetTranspose() {
-  var o = ST.offset; if (!o) return;
-  var ta = document.getElementById('ed');
-  ta.value = transposeText(ta.value, -o);
-  ST.offset = 0; updOff(); render();
-}
-function updOff() {
-  var s = ST.offset, el = document.getElementById('toffset');
-  el.textContent = (s > 0 ? '+' : '') + s + ' st';
-  el.style.background = s ? 'var(--acbg)' : 'var(--s0)';
-  el.style.color      = s ? 'var(--act)'  : 'var(--tm)';
-  document.getElementById('b-rst').style.display = s ? 'inline-flex' : 'none';
-}
+      // ── Chromatic scales ────────────────────────────────────────────────────────
+      var SC = [
+        "C",
+        "C#",
+        "D",
+        "D#",
+        "E",
+        "F",
+        "F#",
+        "G",
+        "G#",
+        "A",
+        "A#",
+        "B",
+      ];
+      var SF = [
+        "C",
+        "Db",
+        "D",
+        "Eb",
+        "E",
+        "F",
+        "Gb",
+        "G",
+        "Ab",
+        "A",
+        "Bb",
+        "B",
+      ];
 
-// ── Theme toggle ────────────────────────────────────────────────────────────
-function toggleMode() {
-  ST.dark = !ST.dark;
-  document.body.classList.toggle('dark', ST.dark);
-  document.getElementById('mode-icon').className = ST.dark ? 'ti ti-sun' : 'ti ti-moon';
-}
+      var META = [
+        "title",
+        "artist",
+        "subtitle",
+        "key",
+        "capo",
+        "tempo",
+        "composer",
+        "lyricist",
+      ];
+      var SKEYS = [
+        "verse",
+        "chorus",
+        "bridge",
+        "intro",
+        "outro",
+        "pre-chorus",
+        "interlude",
+        "solo",
+        "tab",
+        "sov",
+        "soc",
+        "sob",
+      ];
+      var ENDS = ["eov", "eoc", "eob"];
 
-// ── Open in GigScript ───────────────────────────────────────────────────────
-function openInGigScript() {
-  var content = document.getElementById('ed').value;
-  if (!content.trim()) {
-    showToast(ST.lang === 'fi' ? 'Editori on tyhjä' : 'Editor is empty', false);
-    return;
-  }
-  try {
-    navigator.clipboard.writeText(content).then(function() {
-      showToast(
-        ST.lang === 'fi'
-          ? '✓ Kopioitu! Liitä GigScriptissä "Liitä leikepöydältä"'
-          : '✓ Copied! Paste in GigScript using "Paste from clipboard"',
-        true
-      );
-      // After short delay, open App Store / Play Store
-      setTimeout(function() {
-        // Opens App Store on iOS, Play Store on Android, fallback to site
-        var ua = navigator.userAgent;
-        if (/iPad|iPhone|iPod/.test(ua)) {
-          window.open('https://apps.apple.com/app/gigscript/id000000000', '_blank');
-        } else if (/Android/.test(ua)) {
-          window.open('https://play.google.com/store/apps/details?id=com.yourname.gigscript', '_blank');
-        } else {
-          window.open('https://gigscript.pekkahuuskonen.com#pricing', '_blank');
+      // ── App state ───────────────────────────────────────────────────────────────
+      // Read language from localStorage — same key as main site (gs_lang)
+      // Falls back to browser language, then 'fi'
+      var _savedLang = (function () {
+        try {
+          return localStorage.getItem("gs_lang");
+        } catch (e) {
+          return null;
         }
-      }, 1200);
-    }).catch(function() {
-      // Fallback: select all text in editor
-      var ta = document.getElementById('ed');
-      ta.select();
-      document.execCommand('copy');
-      showToast(
-        ST.lang === 'fi'
-          ? '✓ Kopioitu! Liitä GigScriptissä "Liitä leikepöydältä"'
-          : '✓ Copied! Paste in GigScript using "Paste from clipboard"',
-        true
-      );
-    });
-  } catch(e) {
-    showToast(ST.lang === 'fi' ? 'Kopioi manuaalisesti (Ctrl+A, Ctrl+C)' : 'Copy manually (Ctrl+A, Ctrl+C)', false);
-  }
-}
+      })();
+      var _browserLang = (navigator.language || "").slice(0, 2);
+      var _initLang =
+        _savedLang ||
+        (["en", "sv", "de", "es"].indexOf(_browserLang) > -1
+          ? _browserLang
+          : "fi");
 
-function showToast(msg, success) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.borderColor = success ? '#f5a623' : '#c0392b';
-  t.classList.add('show');
-  setTimeout(function() { t.classList.remove('show'); }, 3500);
-}
+      var ST = {
+        lang: _initLang,
+        notation: "american",
+        offset: 0,
+        dark: false,
+      };
 
-// ── Language ────────────────────────────────────────────────────────────────
-function setLang(l) {
-  ST.lang = l;
-  // Persist to same key as main site so both stay in sync
-  try { localStorage.setItem('gs_lang', l); } catch(e) {}
-  document.getElementById('b-fi').className = 'btn' + (l==='fi' ? ' btn-on' : '');
-  document.getElementById('b-en').className = 'btn' + (l==='en' ? ' btn-on' : '');
-  // Toggle site bar GigScript button language
-  document.getElementById('btn-gs-fi').style.display = l === 'fi' ? 'inline-flex' : 'none';
-  document.getElementById('btn-gs-en').style.display = l === 'en' ? 'inline-flex' : 'none';
-  // Swap sample if user hasn't edited the content yet
-  var ta = document.getElementById('ed');
-  var current = ta.value.trim();
-  if (current === SAMPLE_FI.trim() || current === SAMPLE_EN.trim()) {
-    ta.value = l === 'fi' ? SAMPLE_FI : SAMPLE_EN;
-    ST.offset = 0; updOff();
-    // Set notation to match sample
-    if (l === 'fi') {
-      ST.notation = 'european';
-      document.getElementById('b-am').className = 'btn';
-      document.getElementById('b-eu').className = 'btn btn-on';
-    } else {
-      ST.notation = 'american';
-      document.getElementById('b-am').className = 'btn btn-on';
-      document.getElementById('b-eu').className = 'btn';
-    }
-    buildChordBtns();
-  }
-  applyUI(); render();
-}
+      function L(k) {
+        return TR[ST.lang][k] || k;
+      }
+      function Ls(k) {
+        return (TR[ST.lang].sl || {})[k] || k;
+      }
 
-// ── Notation ────────────────────────────────────────────────────────────────
-function setNotation(n) {
-  if (ST.notation === n) return;
-  document.getElementById('ed').value = cvText(document.getElementById('ed').value, n==='european');
-  ST.notation = n;
-  document.getElementById('b-am').className = 'btn' + (n==='american' ? ' btn-on' : '');
-  document.getElementById('b-eu').className = 'btn' + (n==='european' ? ' btn-on' : '');
-  buildChordBtns(); render();
-}
+      // ── Transposition ───────────────────────────────────────────────────────────
+      function noteIdx(n, e) {
+        if (e) {
+          if (n === "H") return 11;
+          if (n === "B") return 10;
+        }
+        var i = SC.indexOf(n);
+        if (i < 0) i = SF.indexOf(n);
+        return i;
+      }
+      function idxNote(i, f, e) {
+        i = ((i % 12) + 12) % 12;
+        if (e) {
+          if (i === 11) return "H";
+          if (i === 10) return "B";
+        }
+        return f && SF[i] !== SC[i] ? SF[i] : SC[i];
+      }
+      function transRoot(r, s, f, e) {
+        var i = noteIdx(r, e);
+        return i < 0 ? r : idxNote(i + s, f, e);
+      }
+      function transChord(c, s, f, e) {
+        if (!s) return c;
+        var m = c.match(/^([A-GH][b#]?)(.*?)(?:\/([A-GH][b#]?)(.*))?$/);
+        if (!m || noteIdx(m[1], e) < 0) return c;
+        var r = transRoot(m[1], s, f, e) + (m[2] || "");
+        if (m[3] !== undefined)
+          r += "/" + transRoot(m[3], s, f, e) + (m[4] || "");
+        return r;
+      }
+      function detectFlats(t, e) {
+        var km = t.match(/\{key:\s*([^}]+)\}/i);
+        if (km) {
+          var k = km[1].trim();
+          return e
+            ? /^[FB]/.test(k) || /[A-GH]b/.test(k)
+            : /^F[^#]|[A-G]b/.test(k);
+        }
+        var cc = t.match(/\[([^\]]*)\]/g) || [];
+        var fl = cc.filter(function (c) {
+          return /[A-G]b/.test(c);
+        }).length;
+        if (e)
+          fl += cc.filter(function (c) {
+            return /^\[B[^b]/.test(c);
+          }).length;
+        return (
+          fl >
+          cc.filter(function (c) {
+            return /[A-H]#/.test(c);
+          }).length
+        );
+      }
+      function transposeText(t, s) {
+        var e = ST.notation === "european",
+          f = detectFlats(t, e);
+        return t.replace(/\[([^\]]*)\]/g, function (_, c) {
+          return "[" + transChord(c, s, f, e) + "]";
+        });
+      }
 
-// ── UI builders ─────────────────────────────────────────────────────────────
-function buildChordBtns() {
-  var euro = ST.notation === 'european';
-  [['mg','maj'],['mn','min'],['sv','sev'],['su','sus']].forEach(function(pair) {
-    var el = document.getElementById(pair[0]); el.innerHTML = '';
-    CHORDS[pair[1]].forEach(function(c) {
-      var label = euro ? cvChord(c, true) : c;
-      var b = document.createElement('button');
-      b.className = 'cb'; b.textContent = label;
-      b.onclick = (function(ch){ return function(){ ins('[' + ch + ']'); }; })(label);
-      el.appendChild(b);
-    });
-  });
-}
-function buildDirBtns() {
-  var el = document.getElementById('dv'); el.innerHTML = '';
-  DIRS.forEach(function(d) {
-    var b = document.createElement('button');
-    b.className = 'db';
-    b.textContent = (d[0].match(/\{([^:}]+)/) || [])[1] || d[0];
-    b.onclick = d[1] === null
-      ? (function(t){ return function(){ insDL(t); }; })(d[0])
-      : (function(t,o){ return function(){ insD(t,o); }; })(d[0], d[1]);
-    el.appendChild(b);
-  });
-}
-function applyUI() {
-  function g(id){ return document.getElementById(id); }
-  ['new','import','export','print'].forEach(function(k){
-    var el = g('t-' + k); if (el) el.textContent = L(k);
-  });
-  g('t-notlabel').textContent = L('notlabel');
-  g('t-trlabel').textContent  = L('trlabel');
-  g('t-lnglabel').textContent = L('lnglabel');
-  g('t-copy').textContent     = L('copy');
-  g('ph-ed').textContent      = L('edph');
-  g('ph-pv').textContent      = L('pvph');
-  ['maj','min','sev','sus','dir'].forEach(function(k){ g('gl-' + k).textContent = L(k); });
-  g('lbl-cc').textContent  = L('cc');
-  g('b-add').textContent   = L('add');
-  g('hint-t').textContent  = L('hintt');
-  g('hint-b').textContent  = L('hintb');
-  g('ed').placeholder      = L('ph');
-}
+      // ── Notation conversion ─────────────────────────────────────────────────────
+      function cvRoot(r, toEu) {
+        if (toEu) {
+          if (r === "Bb" || r === "A#") return "B";
+          if (r === "B") return "H";
+        } else {
+          if (r === "H") return "B";
+          if (r === "B") return "Bb";
+        }
+        return r;
+      }
+      function cvChord(c, toEu) {
+        var m = c.match(/^([A-GH][b#]?)(.*?)(?:\/([A-GH][b#]?)(.*))?$/);
+        if (!m) return c;
+        var r = cvRoot(m[1], toEu) + (m[2] || "");
+        if (m[3] !== undefined) r += "/" + cvRoot(m[3], toEu) + (m[4] || "");
+        return r;
+      }
+      function cvText(t, toEu) {
+        return t.replace(/\[([^\]]*)\]/g, function (_, c) {
+          return "[" + cvChord(c, toEu) + "]";
+        });
+      }
+      function dispChord(c) {
+        return ST.notation === "european" ? cvChord(c, true) : c;
+      }
 
-// ── Sample content ──────────────────────────────────────────────────────────
-var SAMPLE_FI = [
-  '{title: Syksyn Sävel}',
-  '{artist: Juice Leskinen}',
-  '{key: Em}',
-  '{notation: european}',
-  '',
-  '{verse}',
-  '[Em]Katu täyttyy [Am]askelista,',
-  '[D7]elämä on [G]kuolemista,',
-  '[Em]pane käsi [Am]käteen ollaan [H7]hiljaa',
-  '',
-  '[Em]Pyydä minut [Am]aamuteelle,',
-  '[D7]anna vettä [G]kuihtuneelle,',
-  '[Em]nyt on elo[Am]kuu ja [H7]minä olen [Em]viljaa',
-  '',
-  '{chorus}',
-  '[C]En ilosta itke, en surusta itke,',
-  '[Em]jos itken, niin itken muuten vaan',
-  '[C]Ja muualla oon ennen kuin [H7]huomaatkaan',
-  '',
-  '[Em]Häntä rakastin [Am]paljon, sua [D]rakastan joskus [G]enemmän',
-  '[Em]Ole mulle [Am]vähän [H7]aikaa [Em]hän',
-  '',
-  '{verse}',
-  '[Em]Ota minut [Am]sinun uniin,',
-  '[D7]vaikka nousen [G]toisiin juniin',
-  '[Em]Nyt on loka[Am]kuu, ja minusta [H7]näkee [Em]sen',
-  '',
-  '{comment: Kertosäe toistuu 2x}'
-].join('\n');
+      // ── Preview renderer ────────────────────────────────────────────────────────
+      function esc(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+      function parseDir(l) {
+        var m = l.match(/^\{([^:}]+)(?::([^}]*))?\}/);
+        if (!m) return null;
+        return { k: m[1].trim().toLowerCase(), v: (m[2] || "").trim() };
+      }
+      function renderCL(line) {
+        var parts = line.split(/(\[[^\]]*\])/);
+        var hasL = parts.some(function (p, i) {
+          return i % 2 === 0 && p !== "";
+        });
+        if (!hasL) {
+          var ch = (line.match(/\[([^\]]*)\]/g) || []).map(function (c) {
+            return esc(dispChord(c.slice(1, -1)));
+          });
+          return '<div class="pcl">' + ch.join("  ") + "</div>";
+        }
+        var segs = [],
+          chord = "";
+        parts.forEach(function (p) {
+          if (/^\[[^\]]*\]$/.test(p)) {
+            chord = dispChord(p.slice(1, -1));
+          } else {
+            segs.push({ chord: chord, lyric: p });
+            chord = "";
+          }
+        });
+        if (chord) segs.push({ chord: chord, lyric: "" });
+        var inner = segs
+          .map(function (s) {
+            var c = s.chord
+              ? '<span class="ch">' + esc(s.chord) + "</span>"
+              : '<span class="ch"></span>';
+            var l =
+              '<span class="ly">' + (s.lyric ? esc(s.lyric) : " ") + "</span>";
+            return '<span class="seg">' + c + l + "</span>";
+          })
+          .join("");
+        return '<div class="chl">' + inner + "</div>";
+      }
+      function render() {
+        var text = document.getElementById("ed").value;
+        if (!text.trim()) {
+          document.getElementById("preview").innerHTML =
+            '<div class="es">' + L("empty") + "</div>";
+          return;
+        }
+        var lines = text.split("\n"),
+          meta = {},
+          h = "";
+        lines.forEach(function (l) {
+          var d = parseDir(l.trim());
+          if (d && META.indexOf(d.k) >= 0) meta[d.k] = d.v;
+        });
+        if (meta.title || meta.artist) {
+          h += '<div class="sh">';
+          if (meta.title) h += '<div class="st">' + esc(meta.title) + "</div>";
+          if (meta.artist || meta.subtitle)
+            h +=
+              '<div class="sa">' + esc(meta.artist || meta.subtitle) + "</div>";
+          var mp = [
+            meta.key ? L("kw") + " " + meta.key : "",
+            meta.capo ? L("capo") + " " + meta.capo : "",
+            meta.tempo ? L("tempo") + " " + meta.tempo + " " + L("bpm") : "",
+          ]
+            .filter(Boolean)
+            .join(" · ");
+          if (mp) h += '<div class="sm">' + esc(mp) + "</div>";
+          h += "</div>";
+        }
+        lines.forEach(function (line) {
+          var t = line.trim();
+          if (t.charAt(0) === "#") return;
+          var d = parseDir(t);
+          if (d) {
+            if (SKEYS.indexOf(d.k) >= 0) {
+              h += '<div class="sl">' + esc(d.v || Ls(d.k)) + "</div>";
+            } else if (ENDS.indexOf(d.k) >= 0) {
+              // end markers: no output
+            } else if (d.k === "c" || d.k === "comment" || d.k === "ci") {
+              h += '<div class="ct">' + esc(d.v) + "</div>";
+            }
+            return;
+          }
+          if (t === "") {
+            h += '<div class="bl"></div>';
+            return;
+          }
+          h +=
+            line.indexOf("[") >= 0
+              ? renderCL(line)
+              : '<div class="lo">' + esc(line) + "</div>";
+        });
+        document.getElementById("preview").innerHTML = h;
+      }
 
-var SAMPLE_EN = [
-  '{title: Wonderwall}',
-  '{artist: Oasis}',
-  '{key: F#m}',
-  '{capo: 2}',
-  '',
-  '{verse}',
-  '[F#m7]Today is gonna be the [A]day',
-  "That they're gonna throw it [Esus4]back to [E]you",
-  "[F#m7]By now you should've somehow [A]realized",
-  'What you [Esus4]gotta [E]do',
-  '',
-  '{verse}',
-  "[F#m7]I don't believe that any[A]body",
-  'Feels the way I [Esus4]do about you [E]now',
-  '',
-  '{pre-chorus}',
-  '[Dsus2]Back-beat the word was on the [F#m7]street',
-  'That the [Dsus2]fire in your heart is [F#m7]out',
-  '',
-  '{chorus}',
-  "[F#m7]Maybe [A]you're gonna be the one that [Esus4]saves [E]me",
-  "And [F#m7]after [A]all, you're my [Esus4]Wonder[E]wall",
-  '',
-  '{comment: Chorus repeats 2x}'
-].join('\n');
+      // ── Editor helpers ──────────────────────────────────────────────────────────
+      function ins(t) {
+        var ta = document.getElementById("ed");
+        var s = ta.selectionStart,
+          e = ta.selectionEnd;
+        ta.value = ta.value.substring(0, s) + t + ta.value.substring(e);
+        ta.selectionStart = ta.selectionEnd = s + t.length;
+        ta.focus();
+        render();
+      }
+      function insDL(t) {
+        var ta = document.getElementById("ed"),
+          s = ta.selectionStart,
+          val = ta.value;
+        var bef = val.substring(0, s),
+          aft = val.substring(ta.selectionEnd);
+        var pre =
+          bef.length > 0 && bef.charAt(bef.length - 1) !== "\n" ? "\n" : "";
+        var post = aft.length > 0 && aft.charAt(0) !== "\n" ? "\n" : "";
+        var i2 = pre + t + post;
+        ta.value = bef + i2 + aft;
+        ta.selectionStart = ta.selectionEnd = s + i2.length;
+        ta.focus();
+        render();
+      }
+      function insD(tpl, off) {
+        var ta = document.getElementById("ed"),
+          s = ta.selectionStart,
+          val = ta.value;
+        var bef = val.substring(0, s),
+          aft = val.substring(ta.selectionEnd);
+        var pre =
+          bef.length > 0 && bef.charAt(bef.length - 1) !== "\n" ? "\n" : "";
+        var post = aft.length > 0 && aft.charAt(0) !== "\n" ? "\n" : "";
+        var i2 = pre + tpl + post;
+        ta.value = bef + i2 + aft;
+        ta.selectionStart = ta.selectionEnd = s + pre.length + off;
+        ta.focus();
+        render();
+      }
+      function insCC() {
+        var inp = document.getElementById("cc"),
+          c = inp.value.trim();
+        if (c) {
+          ins("[" + c + "]");
+          inp.value = "";
+          inp.focus();
+        }
+      }
+      function edKey(e) {
+        if (e.key === "Tab") {
+          e.preventDefault();
+          ins("    ");
+        }
+      }
 
-// Use Finnish sample for FI, English for EN
-var SAMPLE = ST.lang === 'fi' ? SAMPLE_FI : SAMPLE_EN;
+      // ── File operations ─────────────────────────────────────────────────────────
+      function newDoc() {
+        document.getElementById("ed").value = "";
+        ST.offset = 0;
+        updOff();
+        render();
+      }
+      function doImport(e) {
+        var f = e.target.files[0];
+        if (!f) return;
+        var r = new FileReader();
+        r.onload = function (ev) {
+          document.getElementById("ed").value = ev.target.result;
+          ST.offset = 0;
+          updOff();
+          render();
+        };
+        r.readAsText(f, "UTF-8");
+        e.target.value = "";
+      }
+      function doExport() {
+        var c = document.getElementById("ed").value;
+        if (!c.trim()) return;
+        var m = c.match(/\{title:\s*([^}]+)\}/i);
+        var title = m ? m[1].trim() : "kappale";
+        var fn =
+          title
+            .replace(/[^\w\s\-äöåÄÖÅ]/g, "")
+            .trim()
+            .replace(/\s+/g, "_") + ".cho";
+        var a = document.createElement("a");
+        a.href = "data:text/plain;charset=utf-8," + encodeURIComponent(c);
+        a.download = fn;
+        a.click();
+      }
+      function doPrint() {
+        window.print();
+      }
 
-// ── Init ────────────────────────────────────────────────────────────────────
-// Default to dark mode (matches GigScript branding)
-ST.dark = true;
-document.body.classList.add('dark');
-document.getElementById('mode-icon').className = 'ti ti-sun';
+      // ── Transpose ───────────────────────────────────────────────────────────────
+      function doTranspose(s) {
+        var ta = document.getElementById("ed");
+        ta.value = transposeText(ta.value, s);
+        ST.offset += s;
+        updOff();
+        render();
+      }
+      function resetTranspose() {
+        var o = ST.offset;
+        if (!o) return;
+        var ta = document.getElementById("ed");
+        ta.value = transposeText(ta.value, -o);
+        ST.offset = 0;
+        updOff();
+        render();
+      }
+      function updOff() {
+        var s = ST.offset,
+          el = document.getElementById("toffset");
+        el.textContent = (s > 0 ? "+" : "") + s + " st";
+        el.style.background = s ? "var(--acbg)" : "var(--s0)";
+        el.style.color = s ? "var(--act)" : "var(--tm)";
+        document.getElementById("b-rst").style.display = s
+          ? "inline-flex"
+          : "none";
+      }
 
-// Override with system preference if light
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-  ST.dark = false;
-  document.body.classList.remove('dark');
-  document.getElementById('mode-icon').className = 'ti ti-moon';
-}
+      // ── Theme toggle ────────────────────────────────────────────────────────────
+      function toggleMode() {
+        ST.dark = !ST.dark;
+        document.body.classList.toggle("dark", ST.dark);
+        document.getElementById("mode-icon").className = ST.dark
+          ? "ti ti-sun"
+          : "ti ti-moon";
+      }
 
-document.getElementById('ed').value = ST.lang === 'fi' ? SAMPLE_FI : SAMPLE_EN;
-applyUI();
-buildDirBtns();
-updOff();
+      // ── Open in GigScript ───────────────────────────────────────────────────────
+      function openInGigScript() {
+        var content = document.getElementById("ed").value;
+        if (!content.trim()) {
+          showToast(U("toast_empty"), false);
+          return;
+        }
+        try {
+          navigator.clipboard
+            .writeText(content)
+            .then(function () {
+              showToast(U("toast_copied"), true);
+              // After short delay, open App Store / Play Store
+              setTimeout(function () {
+                // Opens App Store on iOS, Play Store on Android, fallback to site
+                var ua = navigator.userAgent;
+                if (/iPad|iPhone|iPod/.test(ua)) {
+                  window.open(
+                    "https://apps.apple.com/app/gigscript/id000000000",
+                    "_blank",
+                  );
+                } else if (/Android/.test(ua)) {
+                  window.open(
+                    "https://play.google.com/store/apps/details?id=com.yourname.gigscript",
+                    "_blank",
+                  );
+                } else {
+                  window.open(
+                    "https://gigscript.pekkahuuskonen.com#pricing",
+                    "_blank",
+                  );
+                }
+              }, 1200);
+            })
+            .catch(function () {
+              // Fallback: select all text in editor
+              var ta = document.getElementById("ed");
+              ta.select();
+              document.execCommand("copy");
+              showToast(U("toast_copied"), true);
+            });
+        } catch (e) {
+          showToast(U("toast_copy_manual"), false);
+        }
+      }
 
-// Set notation and buttons based on initial language
-if (ST.lang === 'fi') {
-  ST.notation = 'european';
-  document.getElementById('b-fi').className = 'btn btn-on';
-  document.getElementById('b-en').className = 'btn';
-  document.getElementById('b-am').className = 'btn';
-  document.getElementById('b-eu').className = 'btn btn-on';
-} else {
-  document.getElementById('b-fi').className = 'btn';
-  document.getElementById('b-en').className = 'btn btn-on';
-  document.getElementById('b-am').className = 'btn btn-on';
-  document.getElementById('b-eu').className = 'btn';
-}
-buildChordBtns();
-render();
-</script>
-</body>
+      function showToast(msg, success) {
+        var t = document.getElementById("toast");
+        t.textContent = msg;
+        t.style.borderColor = success ? "#f5a623" : "#c0392b";
+        t.classList.add("show");
+        setTimeout(function () {
+          t.classList.remove("show");
+        }, 3500);
+      }
+
+      // ── Language ────────────────────────────────────────────────────────────────
+      function setLang(l) {
+        ST.lang = l;
+        // Persist to same key as main site so both stay in sync
+        try {
+          localStorage.setItem("gs_lang", l);
+        } catch (e) {}
+        document.getElementById("lang-select").value = l;
+        // Update site bar GigScript button text
+        document.getElementById("t-btn-gigscript").textContent =
+          U("btn_gigscript");
+        // Swap sample if user hasn't edited the content yet
+        var ta = document.getElementById("ed");
+        var current = ta.value.trim();
+        if (current === SAMPLE_FI.trim() || current === SAMPLE_EN.trim()) {
+          ta.value = l === "fi" ? SAMPLE_FI : SAMPLE_EN;
+          ST.offset = 0;
+          updOff();
+          // Set notation to match sample
+          if (l === "fi") {
+            ST.notation = "european";
+            document.getElementById("b-am").className = "btn";
+            document.getElementById("b-eu").className = "btn btn-on";
+          } else {
+            ST.notation = "american";
+            document.getElementById("b-am").className = "btn btn-on";
+            document.getElementById("b-eu").className = "btn";
+          }
+          buildChordBtns();
+        }
+        applyUI();
+        render();
+      }
+
+      // ── Notation ────────────────────────────────────────────────────────────────
+      function setNotation(n) {
+        if (ST.notation === n) return;
+        document.getElementById("ed").value = cvText(
+          document.getElementById("ed").value,
+          n === "european",
+        );
+        ST.notation = n;
+        document.getElementById("b-am").className =
+          "btn" + (n === "american" ? " btn-on" : "");
+        document.getElementById("b-eu").className =
+          "btn" + (n === "european" ? " btn-on" : "");
+        buildChordBtns();
+        render();
+      }
+
+      // ── UI builders ─────────────────────────────────────────────────────────────
+      function buildChordBtns() {
+        var euro = ST.notation === "european";
+        [
+          ["mg", "maj"],
+          ["mn", "min"],
+          ["sv", "sev"],
+          ["su", "sus"],
+        ].forEach(function (pair) {
+          var el = document.getElementById(pair[0]);
+          el.innerHTML = "";
+          CHORDS[pair[1]].forEach(function (c) {
+            var label = euro ? cvChord(c, true) : c;
+            var b = document.createElement("button");
+            b.className = "cb";
+            b.textContent = label;
+            b.onclick = (function (ch) {
+              return function () {
+                ins("[" + ch + "]");
+              };
+            })(label);
+            el.appendChild(b);
+          });
+        });
+      }
+      function buildDirBtns() {
+        var el = document.getElementById("dv");
+        el.innerHTML = "";
+        DIRS.forEach(function (d) {
+          var b = document.createElement("button");
+          b.className = "db";
+          b.textContent = (d[0].match(/\{([^:}]+)/) || [])[1] || d[0];
+          b.onclick =
+            d[1] === null
+              ? (function (t) {
+                  return function () {
+                    insDL(t);
+                  };
+                })(d[0])
+              : (function (t, o) {
+                  return function () {
+                    insD(t, o);
+                  };
+                })(d[0], d[1]);
+          el.appendChild(b);
+        });
+      }
+      function applyUI() {
+        function g(id) {
+          return document.getElementById(id);
+        }
+        ["new", "import", "export", "print"].forEach(function (k) {
+          var el = g("t-" + k);
+          if (el) el.textContent = L(k);
+        });
+        g("t-notlabel").textContent = L("notlabel");
+        g("t-trlabel").textContent = L("trlabel");
+        g("t-lnglabel").textContent = L("lnglabel");
+        g("t-copy").textContent = L("copy");
+        g("ph-ed").textContent = L("edph");
+        g("ph-pv").textContent = L("pvph");
+        ["maj", "min", "sev", "sus", "dir"].forEach(function (k) {
+          g("gl-" + k).textContent = L(k);
+        });
+        g("lbl-cc").textContent = L("cc");
+        g("b-add").textContent = L("add");
+        g("hint-t").textContent = L("hintt");
+        g("hint-b").textContent = L("hintb");
+        g("ed").placeholder = L("ph");
+      }
+
+      // ── Sample content ──────────────────────────────────────────────────────────
+      var SAMPLE_FI = [
+        "{title: Syksyn Sävel}",
+        "{artist: Juice Leskinen}",
+        "{key: Em}",
+        "{notation: european}",
+        "",
+        "{verse}",
+        "[Em]Katu täyttyy [Am]askelista,",
+        "[D7]elämä on [G]kuolemista,",
+        "[Em]pane käsi [Am]käteen ollaan [H7]hiljaa",
+        "",
+        "[Em]Pyydä minut [Am]aamuteelle,",
+        "[D7]anna vettä [G]kuihtuneelle,",
+        "[Em]nyt on elo[Am]kuu ja [H7]minä olen [Em]viljaa",
+        "",
+        "{chorus}",
+        "[C]En ilosta itke, en surusta itke,",
+        "[Em]jos itken, niin itken muuten vaan",
+        "[C]Ja muualla oon ennen kuin [H7]huomaatkaan",
+        "",
+        "[Em]Häntä rakastin [Am]paljon, sua [D]rakastan joskus [G]enemmän",
+        "[Em]Ole mulle [Am]vähän [H7]aikaa [Em]hän",
+        "",
+        "{verse}",
+        "[Em]Ota minut [Am]sinun uniin,",
+        "[D7]vaikka nousen [G]toisiin juniin",
+        "[Em]Nyt on loka[Am]kuu, ja minusta [H7]näkee [Em]sen",
+        "",
+        "{comment: Kertosäe toistuu 2x}",
+      ].join("\n");
+
+      var SAMPLE_EN = [
+        "{title: Wonderwall}",
+        "{artist: Oasis}",
+        "{key: F#m}",
+        "{capo: 2}",
+        "",
+        "{verse}",
+        "[F#m7]Today is gonna be the [A]day",
+        "That they're gonna throw it [Esus4]back to [E]you",
+        "[F#m7]By now you should've somehow [A]realized",
+        "What you [Esus4]gotta [E]do",
+        "",
+        "{verse}",
+        "[F#m7]I don't believe that any[A]body",
+        "Feels the way I [Esus4]do about you [E]now",
+        "",
+        "{pre-chorus}",
+        "[Dsus2]Back-beat the word was on the [F#m7]street",
+        "That the [Dsus2]fire in your heart is [F#m7]out",
+        "",
+        "{chorus}",
+        "[F#m7]Maybe [A]you're gonna be the one that [Esus4]saves [E]me",
+        "And [F#m7]after [A]all, you're my [Esus4]Wonder[E]wall",
+        "",
+        "{comment: Chorus repeats 2x}",
+      ].join("\n");
+
+      // Use Finnish sample for FI, English for EN
+      var SAMPLE = ST.lang === "fi" ? SAMPLE_FI : SAMPLE_EN;
+
+      // ── Init ────────────────────────────────────────────────────────────────────
+      // Default to dark mode (matches GigScript branding)
+      ST.dark = true;
+      document.body.classList.add("dark");
+      document.getElementById("mode-icon").className = "ti ti-sun";
+
+      // Override with system preference if light
+      if (
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: light)").matches
+      ) {
+        ST.dark = false;
+        document.body.classList.remove("dark");
+        document.getElementById("mode-icon").className = "ti ti-moon";
+      }
+
+      document.getElementById("ed").value =
+        ST.lang === "fi" ? SAMPLE_FI : SAMPLE_EN;
+      applyUI();
+      buildDirBtns();
+      updOff();
+
+      // Set notation and controls based on initial language
+      document.getElementById("lang-select").value = ST.lang;
+      document.getElementById("t-btn-gigscript").textContent =
+        U("btn_gigscript");
+      if (ST.lang === "fi") {
+        ST.notation = "european";
+        document.getElementById("b-am").className = "btn";
+        document.getElementById("b-eu").className = "btn btn-on";
+      } else {
+        document.getElementById("b-am").className = "btn btn-on";
+        document.getElementById("b-eu").className = "btn";
+      }
+      buildChordBtns();
+      render();
+    </script>
+  </body>
 </html>
