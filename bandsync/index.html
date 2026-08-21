@@ -1,742 +1,2158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GigScript — Band Sync Setup Guide</title>
-  <meta name="description" content="Step-by-step guide to setting up band sync in GigScript using Dropbox (Google Drive and iCloud coming soon)." />
-  <meta name="author" content="Pekka Huuskonen" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GigScript — Band Sync Setup Guide</title>
+    <meta
+      name="description"
+      content="Step-by-step guide to setting up band sync in GigScript using Dropbox (Google Drive and iCloud coming soon)."
+    />
+    <meta name="author" content="Pekka Huuskonen" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    :root {
-      --bg:        #0f0e0c;
-      --surface:   #1a1916;
-      --border:    #2e2c28;
-      --amber:     #d4922a;
-      --amber-dim: #a06e1e;
-      --text:      #e8e4dc;
-      --muted:     #8a8070;
-      --danger:    #c0392b;
-      --success:   #27ae60;
-      --radius:    10px;
-    }
+      :root {
+        --bg: #0f0e0c;
+        --surface: #1a1916;
+        --border: #2e2c28;
+        --amber: #d4922a;
+        --amber-dim: #a06e1e;
+        --text: #e8e4dc;
+        --muted: #8a8070;
+        --danger: #c0392b;
+        --success: #27ae60;
+        --radius: 10px;
+      }
 
-    html { scroll-behavior: smooth; }
+      html {
+        scroll-behavior: smooth;
+      }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
 
-    /* ── Nav ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(15,14,12,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-    }
-    .nav-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 60px;
-    }
-    .nav-logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 1.15rem;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      text-decoration: none;
-    }
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
-      align-items: center;
-    }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.875rem;
-      transition: color 0.15s;
-    }
-    .nav-links a:hover { color: var(--text); }
-
-    .lang-toggle {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-    .lang-btn {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .lang-btn.active {
-      border-color: var(--amber);
-      color: var(--amber);
-    }
-
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text);
-      font-size: 1.8rem;
-      cursor: pointer;
-    }
-
-    /* ── Hero ── */
-    .hero {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 4rem 2rem 2rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .hero-eyebrow {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      color: var(--amber);
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-    .hero h1 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--muted);
-      max-width: 600px;
-      margin-bottom: 2rem;
-    }
-
-    /* ── TOC ── */
-    .toc {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    .toc-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-    .toc-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      text-decoration: none;
-      color: var(--text);
-      transition: border-color 0.15s;
-    }
-    .toc-card:hover { border-color: var(--amber); }
-    .toc-card-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
-    .toc-card-title { font-weight: 700; margin-bottom: 0.25rem; }
-    .toc-card-sub { font-size: 0.8rem; color: var(--muted); }
-    .toc-card.coming-soon { opacity: 0.5; cursor: default; pointer-events: none; }
-
-    /* ── Main content ── */
-    .content {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 2rem 4rem;
-    }
-
-    .section {
-      margin-top: 4rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .section-eyebrow {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      color: var(--amber);
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-    .section h2 {
-      font-size: 1.6rem;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-    }
-    .section-lead {
-      color: var(--muted);
-      margin-bottom: 2rem;
-      max-width: 600px;
-    }
-
-    /* Steps */
-    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
-    .step {
-      display: flex;
-      gap: 1.25rem;
-      align-items: flex-start;
-    }
-    .step-num {
-      flex-shrink: 0;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--amber);
-      color: #000;
-      font-weight: 800;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 2px;
-    }
-    .step-body h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-    .step-body p {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-    .step-body p + p { margin-top: 0.5rem; }
-
-    /* Code / path */
-    code {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-family: "Courier New", monospace;
-      font-size: 0.85em;
-      color: var(--amber);
-    }
-
-    /* Note / tip boxes */
-    .note {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--amber);
-      border-radius: var(--radius);
-      padding: 1rem 1.25rem;
-      margin: 1.5rem 0;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-    .note strong { color: var(--text); }
-
-    .tip {
-      background: rgba(39, 174, 96, 0.08);
-      border: 1px solid rgba(39, 174, 96, 0.25);
-      border-left: 3px solid var(--success);
-      border-radius: var(--radius);
-      padding: 1rem 1.25rem;
-      margin: 1.5rem 0;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-    .tip strong { color: var(--text); }
-
-    /* Provider badge */
-    .provider-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text);
-      margin: 0.25rem 0.25rem 0.25rem 0;
-    }
-    .provider-badge.coming {
-      opacity: 0.5;
-    }
-
-    /* Conflict table */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1.5rem 0;
-      font-size: 0.9rem;
-    }
-    th {
-      text-align: left;
-      padding: 0.75rem 1rem;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-    td {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--text);
-    }
-    tr:last-child td { border-bottom: none; }
-
-    /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem;
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    footer a { color: var(--muted); }
-    footer a:hover { color: var(--amber); }
-
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .menu-toggle { display: block; }
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        right: 0;
-        max-height: calc(100vh - 60px);
-        overflow-y: auto;
-        z-index: 200;
-        background: rgba(15,14,12,0.96);
+      /* ── Nav ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(15, 14, 12, 0.92);
         backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--border);
-        padding: 1.5rem;
-        gap: 1.2rem;
+        padding: 0 2rem;
+      }
+      .nav-inner {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+      }
+      .nav-logo {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--text);
+        letter-spacing: -0.02em;
+        text-decoration: none;
+      }
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        list-style: none;
+        align-items: center;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: color 0.15s;
+      }
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      /* Language dropdown */
+      .lang-dropdown {
+        position: relative;
+      }
+      .lang-toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        background: none;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        padding: 0.3rem 0.7rem;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        transition:
+          border-color 0.15s,
+          color 0.15s;
+      }
+      .lang-toggle:hover,
+      .lang-dropdown.open .lang-toggle {
+        border-color: var(--amber);
+        color: var(--amber);
+      }
+      .lang-caret {
+        font-size: 0.6rem;
+        transition: transform 0.15s;
+      }
+      .lang-dropdown.open .lang-caret {
+        transform: rotate(180deg);
+      }
+      .lang-menu {
+        list-style: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 140px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.35rem;
+        display: none;
+        flex-direction: column;
+        gap: 0.1rem;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+        z-index: 300;
+      }
+      .lang-dropdown.open .lang-menu {
+        display: flex;
+      }
+      .lang-option {
+        width: 100%;
+        background: none;
+        border: none;
+        text-align: left;
+        color: var(--muted);
+        font-size: 0.85rem;
+        padding: 0.5rem 0.65rem;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      .lang-option:hover {
+        background: var(--bg);
+        color: var(--text);
+      }
+      .lang-option.active {
+        color: var(--amber);
+      }
+      .lang-option .lang-code {
+        color: var(--muted);
+        font-size: 0.72rem;
+        margin-right: 0.4rem;
+      }
+      .lang-option.active .lang-code {
+        color: var(--amber);
+      }
+
+      @media (max-width: 900px) {
+        .lang-menu {
+          right: auto;
+          left: 0;
+        }
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 1.8rem;
+        cursor: pointer;
+      }
+
+      /* ── Hero ── */
+      .hero {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 4rem 2rem 2rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-eyebrow {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        color: var(--amber);
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+      .hero h1 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 800;
+        line-height: 1.15;
+        margin-bottom: 1rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+        color: var(--muted);
+        max-width: 600px;
+        margin-bottom: 2rem;
+      }
+
+      /* ── TOC ── */
+      .toc {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .toc-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+      .toc-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.25rem;
+        text-decoration: none;
+        color: var(--text);
+        transition: border-color 0.15s;
+      }
+      .toc-card:hover {
+        border-color: var(--amber);
+      }
+      .toc-card-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .toc-card-title {
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+      }
+      .toc-card-sub {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+      .toc-card.coming-soon {
+        opacity: 0.5;
+        cursor: default;
+        pointer-events: none;
+      }
+
+      /* ── Main content ── */
+      .content {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 2rem 4rem;
+      }
+
+      .section {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .section-eyebrow {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        color: var(--amber);
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+      .section h2 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+      }
+      .section-lead {
+        color: var(--muted);
+        margin-bottom: 2rem;
+        max-width: 600px;
+      }
+
+      /* Steps */
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .step {
+        display: flex;
+        gap: 1.25rem;
         align-items: flex-start;
       }
-      .nav-links.open { display: flex; }
-      .toc-grid { grid-template-columns: 1fr 1fr; }
-    }
-  </style>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
+      .step-num {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--amber);
+        color: #000;
+        font-weight: 800;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2px;
+      }
+      .step-body h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+      }
+      .step-body p {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .step-body p + p {
+        margin-top: 0.5rem;
+      }
 
-<!-- ── Nav ── -->
-<nav>
-  <div class="nav-inner">
-    <a class="nav-logo" href="https://gigscript.pekkahuuskonen.com">Gig<span style="color:var(--amber)">Script</span></a>
-    <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-    <ul class="nav-links">
-      <li><a href="https://gigscript.pekkahuuskonen.com/#features" data-en>Features</a><a href="https://gigscript.pekkahuuskonen.com/#features" data-fi>Ominaisuudet</a></li>
-      <li><a href="https://gigscript.pekkahuuskonen.com/#pricing" data-en>Pricing</a><a href="https://gigscript.pekkahuuskonen.com/#pricing" data-fi>Hinnoittelu</a></li>
-      <li><a href="https://gigscript.pekkahuuskonen.com/#support" data-en>Support</a><a href="https://gigscript.pekkahuuskonen.com/#support" data-fi>Tuki</a></li>
-      <li>
-        <div class="lang-toggle">
-          <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
-          <button class="lang-btn" id="btn-fi" onclick="setLang('fi')">FI</button>
-        </div>
-      </li>
-    </ul>
-  </div>
-</nav>
+      /* Code / path */
+      code {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 2px 6px;
+        font-family: "Courier New", monospace;
+        font-size: 0.85em;
+        color: var(--amber);
+      }
 
-<!-- ── Hero ── -->
-<div class="hero">
-  <p class="hero-eyebrow">GigScript Pro</p>
-  <h1>
-    <span data-en>Band Sync<br>Setup Guide</span>
-    <span data-fi>Bändisynkronointi<br>Käyttöönotto-opas</span>
-  </h1>
-  <p>
-    <span data-en>Step-by-step instructions for sharing songs with your band using Dropbox. Google Drive and iCloud are coming soon. No servers, no accounts — just a shared folder everyone connects to.</span>
-    <span data-fi>Vaiheittaiset ohjeet kappaleiden jakamiseen bändin kesken Dropboxin avulla. Google Drive ja iCloud tulossa pian. Ei palvelimia, ei tilejä — vain jaettu kansio johon kaikki osoittavat.</span>
-  </p>
+      /* Note / tip boxes */
+      .note {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--amber);
+        border-radius: var(--radius);
+        padding: 1rem 1.25rem;
+        margin: 1.5rem 0;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+      .note strong {
+        color: var(--text);
+      }
 
-  <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-    <span class="provider-badge">📦 Dropbox</span>
-    <span class="provider-badge coming">🟢 Google Drive — <span data-en>Coming soon</span><span data-fi>Tulossa</span></span>
-    <span class="provider-badge coming">☁ iCloud — <span data-en>Coming soon</span><span data-fi>Tulossa</span></span>
-  </div>
-</div>
+      .tip {
+        background: rgba(39, 174, 96, 0.08);
+        border: 1px solid rgba(39, 174, 96, 0.25);
+        border-left: 3px solid var(--success);
+        border-radius: var(--radius);
+        padding: 1rem 1.25rem;
+        margin: 1.5rem 0;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+      .tip strong {
+        color: var(--text);
+      }
 
-<!-- ── TOC ── -->
-<div class="toc">
-  <div class="toc-grid">
-    <a class="toc-card" href="#how-it-works">
-      <div class="toc-card-icon">💡</div>
-      <div class="toc-card-title"><span data-en>How it works</span><span data-fi>Miten toimii</span></div>
-      <div class="toc-card-sub"><span data-en>Concept overview</span><span data-fi>Toimintaperiaate</span></div>
-    </a>
-    <a class="toc-card" href="#dropbox">
-      <div class="toc-card-icon">📦</div>
-      <div class="toc-card-title">Dropbox</div>
-      <div class="toc-card-sub"><span data-en>iOS &amp; Android</span><span data-fi>iOS &amp; Android</span></div>
-    </a>
-    <a class="toc-card coming-soon" href="#google-drive">
-      <div class="toc-card-icon">🟢</div>
-      <div class="toc-card-title">Google Drive</div>
-      <div class="toc-card-sub"><span data-en>Coming soon</span><span data-fi>Tulossa</span></div>
-    </a>
-    <a class="toc-card coming-soon" href="#icloud">
-      <div class="toc-card-icon">☁</div>
-      <div class="toc-card-title">iCloud</div>
-      <div class="toc-card-sub"><span data-en>Coming soon</span><span data-fi>Tulossa</span></div>
-    </a>
-    <a class="toc-card" href="#conflicts">
-      <div class="toc-card-icon">⚡</div>
-      <div class="toc-card-title"><span data-en>Conflicts</span><span data-fi>Ristiriidat</span></div>
-      <div class="toc-card-sub"><span data-en>When two people edit</span><span data-fi>Kun kaksi muokkaa</span></div>
-    </a>
-    <a class="toc-card" href="#tips">
-      <div class="toc-card-icon">✓</div>
-      <div class="toc-card-title"><span data-en>Tips &amp; FAQ</span><span data-fi>Vinkit &amp; FAQ</span></div>
-      <div class="toc-card-sub"><span data-en>Best practices</span><span data-fi>Parhaat käytännöt</span></div>
-    </a>
-  </div>
-</div>
+      /* Provider badge */
+      .provider-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text);
+        margin: 0.25rem 0.25rem 0.25rem 0;
+      }
+      .provider-badge.coming {
+        opacity: 0.5;
+      }
 
-<!-- ── Content ── -->
-<div class="content">
+      /* Conflict table */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        font-size: 0.9rem;
+      }
+      th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
 
-  <!-- How it works -->
-  <div class="section" id="how-it-works">
-    <p class="section-eyebrow"><span data-en>Overview</span><span data-fi>Yleiskatsaus</span></p>
-    <h2><span data-en>How band sync works</span><span data-fi>Miten bändisynkronointi toimii</span></h2>
-    <p class="section-lead">
-      <span data-en>GigScript doesn't use its own server. Instead, everyone in the band points the app to the same shared folder in a cloud service they already use.</span>
-      <span data-fi>GigScript ei käytä omaa palvelinta. Sen sijaan jokainen bändin jäsen osoittaa sovelluksen samaan jaettuun kansioon heidän jo käyttämässään pilvipalvelussa.</span>
-    </p>
+      /* ── Footer ── */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem;
+        text-align: center;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+      footer a {
+        color: var(--muted);
+      }
+      footer a:hover {
+        color: var(--amber);
+      }
 
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h3><span data-en>One person creates a shared folder</span><span data-fi>Yksi henkilö luo jaetun kansion</span></h3>
-          <p><span data-en>In Dropbox, create a folder (e.g. <code>GigScript-Band</code>) and share it with edit access to everyone in the band.</span><span data-fi>Luo Dropboxissa kansio (esim. <code>GigScript-bändi</code>) ja jaa se muokkausoikeudella kaikille bändin jäsenille.</span></p>
-        </div>
+      /* ── Responsive ── */
+      @media (max-width: 900px) {
+        .menu-toggle {
+          display: block;
+        }
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 60px;
+          left: 0;
+          right: 0;
+          max-height: calc(100vh - 60px);
+          overflow-y: auto;
+          z-index: 200;
+          background: rgba(15, 14, 12, 0.96);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid var(--border);
+          padding: 1.5rem;
+          gap: 1.2rem;
+          align-items: flex-start;
+        }
+        .nav-links.open {
+          display: flex;
+        }
+        .toc-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- ── Nav ── -->
+    <nav>
+      <div class="nav-inner">
+        <a class="nav-logo" href="https://gigscript.pekkahuuskonen.com"
+          >Gig<span style="color: var(--amber)">Script</span></a
+        >
+        <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+        <ul class="nav-links">
+          <li>
+            <a href="https://gigscript.pekkahuuskonen.com/#features" data-en
+              >Features</a
+            ><a href="https://gigscript.pekkahuuskonen.com/#features" data-fi
+              >Ominaisuudet</a
+            ><a href="https://gigscript.pekkahuuskonen.com/#features" data-sv
+              >Funktioner</a
+            ><a href="https://gigscript.pekkahuuskonen.com/#features" data-de
+              >Funktionen</a
+            ><a href="https://gigscript.pekkahuuskonen.com/#features" data-es
+              >Funciones</a
+            >
+          </li>
+          <li>
+            <a href="https://gigscript.pekkahuuskonen.com/#pricing" data-en
+              >Pricing</a
+            ><a href="https://gigscript.pekkahuuskonen.com/#pricing" data-fi
+              >Hinnoittelu</a
+            ><a href="https://gigscript.pekkahuuskonen.com/#pricing" data-sv
+              >Priser</a
+            ><a href="https://gigscript.pekkahuuskonen.com/#pricing" data-de
+              >Preise</a
+            ><a href="https://gigscript.pekkahuuskonen.com/#pricing" data-es
+              >Precios</a
+            >
+          </li>
+          <li>
+            <a href="https://gigscript.pekkahuuskonen.com/#support" data-en
+              >Support</a
+            ><a href="https://gigscript.pekkahuuskonen.com/#support" data-fi
+              >Tuki</a
+            ><a href="https://gigscript.pekkahuuskonen.com/#support" data-sv
+              >Support</a
+            ><a href="https://gigscript.pekkahuuskonen.com/#support" data-de
+              >Support</a
+            ><a href="https://gigscript.pekkahuuskonen.com/#support" data-es
+              >Soporte</a
+            >
+          </li>
+          <li class="lang-dropdown" id="lang-dropdown">
+            <button
+              class="lang-toggle"
+              id="lang-toggle"
+              onclick="toggleLangMenu(event)"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <span id="lang-current">EN</span><span class="lang-caret">▾</span>
+            </button>
+            <ul class="lang-menu" id="lang-menu">
+              <li>
+                <button
+                  class="lang-option active"
+                  data-lang="en"
+                  onclick="setLang('en')"
+                >
+                  <span class="lang-code">EN</span>English
+                </button>
+              </li>
+              <li>
+                <button
+                  class="lang-option"
+                  data-lang="fi"
+                  onclick="setLang('fi')"
+                >
+                  <span class="lang-code">FI</span>Suomi
+                </button>
+              </li>
+              <li>
+                <button
+                  class="lang-option"
+                  data-lang="sv"
+                  onclick="setLang('sv')"
+                >
+                  <span class="lang-code">SV</span>Svenska
+                </button>
+              </li>
+              <li>
+                <button
+                  class="lang-option"
+                  data-lang="de"
+                  onclick="setLang('de')"
+                >
+                  <span class="lang-code">DE</span>Deutsch
+                </button>
+              </li>
+              <li>
+                <button
+                  class="lang-option"
+                  data-lang="es"
+                  onclick="setLang('es')"
+                >
+                  <span class="lang-code">ES</span>Español
+                </button>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h3><span data-en>Everyone connects GigScript to that folder</span><span data-fi>Kaikki yhdistävät GigScriptin kansioon</span></h3>
-          <p><span data-en>In GigScript → Band Sync, connect to the same cloud service and enter the exact same folder name.</span><span data-fi>GigScriptissä → Bändisynkronointi, yhdistä samaan pilvipalveluun ja anna täsmälleen sama kansion nimi.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h3><span data-en>Tap "Sync now" to share</span><span data-fi>Paina "Synkkaa nyt" jakaaksesi kappaleet</span></h3>
-          <p><span data-en>GigScript uploads your songs to the shared folder. Other band members sync to get the latest songs and setlists. Sync is always manual — nothing happens automatically on stage.</span><span data-fi>GigScript lataa kappaleesi jaettuun kansioon. Muut bändin jäsenet synkronoivat sovelluksen saadakseen uusimmat kappaleet ja settilistat. Synkronointi on aina manuaalista — lavalla ei tapahdu mitään automaattisesti.</span></p>
-        </div>
-      </div>
-    </div>
+    </nav>
 
-    <div class="note">
-      <strong><span data-en>Only one cloud provider at a time.</span><span data-fi>Vain yksi pilvipalvelu kerrallaan.</span></strong>
-      <span data-en> The whole band should use the same provider. Disconnect the current one before switching.</span>
-      <span data-fi> Koko bändin tulee käyttää samaa palvelua. Katkaise nykyinen yhteys ennen vaihtamista.</span>
-    </div>
-
-    <div class="tip">
-      <strong><span data-en>Personal songs stay private.</span><span data-fi>Omat kappaleet pysyvät yksityisinä.</span></strong>
-      <span data-en> Songs marked <em>local</em> in the song editor ("This device only") are never uploaded to the shared folder — only you can see them. Use this for personal notes, custom arrangements, or songs you don't want to share with the band.</span>
-      <span data-fi> Kappaleet merkitty <em>paikalliseksi</em> kappalemuokkaimessa ("Vain tällä laitteella") eivät koskaan lataudu jaettuun kansioon — vain sinä näet ne. Käytä tätä omille muistiinpanoille, sovituksille tai kappaleille joita et halua jakaa bändille.</span>
-    </div>
-  </div>
-
-  <!-- Dropbox -->
-  <div class="section" id="dropbox">
-    <p class="section-eyebrow">Dropbox</p>
-    <h2><span data-en>Setting up Dropbox sync</span><span data-fi>Dropbox-synkronoinnin käyttöönotto</span></h2>
-    <p class="section-lead">
-      <span data-en>Works on both iOS and Android. One band member creates and shares the folder, everyone else joins.</span>
-      <span data-fi>Toimii sekä iOS:llä että Androidilla. Yksi bändin jäsen luo ja jakaa kansion, muut liittyvät.</span>
-    </p>
-
-    <h3 style="margin-bottom:1rem; color:var(--amber)"><span data-en>Step 1 — Create and share the folder (done once)</span><span data-fi>Vaihe 1 — Luo ja jaa kansio (tehdään kerran)</span></h3>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h3><span data-en>Open Dropbox in a browser</span><span data-fi>Avaa Dropbox selaimessa</span></h3>
-          <p><span data-en>Go to <a href="https://dropbox.com" style="color:var(--amber)">dropbox.com</a> and sign in.</span><span data-fi>Mene osoitteeseen <a href="https://dropbox.com" style="color:var(--amber)">dropbox.com</a> ja kirjaudu sisään.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h3><span data-en>Create a new folder</span><span data-fi>Luo uusi kansio</span></h3>
-          <p><span data-en>Click <strong>New folder</strong> and name it something like <code>GigScript-Band</code>.</span><span data-fi>Paina <strong>Uusi kansio</strong> ja anna sille nimi kuten <code>GigScript-bändi</code>.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h3><span data-en>Share with the band</span><span data-fi>Jaa bändille</span></h3>
-          <p><span data-en>Right-click the folder → <strong>Share</strong> → enter each band member's email → set permission to <strong>Can edit</strong> → Send.</span><span data-fi>Klikkaa kansiota hiiren oikealla painikkeella → <strong>Jaa</strong> → syötä jokaisen bändin jäsenen sähköposti → aseta oikeudeksi <strong>Voi muokata</strong> → Lähetä.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-body">
-          <h3><span data-en>Band members accept the invitation</span><span data-fi>Bändin jäsenet hyväksyvät kutsun</span></h3>
-          <p><span data-en>Each person receives an email from Dropbox. They click the link to accept and the shared folder appears in their Dropbox.</span><span data-fi>Jokainen saa sähköpostin Dropboxilta. He klikkaavat linkkiä hyväksyäkseen ja jaettu kansio ilmestyy heidän Dropboxiinsa.</span></p>
-        </div>
-      </div>
-    </div>
-
-    <h3 style="margin:2rem 0 1rem; color:var(--amber)"><span data-en>Step 2 — Connect GigScript (every band member)</span><span data-fi>Vaihe 2 — Yhdistä GigScript (jokainen bändin jäsen)</span></h3>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h3><span data-en>Open Band Sync in GigScript</span><span data-fi>Avaa Bändisynkronointi GigScriptissä</span></h3>
-          <p><span data-en>Tap the ☁ cloud button in the song list header, or go to the Gigs tab → Band Sync.</span><span data-fi>Napauta ☁-painiketta kappalelistan yläpalkissa tai mene Keikat-välilehdelle → Bändisynkronointi.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h3><span data-en>Connect Dropbox</span><span data-fi>Yhdistä Dropbox</span></h3>
-          <p><span data-en>Tap <strong>Connect</strong> next to Dropbox. A browser window opens — sign in with your own Dropbox account and allow access.</span><span data-fi>Napauta <strong>Yhdistä</strong> Dropboxin vieressä. Selainikkuna avautuu — kirjaudu omalla Dropbox-tililläsi ja salli käyttöoikeus.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h3><span data-en>Enter the folder name</span><span data-fi>Syötä kansion nimi</span></h3>
-          <p><span data-en>Type the exact folder name in the Folder field — e.g. <code>GigScript-Band</code>. Everyone must use the exact same name.</span><span data-fi>Kirjoita täsmälleen sama kansion nimi Kansio-kenttään — esim. <code>GigScript-bändi</code>. Kaikkien täytyy käyttää täsmälleen samaa nimeä.</span></p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-body">
-          <h3><span data-en>Tap "Sync now"</span><span data-fi>Paina "Synkkaa nyt"</span></h3>
-          <p><span data-en>GigScript uploads your songs and setlists to the shared folder. Other band members press Sync to download them.</span><span data-fi>GigScript lataa kappaleesi ja settilistasi jaettuun kansioon. Muut bändin jäsenet painavat Synkronoi nyt -painiketta ladatakseen ne.</span></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="tip">
-      <strong><span data-en>Tip:</span><span data-fi>Vinkki:</span></strong>
-      <span data-en> You can also drop <code>.chordpro</code>, <code>.cho</code>, <code>.crd</code>, <code>.txt</code> or <code>.pdf</code> files directly into the <code>songs/</code> subfolder in Dropbox — GigScript imports them automatically on the next sync.</span>
-      <span data-fi> Voit myös pudottaa <code>.chordpro</code>, <code>.cho</code>, <code>.crd</code>, <code>.txt</code> tai <code>.pdf</code> tiedostoja suoraan Dropboxin <code>songs/</code>-alikansioon — GigScript tuo ne automaattisesti seuraavassa synkronointiuksessa.</span>
-    </div>
-  </div>
-
-  <!-- Google Drive -->
-  <div class="section" id="google-drive">
-    <p class="section-eyebrow">Google Drive</p>
-    <h2>
-      Google Drive — <span data-en>Coming soon</span><span data-fi>Tulossa pian</span>
-    </h2>
-    <p class="section-lead">
-      <span data-en>Google Drive sync is under development and will be available in a future update. It will work on both iOS and Android.</span>
-      <span data-fi>Google Drive -synkronointi on kehitteillä ja tulee saataville tulevassa päivityksessä. Se toimii sekä iOS:llä että Androidilla.</span>
-    </p>
-    <div class="note">
-      <strong><span data-en>In the meantime:</span><span data-fi>Sillä välin:</span></strong>
-      <span data-en> iOS and Android users can share songs using Dropbox — it works cross-platform.</span>
-      <span data-fi> iOS- ja Android-käyttäjät voivat jakaa kappaleita Dropboxin avulla — se toimii alustariippumattomasti.</span>
-    </div>
-  </div>
-
-  <!-- iCloud -->
-  <div class="section" id="icloud">
-    <p class="section-eyebrow">iCloud</p>
-    <h2>
-      iCloud — <span data-en>Coming soon</span><span data-fi>Tulossa pian</span>
-    </h2>
-    <p class="section-lead">
-      <span data-en>iCloud sync is under development and will be available in a future update. It will work for iOS users sharing songs within the same Apple ID ecosystem.</span>
-      <span data-fi>iCloud-synkronointi on kehitteillä ja tulee saataville tulevassa päivityksessä. Se toimii iOS-käyttäjille, jotka jakavat kappaleita samassa Apple ID -ekosysteemissä.</span>
-    </p>
-    <div class="note">
-      <strong><span data-en>In the meantime:</span><span data-fi>Sillä välin:</span></strong>
-      <span data-en> iOS and Android users can share songs using Dropbox — it works cross-platform.</span>
-      <span data-fi> iOS- ja Android-käyttäjät voivat jakaa kappaleita Dropboxin avulla — se toimii alustariippumattomasti.</span>
-    </div>
-  </div>
-
-  <!-- Conflicts -->
-  <div class="section" id="conflicts">
-    <p class="section-eyebrow"><span data-en>Conflict resolution</span><span data-fi>Ristiriitojen ratkaisu</span></p>
-    <h2><span data-en>When two people edit the same song</span><span data-fi>Kun kaksi henkilöä muokkaa samaa kappaletta</span></h2>
-    <p class="section-lead">
-      <span data-en>GigScript detects conflicts automatically using content hashing. If two band members edit the same song before syncing, you'll be asked which version to keep.</span>
-      <span data-fi>GigScript havaitsee ristiriidat automaattisesti sisältöhashauksen avulla. Jos kaksi bändin jäsentä muokkaa samaa kappaletta ennen synkronointiusta, sinulta kysytään kumpi versio säilytetään.</span>
-    </p>
-
-    <table>
-      <thead>
-        <tr>
-          <th><span data-en>Situation</span><span data-fi>Tilanne</span></th>
-          <th><span data-en>What happens</span><span data-fi>Mitä tapahtuu</span></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span data-en>Only you edited a song or setlist</span><span data-fi>Vain sinä muokkasit kappaletta tai settilistaa</span></td>
-          <td><span data-en>Your version uploads automatically — no prompt needed.</span><span data-fi>Versiosi ladataan automaattisesti — ei tarvita vahvistusta.</span></td>
-        </tr>
-        <tr>
-          <td><span data-en>Someone else edited the same song or setlist first</span><span data-fi>Joku muu muokkasi samaa kappaletta tai settilistaa ensin</span></td>
-          <td><span data-en>A conflict screen appears. Choose "Keep device" to keep your version, or "Keep cloud" to take theirs.</span><span data-fi>Konfliktinäyttö ilmestyy. Valitse "Pidä laite" säilyttääksesi oman versiosi tai "Pidä pilvi" ottaaksesi heidän versionsa.</span></td>
-        </tr>
-        <tr>
-          <td><span data-en>No changes on either side</span><span data-fi>Ei muutoksia kummallakaan</span></td>
-          <td><span data-en>Sync completes instantly — nothing is uploaded or downloaded.</span><span data-fi>Synkronointi valmistuu välittömästi — mitään ei ladata tai lähetetä.</span></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="tip">
-      <strong><span data-en>Best practice:</span><span data-fi>Paras käytäntö:</span></strong>
-      <span data-en> Sync before you start editing. This minimizes conflicts by making sure you're working on the latest version.</span>
-      <span data-fi> Synkronoi ennen kuin alat muokata. Tämä minimoi ristiriidat varmistamalla, että työstät uusinta versiota.</span>
-    </div>
-  </div>
-
-  <!-- Tips -->
-  <div class="section" id="tips">
-    <p class="section-eyebrow"><span data-en>Tips &amp; FAQ</span><span data-fi>Vinkit &amp; FAQ</span></p>
-    <h2><span data-en>Best practices &amp; common questions</span><span data-fi>Parhaat käytännöt ja yleisiä kysymyksiä</span></h2>
-
-    <div class="steps" style="gap:2rem">
-
-      <div class="step">
-        <div class="step-num" style="background:var(--surface); color:var(--amber); border:1px solid var(--amber)">?</div>
-        <div class="step-body">
-          <h3><span data-en>Does sync happen automatically?</span><span data-fi>Tapahtuuko synkronointi automaattisesti?</span></h3>
-          <p><span data-en>No. Sync is always manual — press "Sync now" when you want to share changes. This means nothing unexpected happens on stage.</span><span data-fi>Ei. Synkronointi on aina manuaalista — paina "Synkkaa nyt", kun haluat jakaa muutokset. Tämä tarkoittaa, ettei lavalla tapahdu mitään odottamatonta.</span></p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num" style="background:var(--surface); color:var(--amber); border:1px solid var(--amber)">?</div>
-        <div class="step-body">
-          <h3><span data-en>Does everyone need the same cloud account?</span><span data-fi>Tarvitseeko kaikilla olla sama pilvipalvelutili?</span></h3>
-          <p><span data-en>No — everyone uses their own account. The shared folder is what connects you. In Dropbox, share the folder via email.</span><span data-fi>Ei — jokainen käyttää omaa tiliään. Jaettu kansio on se mikä yhdistää teidät. Dropboxissa jaa kansio sähköpostilla.</span></p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num" style="background:var(--surface); color:var(--amber); border:1px solid var(--amber)">?</div>
-        <div class="step-body">
-          <h3><span data-en>Can iOS and Android users share the same folder?</span><span data-fi>Voivatko iOS- ja Android-käyttäjät jakaa saman kansion?</span></h3>
-          <p><span data-en>Yes. GigScript sync is fully cross-platform. iOS and Android users can sync to the same Dropbox folder without any issues.</span><span data-fi>Kyllä. GigScript-synkronointi on täysin cross-platform. iOS- ja Android-käyttäjät voivat synkronoida samaan Dropbox-kansioon ongelmitta.</span></p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num" style="background:var(--surface); color:var(--amber); border:1px solid var(--amber)">?</div>
-        <div class="step-body">
-          <h3><span data-en>What file formats can I share?</span><span data-fi>Mitä tiedostomuotoja voin jakaa?</span></h3>
-          <p><span data-en>Drop <code>.chordpro</code>, <code>.cho</code>, <code>.crd</code>, <code>.txt</code>, or <code>.pdf</code> files into the <code>songs/</code> folder — GigScript imports them on the next sync. PDFs are stored in a separate <code>pdfs/</code> subfolder automatically.</span><span data-fi>Pudota <code>.chordpro</code>, <code>.cho</code>, <code>.crd</code>, <code>.txt</code> tai <code>.pdf</code> tiedostoja <code>songs/</code>-kansioon — GigScript tuo ne seuraavassa synkronointiuksessa. PDF:t tallennetaan automaattisesti erilliseen <code>pdfs/</code>-alikansioon.</span></p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num" style="background:var(--surface); color:var(--amber); border:1px solid var(--amber)">?</div>
-        <div class="step-body">
-          <h3><span data-en>What happens if I delete a song locally?</span><span data-fi>Mitä tapahtuu jos poistan kappaleen paikallisesti?</span></h3>
-          <p><span data-en>Deleting a song on your device does not delete it from the cloud folder. Other band members still have access to it. To remove it for everyone, delete the file from the shared folder manually.</span><span data-fi>Kappaleen poistaminen laitteeltasi ei poista sitä pilvikansiosta. Muilla bändin jäsenillä on edelleen pääsy siihen. Poistaaksesi sen kaikilta, poista tiedosto jaetusta kansiosta manuaalisesti.</span></p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num" style="background:var(--surface); color:var(--amber); border:1px solid var(--amber)">?</div>
-        <div class="step-body">
-          <h3><span data-en>The folder name must match exactly</span><span data-fi>Kansion nimen täytyy täsmätä täsmälleen</span></h3>
-          <p><span data-en>Folder names are case-sensitive. <code>GigScript-Band</code> and <code>gigscript-band</code> are different folders. Make sure everyone types the name exactly the same way.</span><span data-fi>Kansioiden nimet ovat kirjainkoosta riippuvaisia. <code>GigScript-bändi</code> ja <code>gigscript-bändi</code> ovat eri kansioita. Varmista, että kaikki kirjoittavat nimen täsmälleen samalla tavalla.</span></p>
-        </div>
-      </div>
-
-    </div>
-
-    <div style="margin-top:2rem; padding:1.5rem; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);">
-      <div class="step">
-        <div class="step-num" style="background:var(--surface); color:var(--amber); border:1px solid var(--amber)">?</div>
-        <div class="step-body">
-          <h3><span data-en>Are setlists also synced?</span><span data-fi>Synkronoidaanko settilistat myös?</span></h3>
-          <p><span data-en>Yes — setlists sync automatically alongside songs. If two band members edit the same setlist, a conflict resolution screen appears. Personal notes added to songs within a setlist are never synced; they stay on your device only.</span>
-          <span data-fi>Kyllä — settilistat synkronoituvat automaattisesti kappaleiden rinnalla. Jos kaksi bändin jäsentä muokkaa samaa settilistaa, näytetään konfliktiratkaisu-näyttö. Kappaleiden omat muistiinpanot eivät synkronoidu — ne pysyvät vain laitteellasi.</span></p>
-        </div>
-      </div>
-
-      <p style="font-weight:700; margin-bottom:0.5rem;"><span data-en>Still have questions?</span><span data-fi>Onko vielä kysyttävää?</span></p>
-      <p style="color:var(--muted); font-size:0.9rem;">
-        <span data-en>Email us at <a href="mailto:pekka.huuskonen@gmail.com" style="color:var(--amber)">pekka.huuskonen@gmail.com</a> and we'll help you get set up.</span>
-        <span data-fi>Lähetä sähköpostia osoitteeseen <a href="mailto:pekka.huuskonen@gmail.com" style="color:var(--amber)">pekka.huuskonen@gmail.com</a> ja autamme sinua käyttöönotossa.</span>
+    <!-- ── Hero ── -->
+    <div class="hero">
+      <p class="hero-eyebrow">GigScript Pro</p>
+      <h1>
+        <span data-en>Band Sync<br />Setup Guide</span>
+        <span data-fi>Bändisynkronointi<br />Käyttöönotto-opas</span
+        ><span data-sv>Band Sync<br />Inställningsguide</span
+        ><span data-de>Band Sync<br />Einrichtungsanleitung</span
+        ><span data-es>Guía de configuración<br />de Band Sync</span>
+      </h1>
+      <p>
+        <span data-en
+          >Step-by-step instructions for sharing songs with your band using
+          Dropbox. Google Drive and iCloud are coming soon. No servers, no
+          accounts — just a shared folder everyone connects to.</span
+        >
+        <span data-fi
+          >Vaiheittaiset ohjeet kappaleiden jakamiseen bändin kesken Dropboxin
+          avulla. Google Drive ja iCloud tulossa pian. Ei palvelimia, ei tilejä
+          — vain jaettu kansio johon kaikki osoittavat.</span
+        ><span data-sv
+          >Steg-för-steg-instruktioner för att dela låtar med ditt band via
+          Dropbox. Google Drive och iCloud kommer snart. Inga servrar, inga
+          konton — bara en delad mapp som alla ansluter till.</span
+        ><span data-de
+          >Schritt-für-Schritt-Anleitung zum Teilen von Songs mit deiner Band
+          über Dropbox. Google Drive und iCloud folgen in Kürze. Keine Server,
+          keine Konten — nur ein gemeinsamer Ordner, mit dem sich alle
+          verbinden.</span
+        ><span data-es
+          >Instrucciones paso a paso para compartir canciones con tu banda
+          usando Dropbox. Próximamente Google Drive e iCloud. Sin servidores,
+          sin cuentas: solo una carpeta compartida a la que todos se
+          conectan.</span
+        >
       </p>
+
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+        <span class="provider-badge">📦 Dropbox</span>
+        <span class="provider-badge coming"
+          >🟢 Google Drive — <span data-en>Coming soon</span
+          ><span data-fi>Tulossa</span><span data-sv>Kommer snart</span
+          ><span data-de>Demnächst</span><span data-es>Próximamente</span></span
+        >
+        <span class="provider-badge coming"
+          >☁ iCloud — <span data-en>Coming soon</span
+          ><span data-fi>Tulossa</span><span data-sv>Kommer snart</span
+          ><span data-de>Demnächst</span><span data-es>Próximamente</span></span
+        >
+      </div>
     </div>
-  </div>
 
-</div>
+    <!-- ── TOC ── -->
+    <div class="toc">
+      <div class="toc-grid">
+        <a class="toc-card" href="#how-it-works">
+          <div class="toc-card-icon">💡</div>
+          <div class="toc-card-title">
+            <span data-en>How it works</span><span data-fi>Miten toimii</span
+            ><span data-sv>Så fungerar det</span
+            ><span data-de>Funktionsweise</span
+            ><span data-es>Cómo funciona</span>
+          </div>
+          <div class="toc-card-sub">
+            <span data-en>Concept overview</span
+            ><span data-fi>Toimintaperiaate</span
+            ><span data-sv>Konceptöversikt</span
+            ><span data-de>Konzeptübersicht</span
+            ><span data-es>Descripción general</span>
+          </div>
+        </a>
+        <a class="toc-card" href="#dropbox">
+          <div class="toc-card-icon">📦</div>
+          <div class="toc-card-title">Dropbox</div>
+          <div class="toc-card-sub">
+            <span data-en>iOS &amp; Android</span
+            ><span data-fi>iOS &amp; Android</span
+            ><span data-sv>iOS &amp; Android</span
+            ><span data-de>iOS &amp; Android</span
+            ><span data-es>iOS y Android</span>
+          </div>
+        </a>
+        <a class="toc-card coming-soon" href="#google-drive">
+          <div class="toc-card-icon">🟢</div>
+          <div class="toc-card-title">Google Drive</div>
+          <div class="toc-card-sub">
+            <span data-en>Coming soon</span><span data-fi>Tulossa</span
+            ><span data-sv>Kommer snart</span><span data-de>Demnächst</span
+            ><span data-es>Próximamente</span>
+          </div>
+        </a>
+        <a class="toc-card coming-soon" href="#icloud">
+          <div class="toc-card-icon">☁</div>
+          <div class="toc-card-title">iCloud</div>
+          <div class="toc-card-sub">
+            <span data-en>Coming soon</span><span data-fi>Tulossa</span
+            ><span data-sv>Kommer snart</span><span data-de>Demnächst</span
+            ><span data-es>Próximamente</span>
+          </div>
+        </a>
+        <a class="toc-card" href="#conflicts">
+          <div class="toc-card-icon">⚡</div>
+          <div class="toc-card-title">
+            <span data-en>Conflicts</span><span data-fi>Ristiriidat</span
+            ><span data-sv>Konflikter</span><span data-de>Konflikte</span
+            ><span data-es>Conflictos</span>
+          </div>
+          <div class="toc-card-sub">
+            <span data-en>When two people edit</span
+            ><span data-fi>Kun kaksi muokkaa</span
+            ><span data-sv>När två personer redigerar</span
+            ><span data-de>Wenn zwei Personen bearbeiten</span
+            ><span data-es>Cuando dos personas editan</span>
+          </div>
+        </a>
+        <a class="toc-card" href="#tips">
+          <div class="toc-card-icon">✓</div>
+          <div class="toc-card-title">
+            <span data-en>Tips &amp; FAQ</span
+            ><span data-fi>Vinkit &amp; FAQ</span
+            ><span data-sv>Tips &amp; FAQ</span
+            ><span data-de>Tipps &amp; FAQ</span
+            ><span data-es>Consejos y preguntas frecuentes</span>
+          </div>
+          <div class="toc-card-sub">
+            <span data-en>Best practices</span
+            ><span data-fi>Parhaat käytännöt</span
+            ><span data-sv>Bästa praxis</span><span data-de>Empfehlungen</span
+            ><span data-es>Buenas prácticas</span>
+          </div>
+        </a>
+      </div>
+    </div>
 
-<!-- ── Footer ── -->
-<footer>
-  <p>
-    <a href="https://gigscript.pekkahuuskonen.com" data-en>← Back to GigScript</a>
-    <a href="https://gigscript.pekkahuuskonen.com" data-fi>← Takaisin GigScriptiin</a>
-    &nbsp;·&nbsp;
-    <a href="mailto:pekka.huuskonen@gmail.com">pekka.huuskonen@gmail.com</a>
-  </p>
-  <p style="margin-top:0.5rem;">© 2026 GigScript. <span data-en>Made with ♩ for musicians everywhere.</span><span data-fi>Tehty ♩ muusikoille kaikkialla.</span></p>
-</footer>
+    <!-- ── Content ── -->
+    <div class="content">
+      <!-- How it works -->
+      <div class="section" id="how-it-works">
+        <p class="section-eyebrow">
+          <span data-en>Overview</span><span data-fi>Yleiskatsaus</span
+          ><span data-sv>Översikt</span><span data-de>Übersicht</span
+          ><span data-es>Resumen</span>
+        </p>
+        <h2>
+          <span data-en>How band sync works</span
+          ><span data-fi>Miten bändisynkronointi toimii</span
+          ><span data-sv>Så fungerar band synk</span
+          ><span data-de>So funktioniert die Band-Synchronisierung</span
+          ><span data-es>Cómo funciona la sincronización de banda</span>
+        </h2>
+        <p class="section-lead">
+          <span data-en
+            >GigScript doesn't use its own server. Instead, everyone in the band
+            points the app to the same shared folder in a cloud service they
+            already use.</span
+          >
+          <span data-fi
+            >GigScript ei käytä omaa palvelinta. Sen sijaan jokainen bändin
+            jäsen osoittaa sovelluksen samaan jaettuun kansioon heidän jo
+            käyttämässään pilvipalvelussa.</span
+          ><span data-sv
+            >GigScript använder ingen egen server. Istället pekar alla i bandet
+            appen mot samma delade mapp i en molntjänst som ni redan
+            använder.</span
+          ><span data-de
+            >GigScript nutzt keinen eigenen Server. Stattdessen verknüpfen alle
+            in der Band die App mit demselben freigegebenen Ordner bei einem
+            bereits genutzten Cloud-Anbieter.</span
+          ><span data-es
+            >GigScript no utiliza un servidor propio. En su lugar, todos los
+            miembros de la banda vinculan la aplicación a la misma carpeta
+            compartida en un servicio en la nube que ya utilicen.</span
+          >
+        </p>
 
-<script>
-  // ── Language toggle ────────────────────────────────
-  const STORAGE_KEY = 'gs_lang';
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h3>
+                <span data-en>One person creates a shared folder</span
+                ><span data-fi>Yksi henkilö luo jaetun kansion</span
+                ><span data-sv>En person skapar en delad mapp</span
+                ><span data-de
+                  >Eine Person erstellt einen freigegebenen Ordner</span
+                ><span data-es>Una persona crea una carpeta compartida</span>
+              </h3>
+              <p>
+                <span data-en
+                  >In Dropbox, create a folder (e.g.
+                  <code>GigScript-Band</code>) and share it with edit access to
+                  everyone in the band.</span
+                ><span data-fi
+                  >Luo Dropboxissa kansio (esim. <code>GigScript-bändi</code>)
+                  ja jaa se muokkausoikeudella kaikille bändin jäsenille.</span
+                ><span data-sv
+                  >I Dropbox, skapa en mapp (t.ex. <code>GigScript-Band</code>)
+                  och dela den med redigeringsbehörighet till alla i
+                  bandet.</span
+                ><span data-de
+                  >Erstelle in Dropbox einen Ordner (z. B.
+                  <code>GigScript-Band</code>) und gib ihn mit
+                  Bearbeitungsrechten für alle Bandmitglieder frei.</span
+                ><span data-es
+                  >Crea una carpeta en Dropbox (p. ej.
+                  <code>GigScript-Band</code>) y compártela con permisos de
+                  edición con todos los miembros de la banda.</span
+                >
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Everyone connects GigScript to that folder</span
+                ><span data-fi>Kaikki yhdistävät GigScriptin kansioon</span
+                ><span data-sv>Alla ansluter GigScript till mappen</span
+                ><span data-de>Alle verbinden GigScript mit diesem Ordner</span
+                ><span data-es>Todos conectan GigScript a esa carpeta</span>
+              </h3>
+              <p>
+                <span data-en
+                  >In GigScript → Band Sync, connect to the same cloud service
+                  and enter the exact same folder name.</span
+                ><span data-fi
+                  >GigScriptissä → Bändisynkronointi, yhdistä samaan
+                  pilvipalveluun ja anna täsmälleen sama kansion nimi.</span
+                ><span data-sv
+                  >Gå till GigScript → Band Sync, anslut till samma molntjänst
+                  och ange exakt samma mappnamn.</span
+                ><span data-de
+                  >Gehe in GigScript auf Band Sync, verbinde dich mit demselben
+                  Cloud-Dienst und gib exakt denselben Ordnernamen ein.</span
+                ><span data-es
+                  >En GigScript → Band Sync, conéctate al mismo servicio en la
+                  nube e introduce exactamente el mismo nombre de carpeta.</span
+                >
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Tap "Sync now" to share</span
+                ><span data-fi>Paina "Synkkaa nyt" jakaaksesi kappaleet</span
+                ><span data-sv>Tryck på "Synka nu" för att dela</span
+                ><span data-de
+                  >Tippe zum Teilen auf „Jetzt synchronisieren"</span
+                ><span data-es>Toca "Sincronizar ahora" para compartir</span>
+              </h3>
+              <p>
+                <span data-en
+                  >GigScript uploads your songs to the shared folder. Other band
+                  members sync to get the latest songs and setlists. Sync is
+                  always manual — nothing happens automatically on stage.</span
+                ><span data-fi
+                  >GigScript lataa kappaleesi jaettuun kansioon. Muut bändin
+                  jäsenet synkronoivat sovelluksen saadakseen uusimmat kappaleet
+                  ja settilistat. Synkronointi on aina manuaalista — lavalla ei
+                  tapahdu mitään automaattisesti.</span
+                ><span data-sv
+                  >GigScript laddar upp dina låtar till den delade mappen.
+                  Övriga bandmedlemmar synkar för att hämta de senaste låtarna
+                  och setlistorna. Synkroniseringen är alltid manuell —
+                  ingenting sker automatiskt på scenen.</span
+                ><span data-de
+                  >GigScript lädt deine Songs in den freigegebenen Ordner hoch.
+                  Andere Bandmitglieder synchronisieren, um die neuesten Songs
+                  und Setlists zu erhalten. Die Synchronisierung erfolgt stets
+                  manuell — auf der Bühne passiert nichts automatisch.</span
+                ><span data-es
+                  >GigScript sube tus canciones a la carpeta compartida. Los
+                  demás miembros de la banda sincronizan para obtener las
+                  últimas canciones y repertorios. La sincronización siempre es
+                  manual: nada ocurre de forma automática en el escenario.</span
+                >
+              </p>
+            </div>
+          </div>
+        </div>
 
-  function setLang(lang) {
-    localStorage.setItem(STORAGE_KEY, lang);
-    document.documentElement.lang = lang;
-    document.querySelectorAll('[data-en]').forEach(el => {
-      el.style.display = lang === 'en' ? '' : 'none';
-    });
-    document.querySelectorAll('[data-fi]').forEach(el => {
-      el.style.display = lang === 'fi' ? '' : 'none';
-    });
-    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-    document.getElementById('btn-fi').classList.toggle('active', lang === 'fi');
-  }
+        <div class="note">
+          <strong
+            ><span data-en>Only one cloud provider at a time.</span
+            ><span data-fi>Vain yksi pilvipalvelu kerrallaan.</span
+            ><span data-sv>Endast en molntjänst åt gången.</span
+            ><span data-de>Nur ein Cloud-Anbieter gleichzeitig.</span
+            ><span data-es>Solo un proveedor de la nube a la vez.</span></strong
+          >
+          <span data-en>
+            The whole band should use the same provider. Disconnect the current
+            one before switching.</span
+          >
+          <span data-fi>
+            Koko bändin tulee käyttää samaa palvelua. Katkaise nykyinen yhteys
+            ennen vaihtamista.</span
+          ><span data-sv>
+            Hela bandet bör använda samma tjänst. Koppla från den nuvarande
+            innan du byter.</span
+          ><span data-de>
+            Die gesamte Band sollte denselben Anbieter nutzen. Trenne die
+            aktuelle Verbindung vor dem Wechsel.</span
+          ><span data-es>
+            Toda la banda debe utilizar el mismo proveedor. Desconecta el actual
+            antes de cambiar.</span
+          >
+        </div>
 
-  const saved = localStorage.getItem(STORAGE_KEY)
-    || (navigator.language.startsWith('fi') ? 'fi' : 'en');
-  setLang(saved);
+        <div class="tip">
+          <strong
+            ><span data-en>Personal songs stay private.</span
+            ><span data-fi>Omat kappaleet pysyvät yksityisinä.</span
+            ><span data-sv>Personliga låtar förblir privata.</span
+            ><span data-de>Persönliche Songs bleiben privat.</span
+            ><span data-es
+              >Las canciones personales siguen siendo privadas.</span
+            ></strong
+          >
+          <span data-en>
+            Songs marked <em>local</em> in the song editor ("This device only")
+            are never uploaded to the shared folder — only you can see them. Use
+            this for personal notes, custom arrangements, or songs you don't
+            want to share with the band.</span
+          >
+          <span data-fi>
+            Kappaleet merkitty <em>paikalliseksi</em> kappalemuokkaimessa ("Vain
+            tällä laitteella") eivät koskaan lataudu jaettuun kansioon — vain
+            sinä näet ne. Käytä tätä omille muistiinpanoille, sovituksille tai
+            kappaleille joita et halua jakaa bändille.</span
+          ><span data-sv>
+            Låtar markerade <em>lokal</em> i låtredigeraren ("Endast denna
+            enhet") laddas aldrig upp till den delade mappen — bara du kan se
+            dem. Använd detta för egna anteckningar, anpassade arrangemang eller
+            låtar du inte vill dela med bandet.</span
+          ><span data-de>
+            Songs, die im Song-Editor als <em>lokal</em> markiert sind („Nur
+            dieses Gerät"), werden nie in den freigegebenen Ordner hochgeladen —
+            sie sind nur für dich sichtbar. Nutze dies für persönliche Notizen,
+            eigene Arrangements oder Songs, die du nicht teilen möchtest.</span
+          ><span data-es>
+            Las canciones marcadas como <em>local</em> en el editor de canciones
+            ("Solo en este dispositivo") nunca se suben a la carpeta compartida:
+            solo tú puedes verlas. Utiliza esto para notas personales, arreglos
+            personalizados o canciones que no quieras compartir con la
+            banda.</span
+          >
+        </div>
+      </div>
 
-  // ── Mobile menu ────────────────────────────────────
-  const menuToggle = document.querySelector('.menu-toggle');
-  const navLinks   = document.querySelector('.nav-links');
-  if (menuToggle && navLinks) {
-    menuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-      menuToggle.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
-    });
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        menuToggle.textContent = '☰';
+      <!-- Dropbox -->
+      <div class="section" id="dropbox">
+        <p class="section-eyebrow">Dropbox</p>
+        <h2>
+          <span data-en>Setting up Dropbox sync</span
+          ><span data-fi>Dropbox-synkronoinnin käyttöönotto</span
+          ><span data-sv>Konfigurera Dropbox-synk</span
+          ><span data-de>Dropbox-Synchronisierung einrichten</span
+          ><span data-es>Configuración de la sincronización con Dropbox</span>
+        </h2>
+        <p class="section-lead">
+          <span data-en
+            >Works on both iOS and Android. One band member creates and shares
+            the folder, everyone else joins.</span
+          >
+          <span data-fi
+            >Toimii sekä iOS:llä että Androidilla. Yksi bändin jäsen luo ja
+            jakaa kansion, muut liittyvät.</span
+          ><span data-sv
+            >Fungerar på både iOS och Android. En bandmedlem skapar och delar
+            mappen, övriga ansluter.</span
+          ><span data-de
+            >Funktioniert sowohl auf iOS als auch auf Android. Ein Bandmitglied
+            erstellt und teilt den Ordner, alle anderen treten bei.</span
+          ><span data-es
+            >Funciona tanto en iOS como en Android. Un miembro de la banda crea
+            y comparte la carpeta, y los demás se unen.</span
+          >
+        </p>
+
+        <h3 style="margin-bottom: 1rem; color: var(--amber)">
+          <span data-en>Step 1 — Create and share the folder (done once)</span
+          ><span data-fi>Vaihe 1 — Luo ja jaa kansio (tehdään kerran)</span
+          ><span data-sv>Steg 1 — Skapa och dela mappen (görs en gång)</span
+          ><span data-de
+            >Schritt 1 — Ordner erstellen und freigeben (einmalig)</span
+          ><span data-es
+            >Paso 1: Crear y compartir la carpeta (se hace una sola vez)</span
+          >
+        </h3>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Open Dropbox in a browser</span
+                ><span data-fi>Avaa Dropbox selaimessa</span
+                ><span data-sv>Öppna Dropbox i en webbläsare</span
+                ><span data-de>Dropbox im Browser öffnen</span
+                ><span data-es>Abre Dropbox en un navegador</span>
+              </h3>
+              <p>
+                <span data-en
+                  >Go to
+                  <a href="https://dropbox.com" style="color: var(--amber)"
+                    >dropbox.com</a
+                  >
+                  and sign in.</span
+                ><span data-fi
+                  >Mene osoitteeseen
+                  <a href="https://dropbox.com" style="color: var(--amber)"
+                    >dropbox.com</a
+                  >
+                  ja kirjaudu sisään.</span
+                ><span data-sv
+                  >Gå till
+                  <a href="https://dropbox.com" style="color: var(--amber)"
+                    >dropbox.com</a
+                  >
+                  och logga in.</span
+                ><span data-de
+                  >Gehe auf
+                  <a href="https://dropbox.com" style="color: var(--amber)"
+                    >dropbox.com</a
+                  >
+                  und melde dich an.</span
+                ><span data-es
+                  >Ve a
+                  <a href="https://dropbox.com" style="color: var(--amber)"
+                    >dropbox.com</a
+                  >
+                  e inicia sesión.</span
+                >
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Create a new folder</span
+                ><span data-fi>Luo uusi kansio</span
+                ><span data-sv>Skapa en ny mapp</span
+                ><span data-de>Neuen Ordner erstellen</span
+                ><span data-es>Crea una nueva carpeta</span>
+              </h3>
+              <p>
+                <span data-en
+                  >Click <strong>New folder</strong> and name it something like
+                  <code>GigScript-Band</code>.</span
+                ><span data-fi
+                  >Paina <strong>Uusi kansio</strong> ja anna sille nimi kuten
+                  <code>GigScript-bändi</code>.</span
+                ><span data-sv
+                  >Klicka på <strong>Ny mapp</strong> och döp den till
+                  exempelvis <code>GigScript-Band</code>.</span
+                ><span data-de
+                  >Klicke auf <strong>Neuer Ordner</strong> und benenne ihn zum
+                  Beispiel <code>GigScript-Band</code>.</span
+                ><span data-es
+                  >Haz clic en <strong>Nueva carpeta</strong> y ponle un nombre
+                  como <code>GigScript-Band</code>.</span
+                >
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Share with the band</span
+                ><span data-fi>Jaa bändille</span
+                ><span data-sv>Dela med bandet</span
+                ><span data-de>Mit der Band teilen</span
+                ><span data-es>Comparte con la banda</span>
+              </h3>
+              <p>
+                <span data-en
+                  >Right-click the folder → <strong>Share</strong> → enter each
+                  band member's email → set permission to
+                  <strong>Can edit</strong> → Send.</span
+                ><span data-fi
+                  >Klikkaa kansiota hiiren oikealla painikkeella →
+                  <strong>Jaa</strong> → syötä jokaisen bändin jäsenen
+                  sähköposti → aseta oikeudeksi <strong>Voi muokata</strong> →
+                  Lähetä.</span
+                ><span data-sv
+                  >Högerklicka på mappen → <strong>Dela</strong> → ange
+                  e-postadressen till varje bandmedlem → ställ in behörighet
+                  till <strong>Kan redigera</strong> → Skicka.</span
+                ><span data-de
+                  >Klicke mit der rechten Maustaste auf den Ordner →
+                  <strong>Freigeben</strong> → E-Mail-Adresse jedes
+                  Bandmitglieds eingeben → Berechtigung auf
+                  <strong>Kann bearbeiten</strong> setzen → Senden.</span
+                ><span data-es
+                  >Haz clic con el botón derecho en la carpeta →
+                  <strong>Compartir</strong> → introduce el correo electrónico
+                  de cada miembro → establece el permiso en
+                  <strong>Puede editar</strong> → Enviar.</span
+                >
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Band members accept the invitation</span
+                ><span data-fi>Bändin jäsenet hyväksyvät kutsun</span
+                ><span data-sv>Bandmedlemmar accepterar inbjudan</span
+                ><span data-de>Bandmitglieder nehmen die Einladung an</span
+                ><span data-es
+                  >Los miembros de la banda aceptan la invitación</span
+                >
+              </h3>
+              <p>
+                <span data-en
+                  >Each person receives an email from Dropbox. They click the
+                  link to accept and the shared folder appears in their
+                  Dropbox.</span
+                ><span data-fi
+                  >Jokainen saa sähköpostin Dropboxilta. He klikkaavat linkkiä
+                  hyväksyäkseen ja jaettu kansio ilmestyy heidän
+                  Dropboxiinsa.</span
+                ><span data-sv
+                  >Varje person får ett e-postmeddelande från Dropbox. De
+                  klickar på länken för att acceptera, varpå den delade mappen
+                  visas i deras Dropbox.</span
+                ><span data-de
+                  >Jede Person erhält eine E-Mail von Dropbox. Nach Klick auf
+                  den Link zum Annehmen erscheint der freigegebene Ordner in
+                  ihrer Dropbox.</span
+                ><span data-es
+                  >Cada persona recibirá un correo electrónico de Dropbox. Al
+                  hacer clic en el enlace para aceptar, la carpeta compartida
+                  aparecerá en su Dropbox.</span
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem; color: var(--amber)">
+          <span data-en>Step 2 — Connect GigScript (every band member)</span
+          ><span data-fi
+            >Vaihe 2 — Yhdistä GigScript (jokainen bändin jäsen)</span
+          ><span data-sv>Steg 2 — Anslut GigScript (alla bandmedlemmar)</span
+          ><span data-de
+            >Schritt 2 — GigScript verbinden (alle Bandmitglieder)</span
+          ><span data-es
+            >Paso 2: Conectar GigScript (todos los miembros de la banda)</span
+          >
+        </h3>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Open Band Sync in GigScript</span
+                ><span data-fi>Avaa Bändisynkronointi GigScriptissä</span
+                ><span data-sv>Öppna Band Sync i GigScript</span
+                ><span data-de>Band Sync in GigScript öffnen</span
+                ><span data-es>Abre Band Sync en GigScript</span>
+              </h3>
+              <p>
+                <span data-en
+                  >Tap the ☁ cloud button in the song list header, or go to the
+                  Gigs tab → Band Sync.</span
+                ><span data-fi
+                  >Napauta ☁-painiketta kappalelistan yläpalkissa tai mene
+                  Keikat-välilehdelle → Bändisynkronointi.</span
+                ><span data-sv
+                  >Tryck på molnknappen ☁ i låtlistans rubrik, eller gå till
+                  fliken Spelningar → Band Sync.</span
+                ><span data-de
+                  >Tippe auf das Wolken-Symbol ☁ in der Kopfzeile der Songliste
+                  oder gehe auf den Tab Auftritte → Band Sync.</span
+                ><span data-es
+                  >Toca el botón de la nube ☁ en el encabezado de la lista de
+                  canciones, o ve a la pestaña Bolos → Band Sync.</span
+                >
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Connect Dropbox</span
+                ><span data-fi>Yhdistä Dropbox</span
+                ><span data-sv>Anslut Dropbox</span
+                ><span data-de>Dropbox verbinden</span
+                ><span data-es>Conecta Dropbox</span>
+              </h3>
+              <p>
+                <span data-en
+                  >Tap <strong>Connect</strong> next to Dropbox. A browser
+                  window opens — sign in with your own Dropbox account and allow
+                  access.</span
+                ><span data-fi
+                  >Napauta <strong>Yhdistä</strong> Dropboxin vieressä.
+                  Selainikkuna avautuu — kirjaudu omalla Dropbox-tililläsi ja
+                  salli käyttöoikeus.</span
+                ><span data-sv
+                  >Tryck på <strong>Anslut</strong> bredvid Dropbox. Ett
+                  webbläsarfönster öppnas — logga in med ditt eget Dropbox-konto
+                  och tillåt åtkomst.</span
+                ><span data-de
+                  >Tippe neben Dropbox auf <strong>Verbinden</strong>. Ein
+                  Browserfenster öffnet sich — melde dich mit deinem eigenen
+                  Dropbox-Konto an und gewähre den Zugriff.</span
+                ><span data-es
+                  >Toca <strong>Conectar</strong> junto a Dropbox. Se abrirá una
+                  ventana de navegador: inicia sesión con tu propia cuenta de
+                  Dropbox y permite el acceso.</span
+                >
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Enter the folder name</span
+                ><span data-fi>Syötä kansion nimi</span
+                ><span data-sv>Ange mappnamnet</span
+                ><span data-de>Ordnernamen eingeben</span
+                ><span data-es>Introduce el nombre de la carpeta</span>
+              </h3>
+              <p>
+                <span data-en
+                  >Type the exact folder name in the Folder field — e.g.
+                  <code>GigScript-Band</code>. Everyone must use the exact same
+                  name.</span
+                ><span data-fi
+                  >Kirjoita täsmälleen sama kansion nimi Kansio-kenttään — esim.
+                  <code>GigScript-bändi</code>. Kaikkien täytyy käyttää
+                  täsmälleen samaa nimeä.</span
+                ><span data-sv
+                  >Skriv exakt mappnamn i fältet Mapp — t.ex.
+                  <code>GigScript-Band</code>. Alla måste använda exakt samma
+                  namn.</span
+                ><span data-de
+                  >Gib den genauen Ordnernamen im Feld Ordner ein — z. B.
+                  <code>GigScript-Band</code>. Alle müssen exakt denselben Namen
+                  verwenden.</span
+                ><span data-es
+                  >Escribe el nombre exacto de la carpeta en el campo Carpeta
+                  (p. ej. <code>GigScript-Band</code>). Todos deben usar
+                  exactamente el mismo nombre.</span
+                >
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Tap "Sync now"</span
+                ><span data-fi>Paina "Synkkaa nyt"</span
+                ><span data-sv>Tryck på "Synka nu"</span
+                ><span data-de>Tippe auf „Jetzt synchronisieren"</span
+                ><span data-es>Toca "Sincronizar ahora"</span>
+              </h3>
+              <p>
+                <span data-en
+                  >GigScript uploads your songs and setlists to the shared
+                  folder. Other band members press Sync to download them.</span
+                ><span data-fi
+                  >GigScript lataa kappaleesi ja settilistasi jaettuun kansioon.
+                  Muut bändin jäsenet painavat Synkronoi nyt -painiketta
+                  ladatakseen ne.</span
+                ><span data-sv
+                  >GigScript laddar upp dina låtar och setlistor till den delade
+                  mappen. Övriga bandmedlemmar trycker på Synka för att hämta
+                  dem.</span
+                ><span data-de
+                  >GigScript lädt deine Songs und Setlists in den freigegebenen
+                  Ordner hoch. Andere Bandmitglieder tippen auf Synchronisieren,
+                  um sie herunterzuladen.</span
+                ><span data-es
+                  >GigScript sube tus canciones y repertorios a la carpeta
+                  compartida. Los demás miembros de la banda pulsan Sincronizar
+                  para descargarlos.</span
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip">
+          <strong
+            ><span data-en>Tip:</span><span data-fi>Vinkki:</span
+            ><span data-sv>Tips:</span><span data-de>Tipp:</span
+            ><span data-es>Consejo:</span></strong
+          >
+          <span data-en>
+            You can also drop <code>.chordpro</code>, <code>.cho</code>,
+            <code>.crd</code>, <code>.txt</code> or <code>.pdf</code> files
+            directly into the <code>songs/</code> subfolder in Dropbox —
+            GigScript imports them automatically on the next sync.</span
+          >
+          <span data-fi>
+            Voit myös pudottaa <code>.chordpro</code>, <code>.cho</code>,
+            <code>.crd</code>, <code>.txt</code> tai
+            <code>.pdf</code> tiedostoja suoraan Dropboxin
+            <code>songs/</code>-alikansioon — GigScript tuo ne automaattisesti
+            seuraavassa synkronointiuksessa.</span
+          ><span data-sv>
+            Du kan också släppa <code>.chordpro</code>, <code>.cho</code>,
+            <code>.crd</code>, <code>.txt</code> eller <code>.pdf</code>-filer
+            direkt i undermappen <code>songs/</code> i Dropbox — GigScript
+            importerar dem automatiskt vid nästa synkronisering.</span
+          ><span data-de>
+            Du kannst <code>.chordpro</code>-, <code>.cho</code>-,
+            <code>.crd</code>-, <code>.txt</code>- oder
+            <code>.pdf</code>-Dateien auch direkt in den Unterordner
+            <code>songs/</code> in Dropbox legen — GigScript importiert sie beim
+            nächsten Synchronisieren automatisch.</span
+          ><span data-es>
+            También puedes soltar archivos <code>.chordpro</code>,
+            <code>.cho</code>, <code>.crd</code>, <code>.txt</code> o
+            <code>.pdf</code> directamente en la subcarpeta
+            <code>songs/</code> en Dropbox; GigScript los importará
+            automáticamente en la siguiente sincronización.</span
+          >
+        </div>
+      </div>
+
+      <!-- Google Drive -->
+      <div class="section" id="google-drive">
+        <p class="section-eyebrow">Google Drive</p>
+        <h2>
+          Google Drive — <span data-en>Coming soon</span
+          ><span data-fi>Tulossa pian</span><span data-sv>Kommer snart</span
+          ><span data-de>Demnächst</span><span data-es>Próximamente</span>
+        </h2>
+        <p class="section-lead">
+          <span data-en
+            >Google Drive sync is under development and will be available in a
+            future update. It will work on both iOS and Android.</span
+          >
+          <span data-fi
+            >Google Drive -synkronointi on kehitteillä ja tulee saataville
+            tulevassa päivityksessä. Se toimii sekä iOS:llä että
+            Androidilla.</span
+          ><span data-sv
+            >Google Drive-synk är under utveckling och kommer att finnas
+            tillgänglig i en framtida uppdatering. Den kommer att fungera på
+            både iOS och Android.</span
+          ><span data-de
+            >Die Google Drive-Synchronisierung befindet sich in der Entwicklung
+            und wird in einem zukünftigen Update verfügbar sein. Sie wird sowohl
+            auf iOS als auch auf Android funktionieren.</span
+          ><span data-es
+            >La sincronización con Google Drive está en desarrollo y estará
+            disponible en una futura actualización. Funcionará tanto en iOS como
+            en Android.</span
+          >
+        </p>
+        <div class="note">
+          <strong
+            ><span data-en>In the meantime:</span
+            ><span data-fi>Sillä välin:</span><span data-sv>Under tiden:</span
+            ><span data-de>In der Zwischenzeit:</span
+            ><span data-es>Mientras tanto:</span></strong
+          >
+          <span data-en>
+            iOS and Android users can share songs using Dropbox — it works
+            cross-platform.</span
+          >
+          <span data-fi>
+            iOS- ja Android-käyttäjät voivat jakaa kappaleita Dropboxin avulla —
+            se toimii alustariippumattomasti.</span
+          ><span data-sv>
+            iOS- och Android-användare kan dela låtar med Dropbox — det fungerar
+            plattformsoberoende.</span
+          ><span data-de>
+            iOS- und Android-Nutzer können Songs über Dropbox teilen — dies
+            funktioniert plattformübergreifend.</span
+          ><span data-es>
+            Los usuarios de iOS y Android pueden compartir canciones mediante
+            Dropbox: funciona de forma multiplataforma.</span
+          >
+        </div>
+      </div>
+
+      <!-- iCloud -->
+      <div class="section" id="icloud">
+        <p class="section-eyebrow">iCloud</p>
+        <h2>
+          iCloud — <span data-en>Coming soon</span
+          ><span data-fi>Tulossa pian</span><span data-sv>Kommer snart</span
+          ><span data-de>Demnächst</span><span data-es>Próximamente</span>
+        </h2>
+        <p class="section-lead">
+          <span data-en
+            >iCloud sync is under development and will be available in a future
+            update. It will work for iOS users sharing songs within the same
+            Apple ID ecosystem.</span
+          >
+          <span data-fi
+            >iCloud-synkronointi on kehitteillä ja tulee saataville tulevassa
+            päivityksessä. Se toimii iOS-käyttäjille, jotka jakavat kappaleita
+            samassa Apple ID -ekosysteemissä.</span
+          ><span data-sv
+            >iCloud-synk är under utveckling och kommer att finnas tillgänglig i
+            en framtida uppdatering. Den kommer att fungera för iOS-användare
+            som delar låtar inom samma Apple ID-ekosystem.</span
+          ><span data-de
+            >Die iCloud-Synchronisierung befindet sich in der Entwicklung und
+            wird in einem zukünftigen Update verfügbar sein. Sie steht
+            iOS-Nutzern zur Verfügung, die Songs innerhalb desselben
+            Apple-ID-Ökosystems teilen.</span
+          ><span data-es
+            >La sincronización con iCloud está en desarrollo y estará disponible
+            en una futura actualización. Funcionará para usuarios de iOS que
+            compartan canciones dentro del mismo ecosistema de Apple ID.</span
+          >
+        </p>
+        <div class="note">
+          <strong
+            ><span data-en>In the meantime:</span
+            ><span data-fi>Sillä välin:</span><span data-sv>Under tiden:</span
+            ><span data-de>In der Zwischenzeit:</span
+            ><span data-es>Mientras tanto:</span></strong
+          >
+          <span data-en>
+            iOS and Android users can share songs using Dropbox — it works
+            cross-platform.</span
+          >
+          <span data-fi>
+            iOS- ja Android-käyttäjät voivat jakaa kappaleita Dropboxin avulla —
+            se toimii alustariippumattomasti.</span
+          ><span data-sv>
+            iOS- och Android-användare kan dela låtar med Dropbox — det fungerar
+            plattformsoberoende.</span
+          ><span data-de>
+            iOS- und Android-Nutzer können Songs über Dropbox teilen — dies
+            funktioniert plattformübergreifend.</span
+          ><span data-es>
+            Los usuarios de iOS y Android pueden compartir canciones mediante
+            Dropbox: funciona de forma multiplataforma.</span
+          >
+        </div>
+      </div>
+
+      <!-- Conflicts -->
+      <div class="section" id="conflicts">
+        <p class="section-eyebrow">
+          <span data-en>Conflict resolution</span
+          ><span data-fi>Ristiriitojen ratkaisu</span
+          ><span data-sv>Konflikthantering</span
+          ><span data-de>Konfliktlösung</span
+          ><span data-es>Resolución de conflictos</span>
+        </p>
+        <h2>
+          <span data-en>When two people edit the same song</span
+          ><span data-fi>Kun kaksi henkilöä muokkaa samaa kappaletta</span
+          ><span data-sv>När två personer redigerar samma låt</span
+          ><span data-de>Wenn zwei Personen denselben Song bearbeiten</span
+          ><span data-es>Cuando dos personas editan la misma canción</span>
+        </h2>
+        <p class="section-lead">
+          <span data-en
+            >GigScript detects conflicts automatically using content hashing. If
+            two band members edit the same song before syncing, you'll be asked
+            which version to keep.</span
+          >
+          <span data-fi
+            >GigScript havaitsee ristiriidat automaattisesti sisältöhashauksen
+            avulla. Jos kaksi bändin jäsentä muokkaa samaa kappaletta ennen
+            synkronointiusta, sinulta kysytään kumpi versio säilytetään.</span
+          ><span data-sv
+            >GigScript upptäcker konflikter automatiskt med hjälp av
+            innehållshashning. Om två bandmedlemmar redigerar samma låt före
+            synkronisering får du välja vilken version som ska behållas.</span
+          ><span data-de
+            >GigScript erkennt Konflikte automatisch mittels Inhalts-Hashing.
+            Wenn zwei Bandmitglieder vor dem Synchronisieren denselben Song
+            bearbeiten, wirst du gefragt, welche Version behalten werden
+            soll.</span
+          ><span data-es
+            >GigScript detecta conflictos automáticamente mediante el algoritmo
+            de hash de contenido. Si dos miembros de la banda editan la misma
+            canción antes de sincronizar, se te preguntará qué versión deseas
+            conservar.</span
+          >
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <span data-en>Situation</span><span data-fi>Tilanne</span
+                ><span data-sv>Situation</span><span data-de>Situation</span
+                ><span data-es>Situación</span>
+              </th>
+              <th>
+                <span data-en>What happens</span
+                ><span data-fi>Mitä tapahtuu</span
+                ><span data-sv>Vad som händer</span
+                ><span data-de>Was passiert</span
+                ><span data-es>Qué ocurre</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span data-en>Only you edited a song or setlist</span
+                ><span data-fi
+                  >Vain sinä muokkasit kappaletta tai settilistaa</span
+                ><span data-sv>Bara du har redigerat en låt eller setlista</span
+                ><span data-de
+                  >Nur du hast einen Song oder eine Setlist bearbeitet</span
+                ><span data-es
+                  >Solo tú has editado una canción o repertorio</span
+                >
+              </td>
+              <td>
+                <span data-en
+                  >Your version uploads automatically — no prompt needed.</span
+                ><span data-fi
+                  >Versiosi ladataan automaattisesti — ei tarvita
+                  vahvistusta.</span
+                ><span data-sv
+                  >Din version laddas upp automatiskt — ingen fråga visas.</span
+                ><span data-de
+                  >Deine Version wird automatisch hochgeladen — keine Nachfrage
+                  erforderlich.</span
+                ><span data-es
+                  >Tu versión se sube automáticamente; no se requiere
+                  confirmación.</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span data-en
+                  >Someone else edited the same song or setlist first</span
+                ><span data-fi
+                  >Joku muu muokkasi samaa kappaletta tai settilistaa
+                  ensin</span
+                ><span data-sv
+                  >Någon annan hann redigera samma låt eller setlista
+                  först</span
+                ><span data-de
+                  >Jemand anderes hat denselben Song oder dieselbe Setlist
+                  zuerst bearbeitet</span
+                ><span data-es
+                  >Alguien más editó la misma canción o repertorio primero</span
+                >
+              </td>
+              <td>
+                <span data-en
+                  >A conflict screen appears. Choose "Keep device" to keep your
+                  version, or "Keep cloud" to take theirs.</span
+                ><span data-fi
+                  >Konfliktinäyttö ilmestyy. Valitse "Pidä laite" säilyttääksesi
+                  oman versiosi tai "Pidä pilvi" ottaaksesi heidän
+                  versionsa.</span
+                ><span data-sv
+                  >En konfliktskärm visas. Välj "Behåll enhet" för att behålla
+                  din version, eller "Behåll moln" för att ta deras.</span
+                ><span data-de
+                  >Ein Konfliktbildschirm erscheint. Wähle „Gerät behalten", um
+                  deine Version zu behalten, oder „Cloud behalten", um die
+                  andere zu übernehmen.</span
+                ><span data-es
+                  >Aparece una pantalla de conflicto. Elige "Mantener
+                  dispositivo" para conservar tu versión o "Mantener nube" para
+                  aceptar la suya.</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span data-en>No changes on either side</span
+                ><span data-fi>Ei muutoksia kummallakaan</span
+                ><span data-sv>Inga ändringar på någon sida</span
+                ><span data-de>Keine Änderungen auf beiden Seiten</span
+                ><span data-es>Sin cambios en ningún lado</span>
+              </td>
+              <td>
+                <span data-en
+                  >Sync completes instantly — nothing is uploaded or
+                  downloaded.</span
+                ><span data-fi
+                  >Synkronointi valmistuu välittömästi — mitään ei ladata tai
+                  lähetetä.</span
+                ><span data-sv
+                  >Synkroniseringen slutförs direkt — ingenting laddas upp eller
+                  ned.</span
+                ><span data-de
+                  >Die Synchronisierung ist sofort abgeschlossen — es wird
+                  nichts hoch- oder heruntergeladen.</span
+                ><span data-es
+                  >La sincronización se completa al instante: no se sube ni se
+                  descarga nada.</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="tip">
+          <strong
+            ><span data-en>Best practice:</span
+            ><span data-fi>Paras käytäntö:</span
+            ><span data-sv>Bästa praxis:</span><span data-de>Empfehlung:</span
+            ><span data-es>Buena práctica:</span></strong
+          >
+          <span data-en>
+            Sync before you start editing. This minimizes conflicts by making
+            sure you're working on the latest version.</span
+          >
+          <span data-fi>
+            Synkronoi ennen kuin alat muokata. Tämä minimoi ristiriidat
+            varmistamalla, että työstät uusinta versiota.</span
+          ><span data-sv>
+            Synka innan du börjar redigera. Det minimerar konflikter genom att
+            säkerställa att du arbetar med den senaste versionen.</span
+          ><span data-de>
+            Synchronisiere, bevor du mit der Bearbeitung beginnst. Dies
+            minimiert Konflikte, da sichergestellt wird, dass du mit der
+            neuesten Version arbeitest.</span
+          ><span data-es>
+            Sincroniza antes de empezar a editar. Esto minimiza los conflictos
+            al garantizar que trabajas en la versión más reciente.</span
+          >
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="section" id="tips">
+        <p class="section-eyebrow">
+          <span data-en>Tips &amp; FAQ</span
+          ><span data-fi>Vinkit &amp; FAQ</span
+          ><span data-sv>Tips &amp; FAQ</span
+          ><span data-de>Tipps &amp; FAQ</span
+          ><span data-es>Consejos y preguntas frecuentes</span>
+        </p>
+        <h2>
+          <span data-en>Best practices &amp; common questions</span
+          ><span data-fi>Parhaat käytännöt ja yleisiä kysymyksiä</span
+          ><span data-sv>Bästa praxis &amp; vanliga frågor</span
+          ><span data-de>Empfehlungen &amp; häufige Fragen</span
+          ><span data-es>Buenas prácticas y preguntas frecuentes</span>
+        </h2>
+
+        <div class="steps" style="gap: 2rem">
+          <div class="step">
+            <div
+              class="step-num"
+              style="
+                background: var(--surface);
+                color: var(--amber);
+                border: 1px solid var(--amber);
+              "
+            >
+              ?
+            </div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Does sync happen automatically?</span
+                ><span data-fi>Tapahtuuko synkronointi automaattisesti?</span
+                ><span data-sv>Sker synkroniseringen automatiskt?</span
+                ><span data-de>Erfolgt die Synchronisierung automatisch?</span
+                ><span data-es
+                  >¿La sincronización se realiza automáticamente?</span
+                >
+              </h3>
+              <p>
+                <span data-en
+                  >No. Sync is always manual — press "Sync now" when you want to
+                  share changes. This means nothing unexpected happens on
+                  stage.</span
+                ><span data-fi
+                  >Ei. Synkronointi on aina manuaalista — paina "Synkkaa nyt",
+                  kun haluat jakaa muutokset. Tämä tarkoittaa, ettei lavalla
+                  tapahdu mitään odottamatonta.</span
+                ><span data-sv
+                  >Nej. Synkroniseringen är alltid manuell — tryck på "Synka nu"
+                  när du vill dela ändringar. Detta innebär att inget oväntat
+                  händer på scenen.</span
+                ><span data-de
+                  >Nein. Die Synchronisierung erfolgt stets manuell — tippe auf
+                  „Jetzt synchronisieren", wenn du Änderungen teilen möchtest.
+                  So passiert auf der Bühne nichts Unerwartetes.</span
+                ><span data-es
+                  >No. La sincronización siempre es manual: toca "Sincronizar
+                  ahora" cuando quieras compartir cambios. De este modo, no
+                  ocurrirá nada imprevisto en el escenario.</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div
+              class="step-num"
+              style="
+                background: var(--surface);
+                color: var(--amber);
+                border: 1px solid var(--amber);
+              "
+            >
+              ?
+            </div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Does everyone need the same cloud account?</span
+                ><span data-fi
+                  >Tarvitseeko kaikilla olla sama pilvipalvelutili?</span
+                ><span data-sv>Behöver alla samma molnkonto?</span
+                ><span data-de>Benötigen alle dasselbe Cloud-Konto?</span
+                ><span data-es
+                  >¿Todos necesitan la misma cuenta en la nube?</span
+                >
+              </h3>
+              <p>
+                <span data-en
+                  >No — everyone uses their own account. The shared folder is
+                  what connects you. In Dropbox, share the folder via
+                  email.</span
+                ><span data-fi
+                  >Ei — jokainen käyttää omaa tiliään. Jaettu kansio on se mikä
+                  yhdistää teidät. Dropboxissa jaa kansio sähköpostilla.</span
+                ><span data-sv
+                  >Nej — alla använder sitt eget konto. Det är den delade mappen
+                  som kopplar ihop er. I Dropbox delar du mappen via
+                  e-post.</span
+                ><span data-de
+                  >Nein — jeder nutzt sein eigenes Konto. Der freigegebene
+                  Ordner ist das verbindende Element. Gib den Ordner in Dropbox
+                  per E-Mail frei.</span
+                ><span data-es
+                  >No: cada uno utiliza su propia cuenta. La carpeta compartida
+                  es lo que os conecta. En Dropbox, comparte la carpeta por
+                  correo electrónico.</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div
+              class="step-num"
+              style="
+                background: var(--surface);
+                color: var(--amber);
+                border: 1px solid var(--amber);
+              "
+            >
+              ?
+            </div>
+            <div class="step-body">
+              <h3>
+                <span data-en
+                  >Can iOS and Android users share the same folder?</span
+                ><span data-fi
+                  >Voivatko iOS- ja Android-käyttäjät jakaa saman kansion?</span
+                ><span data-sv
+                  >Kan iOS- och Android-användare dela samma mapp?</span
+                ><span data-de
+                  >Können iOS- und Android-Nutzer denselben Ordner teilen?</span
+                ><span data-es
+                  >¿Pueden los usuarios de iOS y Android compartir la misma
+                  carpeta?</span
+                >
+              </h3>
+              <p>
+                <span data-en
+                  >Yes. GigScript sync is fully cross-platform. iOS and Android
+                  users can sync to the same Dropbox folder without any
+                  issues.</span
+                ><span data-fi
+                  >Kyllä. GigScript-synkronointi on täysin cross-platform. iOS-
+                  ja Android-käyttäjät voivat synkronoida samaan
+                  Dropbox-kansioon ongelmitta.</span
+                ><span data-sv
+                  >Ja. GigScript-synk är helt plattformsoberoende. iOS- och
+                  Android-användare kan synka till samma Dropbox-mapp utan
+                  problem.</span
+                ><span data-de
+                  >Ja. Die Synchronisierung mit GigScript ist vollständig
+                  plattformübergreifend. iOS- und Android-Nutzer können
+                  problemlos mit demselben Dropbox-Ordner synchronisieren.</span
+                ><span data-es
+                  >Sí. La sincronización de GigScript es totalmente
+                  multiplataforma. Los usuarios de iOS y Android pueden
+                  sincronizar con la misma carpeta de Dropbox sin
+                  problemas.</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div
+              class="step-num"
+              style="
+                background: var(--surface);
+                color: var(--amber);
+                border: 1px solid var(--amber);
+              "
+            >
+              ?
+            </div>
+            <div class="step-body">
+              <h3>
+                <span data-en>What file formats can I share?</span
+                ><span data-fi>Mitä tiedostomuotoja voin jakaa?</span
+                ><span data-sv>Vilka filformat kan jag dela?</span
+                ><span data-de>Welche Dateiformate kann ich teilen?</span
+                ><span data-es>¿Qué formatos de archivo puedo compartir?</span>
+              </h3>
+              <p>
+                <span data-en
+                  >Drop <code>.chordpro</code>, <code>.cho</code>,
+                  <code>.crd</code>, <code>.txt</code>, or
+                  <code>.pdf</code> files into the <code>songs/</code> folder —
+                  GigScript imports them on the next sync. PDFs are stored in a
+                  separate <code>pdfs/</code> subfolder automatically.</span
+                ><span data-fi
+                  >Pudota <code>.chordpro</code>, <code>.cho</code>,
+                  <code>.crd</code>, <code>.txt</code> tai
+                  <code>.pdf</code> tiedostoja <code>songs/</code>-kansioon —
+                  GigScript tuo ne seuraavassa synkronointiuksessa. PDF:t
+                  tallennetaan automaattisesti erilliseen
+                  <code>pdfs/</code>-alikansioon.</span
+                ><span data-sv
+                  >Lägg <code>.chordpro</code>, <code>.cho</code>,
+                  <code>.crd</code>, <code>.txt</code> eller
+                  <code>.pdf</code>-filer i mappen <code>songs/</code> —
+                  GigScript importerar dem vid nästa synkronisering. PDF-filer
+                  sparas automatiskt i en separat undermapp
+                  <code>pdfs/</code>.</span
+                ><span data-de
+                  >Lege <code>.chordpro</code>-, <code>.cho</code>-,
+                  <code>.crd</code>-, <code>.txt</code>- oder
+                  <code>.pdf</code>-Dateien in den Ordner <code>songs/</code> —
+                  GigScript importiert sie bei der nächsten Synchronisierung.
+                  PDFs werden automatisch in einem separaten Unterordner
+                  <code>pdfs/</code> gespeichert.</span
+                ><span data-es
+                  >Coloca archivos <code>.chordpro</code>, <code>.cho</code>,
+                  <code>.crd</code>, <code>.txt</code> o <code>.pdf</code> en la
+                  carpeta <code>songs/</code>; GigScript los importará en la
+                  siguiente sincronización. Los PDF se guardan automáticamente
+                  en una subcarpeta independiente <code>pdfs/</code>.</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div
+              class="step-num"
+              style="
+                background: var(--surface);
+                color: var(--amber);
+                border: 1px solid var(--amber);
+              "
+            >
+              ?
+            </div>
+            <div class="step-body">
+              <h3>
+                <span data-en>What happens if I delete a song locally?</span
+                ><span data-fi
+                  >Mitä tapahtuu jos poistan kappaleen paikallisesti?</span
+                ><span data-sv>Vad händer om jag tar bort en låt lokalt?</span
+                ><span data-de
+                  >Was passiert, wenn ich einen Song lokal lösche?</span
+                ><span data-es
+                  >¿Qué ocurre si elimino una canción localmente?</span
+                >
+              </h3>
+              <p>
+                <span data-en
+                  >Deleting a song on your device does not delete it from the
+                  cloud folder. Other band members still have access to it. To
+                  remove it for everyone, delete the file from the shared folder
+                  manually.</span
+                ><span data-fi
+                  >Kappaleen poistaminen laitteeltasi ei poista sitä
+                  pilvikansiosta. Muilla bändin jäsenillä on edelleen pääsy
+                  siihen. Poistaaksesi sen kaikilta, poista tiedosto jaetusta
+                  kansiosta manuaalisesti.</span
+                ><span data-sv
+                  >Att ta bort en låt på din enhet tar inte bort den från
+                  molnmappen. Övriga bandmedlemmar har fortfarande tillgång till
+                  den. Om du vill ta bort den för alla raderar du filen manuellt
+                  från den delade mappen.</span
+                ><span data-de
+                  >Das Löschen eines Songs auf deinem Gerät löscht ihn nicht aus
+                  dem Cloud-Ordner. Andere Bandmitglieder haben weiterhin
+                  Zugriff darauf. Um ihn für alle zu entfernen, lösche die Datei
+                  manuell aus dem freigegebenen Ordner.</span
+                ><span data-es
+                  >Eliminar una canción en tu dispositivo no la elimina de la
+                  carpeta en la nube. Los demás miembros de la banda seguirán
+                  teniendo acceso a ella. Para eliminarla para todos, borra el
+                  archivo manualmente de la carpeta compartida.</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div
+              class="step-num"
+              style="
+                background: var(--surface);
+                color: var(--amber);
+                border: 1px solid var(--amber);
+              "
+            >
+              ?
+            </div>
+            <div class="step-body">
+              <h3>
+                <span data-en>The folder name must match exactly</span
+                ><span data-fi>Kansion nimen täytyy täsmätä täsmälleen</span
+                ><span data-sv>Mappnamnet måste matcha exakt</span
+                ><span data-de>Der Ordnername muss exakt übereinstimmen</span
+                ><span data-es
+                  >El nombre de la carpeta debe coincidir exactamente</span
+                >
+              </h3>
+              <p>
+                <span data-en
+                  >Folder names are case-sensitive.
+                  <code>GigScript-Band</code> and
+                  <code>gigscript-band</code> are different folders. Make sure
+                  everyone types the name exactly the same way.</span
+                ><span data-fi
+                  >Kansioiden nimet ovat kirjainkoosta riippuvaisia.
+                  <code>GigScript-bändi</code> ja
+                  <code>gigscript-bändi</code> ovat eri kansioita. Varmista,
+                  että kaikki kirjoittavat nimen täsmälleen samalla
+                  tavalla.</span
+                ><span data-sv
+                  >Mappnamn är skiftlägeskänsliga.
+                  <code>GigScript-Band</code> och <code>gigscript-band</code> är
+                  olika mappar. Se till att alla skriver namnet på exakt samma
+                  sätt.</span
+                ><span data-de
+                  >Ordnernamen unterscheiden zwischen Groß- und Kleinschreibung.
+                  <code>GigScript-Band</code> und
+                  <code>gigscript-band</code> sind unterschiedliche Ordner.
+                  Stelle sicher, dass alle den Namen exakt gleich
+                  eingeben.</span
+                ><span data-es
+                  >Los nombres de carpeta distinguen entre mayúsculas y
+                  minúsculas. <code>GigScript-Band</code> y
+                  <code>gigscript-band</code> son carpetas diferentes. Asegúrate
+                  de que todos escriban el nombre exactamente de la misma
+                  manera.</span
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+          "
+        >
+          <div class="step">
+            <div
+              class="step-num"
+              style="
+                background: var(--surface);
+                color: var(--amber);
+                border: 1px solid var(--amber);
+              "
+            >
+              ?
+            </div>
+            <div class="step-body">
+              <h3>
+                <span data-en>Are setlists also synced?</span
+                ><span data-fi>Synkronoidaanko settilistat myös?</span
+                ><span data-sv>Synkroniseras även setlistor?</span
+                ><span data-de>Werden auch Setlists synchronisiert?</span
+                ><span data-es>¿También se sincronizan los repertorios?</span>
+              </h3>
+              <p>
+                <span data-en
+                  >Yes — setlists sync automatically alongside songs. If two
+                  band members edit the same setlist, a conflict resolution
+                  screen appears. Personal notes added to songs within a setlist
+                  are never synced; they stay on your device only.</span
+                >
+                <span data-fi
+                  >Kyllä — settilistat synkronoituvat automaattisesti
+                  kappaleiden rinnalla. Jos kaksi bändin jäsentä muokkaa samaa
+                  settilistaa, näytetään konfliktiratkaisu-näyttö. Kappaleiden
+                  omat muistiinpanot eivät synkronoidu — ne pysyvät vain
+                  laitteellasi.</span
+                ><span data-sv
+                  >Ja — setlistor synkroniseras automatiskt tillsammans med
+                  låtarna. Om två bandmedlemmar redigerar samma setlista visas
+                  en skärm för konflikthantering. Personliga anteckningar som
+                  lagts till på låtar i en setlista synkroniseras aldrig; de
+                  stannar enbart på din enhet.</span
+                ><span data-de
+                  >Ja — Setlists werden automatisch zusammen mit den Songs
+                  synchronisiert. Wenn zwei Bandmitglieder dieselbe Setlist
+                  bearbeiten, erscheint ein Bildschirm zur Konfliktlösung.
+                  Persönliche Notizen, die Songs innerhalb einer Setlist
+                  hinzugefügt wurden, werden nie synchronisiert; sie verbleiben
+                  nur auf deinem Gerät.</span
+                ><span data-es
+                  >Sí: los repertorios se sincronizan automáticamente junto con
+                  las canciones. Si dos miembros de la banda editan el mismo
+                  repertorio, aparecerá una pantalla de resolución de
+                  conflictos. Las notas personales añadidas a las canciones
+                  dentro de un repertorio nunca se sincronizan; permanecen
+                  únicamente en tu dispositivo.</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <p style="font-weight: 700; margin-bottom: 0.5rem">
+            <span data-en>Still have questions?</span
+            ><span data-fi>Onko vielä kysyttävää?</span
+            ><span data-sv>Har du fortfarande frågor?</span
+            ><span data-de>Noch Fragen?</span
+            ><span data-es>¿Aún tienes preguntas?</span>
+          </p>
+          <p style="color: var(--muted); font-size: 0.9rem">
+            <span data-en
+              >Email us at
+              <a
+                href="mailto:pekka.huuskonen@gmail.com"
+                style="color: var(--amber)"
+                >pekka.huuskonen@gmail.com</a
+              >
+              and we'll help you get set up.</span
+            >
+            <span data-fi
+              >Lähetä sähköpostia osoitteeseen
+              <a
+                href="mailto:pekka.huuskonen@gmail.com"
+                style="color: var(--amber)"
+                >pekka.huuskonen@gmail.com</a
+              >
+              ja autamme sinua käyttöönotossa.</span
+            ><span data-sv
+              >Mejla oss på
+              <a
+                href="mailto:pekka.huuskonen@gmail.com"
+                style="color: var(--amber)"
+                >pekka.huuskonen@gmail.com</a
+              >
+              så hjälper vi dig att komma igång.</span
+            ><span data-de
+              >Schreibe uns eine E-Mail an
+              <a
+                href="mailto:pekka.huuskonen@gmail.com"
+                style="color: var(--amber)"
+                >pekka.huuskonen@gmail.com</a
+              >
+              und wir helfen dir bei der Einrichtung.</span
+            ><span data-es
+              >Escríbenos a
+              <a
+                href="mailto:pekka.huuskonen@gmail.com"
+                style="color: var(--amber)"
+                >pekka.huuskonen@gmail.com</a
+              >
+              y te ayudaremos con la configuración.</span
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Footer ── -->
+    <footer>
+      <p>
+        <a href="https://gigscript.pekkahuuskonen.com" data-en
+          >← Back to GigScript</a
+        >
+        <a href="https://gigscript.pekkahuuskonen.com" data-fi
+          >← Takaisin GigScriptiin</a
+        ><a href="https://gigscript.pekkahuuskonen.com" data-sv
+          >← Tillbaka till GigScript</a
+        ><a href="https://gigscript.pekkahuuskonen.com" data-de
+          >← Zurück zu GigScript</a
+        ><a href="https://gigscript.pekkahuuskonen.com" data-es
+          >← Volver a GigScript</a
+        >
+        &nbsp;·&nbsp;
+        <a href="mailto:pekka.huuskonen@gmail.com">pekka.huuskonen@gmail.com</a>
+      </p>
+      <p style="margin-top: 0.5rem">
+        © 2026 GigScript.
+        <span data-en>Made with ♩ for musicians everywhere.</span
+        ><span data-fi>Tehty ♩ muusikoille kaikkialla.</span
+        ><span data-sv>Skapat med ♩ för musiker överallt.</span
+        ><span data-de>Erstellt mit ♩ für Musiker weltweit.</span
+        ><span data-es>Hecho con ♩ para músicos de todo el mundo.</span>
+      </p>
+    </footer>
+
+    <script>
+      // ── Language toggle ────────────────────────────────
+      const STORAGE_KEY = "gs_lang";
+
+      function setLang(lang) {
+        localStorage.setItem(STORAGE_KEY, lang);
+        document.documentElement.lang = lang;
+
+        ["en", "fi", "sv", "de", "es"].forEach((l) => {
+          document.querySelectorAll("[data-" + l + "]").forEach((el) => {
+            el.style.display = lang === l ? "" : "none";
+          });
+        });
+
+        document.querySelectorAll(".lang-option").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.lang === lang);
+        });
+        const currentLabel = document.getElementById("lang-current");
+        if (currentLabel) currentLabel.textContent = lang.toUpperCase();
+
+        closeLangMenu();
+      }
+
+      function toggleLangMenu(e) {
+        e.stopPropagation();
+        const dropdown = document.getElementById("lang-dropdown");
+        const isOpen = dropdown.classList.toggle("open");
+        document
+          .getElementById("lang-toggle")
+          .setAttribute("aria-expanded", isOpen);
+      }
+
+      function closeLangMenu() {
+        const dropdown = document.getElementById("lang-dropdown");
+        dropdown.classList.remove("open");
+        document
+          .getElementById("lang-toggle")
+          .setAttribute("aria-expanded", "false");
+      }
+
+      document.addEventListener("click", (e) => {
+        const dropdown = document.getElementById("lang-dropdown");
+        if (dropdown && !dropdown.contains(e.target)) closeLangMenu();
       });
-    });
-  }
-</script>
-</body>
+
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        setLang(saved);
+      } else {
+        const browserLang = navigator.language?.slice(0, 2);
+        const langMap = { fi: "fi", sv: "sv", de: "de", es: "es" };
+        setLang(langMap[browserLang] || "en");
+      }
+
+      // ── Mobile menu ────────────────────────────────────
+      const menuToggle = document.querySelector(".menu-toggle");
+      const navLinks = document.querySelector(".nav-links");
+      if (menuToggle && navLinks) {
+        menuToggle.addEventListener("click", () => {
+          navLinks.classList.toggle("open");
+          menuToggle.textContent = navLinks.classList.contains("open")
+            ? "✕"
+            : "☰";
+        });
+        document.querySelectorAll(".nav-links a").forEach((link) => {
+          link.addEventListener("click", () => {
+            navLinks.classList.remove("open");
+            menuToggle.textContent = "☰";
+          });
+        });
+      }
+    </script>
+  </body>
 </html>
