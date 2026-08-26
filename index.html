@@ -99,34 +99,45 @@
         -webkit-font-smoothing: antialiased;
       }
 
-      /* ── Language toggle ────────────────────────────── */
+            /* ── Language toggle ────────────────────────────── */
       .lang-en [data-fi],
       .lang-en [data-sv],
       .lang-en [data-de],
       .lang-en [data-es],
+      .lang-en [data-fr],
       .lang-fi [data-en],
       .lang-fi [data-sv],
       .lang-fi [data-de],
       .lang-fi [data-es],
+      .lang-fi [data-fr],
       .lang-sv [data-en],
       .lang-sv [data-fi],
       .lang-sv [data-de],
       .lang-sv [data-es],
+      .lang-sv [data-fr],
       .lang-de [data-en],
       .lang-de [data-fi],
       .lang-de [data-sv],
       .lang-de [data-es],
+      .lang-de [data-fr],
       .lang-es [data-en],
       .lang-es [data-fi],
       .lang-es [data-sv],
-      .lang-es [data-de] {
+      .lang-es [data-de],
+      .lang-es [data-fr],
+      .lang-fr [data-en],
+      .lang-fr [data-fi],
+      .lang-fr [data-sv],
+      .lang-fr [data-de],
+      .lang-fr [data-es] {
         display: none;
       }
       .lang-en [data-en],
       .lang-fi [data-fi],
       .lang-sv [data-sv],
       .lang-de [data-de],
-      .lang-es [data-es] {
+      .lang-es [data-es],
+      .lang-fr [data-fr] {
         display: revert;
       }
       /* ticker-content divs use data-en/fi for show/hide — always block */
@@ -134,6 +145,7 @@
       .lang-sv .ticker-content[data-en],
       .lang-de .ticker-content[data-en],
       .lang-es .ticker-content[data-en],
+      .lang-fr .ticker-content[data-en],
       .lang-fi .ticker-content[data-fi] {
         display: block;
       }
@@ -1023,56 +1035,56 @@
             ><a data-fi="" href="#features">Ominaisuudet</a
             ><a data-sv="" href="#features">Funktioner</a
             ><a data-de="" href="#features">Funktionen</a
-            ><a data-es="" href="#features">Características</a>
+            ><a data-es="" href="#features">Características</a><a data-fr="" href="#features">Fonctionnalités</a>
           </li>
           <li>
             <a data-en="" href="#how">How it works</a
             ><a data-fi="" href="#how">Näin toimii</a
             ><a data-sv="" href="#how-it-works">Hur det fungerar</a
             ><a data-de="" href="#how-it-works">So funktioniert's</a
-            ><a data-es="" href="#how-it-works">Cómo funciona</a>
+            ><a data-es="" href="#how-it-works">Cómo funciona</a><a data-fr="" href="#how-it-works">Comment ça marche</a>
           </li>
           <li>
             <a data-en="" href="#pricing">Pricing</a
             ><a data-fi="" href="#pricing">Hinnoittelu</a
             ><a data-sv="" href="#pricing">Priser</a
             ><a data-de="" href="#pricing">Preise</a
-            ><a data-es="" href="#pricing">Precios</a>
+            ><a data-es="" href="#pricing">Precios</a><a data-fr="" href="#pricing">Tarifs</a>
           </li>
           <li>
             <a data-en="" href="editor/">ChordPro Editor</a
             ><a data-fi="" href="editor/">ChordPro-editori</a
             ><a data-sv="" href="#chordpro">ChordPro-redigerare</a
             ><a data-de="" href="#chordpro">ChordPro-Editor</a
-            ><a data-es="" href="#chordpro">Editor ChordPro</a>
+            ><a data-es="" href="#chordpro">Editor ChordPro</a><a data-fr="" href="#chordpro">Éditeur ChordPro</a>
           </li>
           <li>
             <a data-en="" href="#support">Support</a
             ><a data-fi="" href="#support">Tuki</a
             ><a data-sv="" href="#support">Support</a
             ><a data-de="" href="#support">Support</a
-            ><a data-es="" href="#support">Soporte</a>
+            ><a data-es="" href="#support">Soporte</a><a data-fr="" href="#support">Support</a>
           </li>
           <li>
             <a data-en="" href="guide/">Guide</a
             ><a data-fi="" href="guide/">Opas</a
             ><a data-sv="" href="/guide/">Guide</a
             ><a data-de="" href="/guide/">Anleitung</a
-            ><a data-es="" href="/guide/">Guía</a>
+            ><a data-es="" href="/guide/">Guía</a><a data-fr="" href="/guide/">Guide</a>
           </li>
           <li>
             <a data-en="" href="bandsync/">Band sync</a
             ><a data-fi="" href="bandsync/">Bändisynkronointi</a
             ><a data-sv="" href="/bandsync/">Bandsynk</a
             ><a data-de="" href="/bandsync/">Band-Sync</a
-            ><a data-es="" href="/bandsync/">Sincronización de banda</a>
+            ><a data-es="" href="/bandsync/">Sincronización de banda</a><a data-fr="" href="/bandsync/">Synchro groupe</a>
           </li>
           <li>
             <a data-en="" href="/privacy/">Privacy</a>
             <a data-fi="" href="/privacy/">Tietosuoja</a
             ><a data-sv="" href="/privacy/">Integritet</a
             ><a data-de="" href="/privacy/">Datenschutz</a
-            ><a data-es="" href="/privacy/">Privacidad</a>
+            ><a data-es="" href="/privacy/">Privacidad</a><a data-fr="" href="/privacy/">Confidentialité</a>
           </li>
           <li class="lang-dropdown" id="lang-dropdown">
             <button
@@ -1130,6 +1142,15 @@
                   <span class="lang-code">ES</span>Español
                 </button>
               </li>
+              <li>
+                <button
+                  class="lang-option"
+                  data-lang="fr"
+                  onclick="setLang('fr')"
+                >
+                  <span class="lang-code">FR</span>Français
+                </button>
+              </li>
             </ul>
           </li>
           <li>
@@ -1137,7 +1158,7 @@
             <a class="nav-cta" data-fi="" href="#pricing">Lataa</a
             ><a class="nav-cta" data-sv="" href="#pricing">Ladda ner</a
             ><a class="nav-cta" data-de="" href="#pricing">Download</a
-            ><a class="nav-cta" data-es="" href="#pricing">Descargar</a>
+            ><a class="nav-cta" data-es="" href="#pricing">Descargar</a><a class="nav-cta" data-fr="" href="#pricing">Télécharger</a>
           </li>
         </ul>
       </div>
@@ -1153,7 +1174,7 @@
             <span data-fi="">iOS &amp; Android — tulossa pian</span
             ><span data-sv="">iOS &amp; Android — kommer snart</span
             ><span data-de="">iOS &amp; Android — demnächst verfügbar</span
-            ><span data-es="">iOS &amp; Android — disponible pronto</span>
+            ><span data-es="">iOS &amp; Android — disponible pronto</span><span data-fr="">iOS &amp; Android — bientôt disponible</span>
           </div>
           <h1>
             <span data-en=""
@@ -1175,6 +1196,10 @@
               >Tus letras.<br />Tus acordes.<br /><em
                 >Desplazamiento automático.</em
               ></span
+            ><span data-fr=""
+              >Vos paroles.<br />Vos accords.<br /><em
+                >Défilement automatique.</em
+              ></span
             >
           </h1>
           <p class="hero-sub">
@@ -1195,6 +1220,8 @@
             ><span data-es=""
               >GigScript mantiene tus letras y acordes desplazándose en el
               escenario para que puedas concentrarte en la música.</span
+            ><span data-fr=""
+              >GigScript garde vos paroles et accords qui défilent sur scène, pour que vous puissiez vous concentrer sur la musique.</span
             >
           </p>
           <div class="hero-ctas">
@@ -1203,14 +1230,14 @@
               <span data-fi="">Lataa GigScript</span
               ><span data-sv="">Hämta GigScript</span
               ><span data-de="">GigScript holen</span
-              ><span data-es="">Obtener GigScript</span>
+              ><span data-es="">Obtener GigScript</span><span data-fr="">Obtenir GigScript</span>
             </a>
             <a class="btn btn-secondary" href="#features">
               <span data-en="">See features</span>
               <span data-fi="">Katso ominaisuudet</span
               ><span data-sv="">Se funktioner</span
               ><span data-de="">Funktionen ansehen</span
-              ><span data-es="">Ver características</span>
+              ><span data-es="">Ver características</span><span data-fr="">Voir les fonctionnalités</span>
             </a>
           </div>
           <!-- Signature element: live teleprompter ticker -->
@@ -2827,6 +2854,352 @@
                 >
               </div>
             </div>
+            <div data-fr="">
+              <div class="ticker-section">VERSE 1</div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly">Today </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">is </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">gonna </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">be the </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">C </span
+                  ><span class="ticker-ly">day </span></span
+                >
+              </div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">that </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">they're</span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">F </span
+                  ><span class="ticker-ly"> gonna </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">throw </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly"> it </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly"> back </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">C </span
+                  ><span class="ticker-ly"> to you</span></span
+                >
+              </div>
+              <div class="ticker-blank"></div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly">By now </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">you </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">should-</span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">ve </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">C </span
+                  ><span class="ticker-ly">somehow</span></span
+                >
+              </div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">realized what </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly">you </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">gotta </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">C </span
+                  ><span class="ticker-ly">do </span></span
+                >
+              </div>
+              <div class="ticker-blank"></div>
+              <div class="ticker-section">CHORUS</div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">C </span
+                  ><span class="ticker-ly">And all </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Em </span
+                  ><span class="ticker-ly">the roads</span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly"> we have</span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly"> to walk</span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly"> are </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">F </span
+                  ><span class="ticker-ly">winding </span></span
+                >
+              </div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">C </span
+                  ><span class="ticker-ly">And all </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Em </span
+                  ><span class="ticker-ly">the lights</span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly"> that </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">lead us </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">there </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">F </span
+                  ><span class="ticker-ly">are </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">blinding</span></span
+                >
+              </div>
+              <div class="ticker-blank"></div>
+              <div class="ticker-section">VERSE 2</div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Dm </span
+                  ><span class="ticker-ly">I don't </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly">believe </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">that </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">anybody </span></span
+                >
+              </div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">F </span
+                  ><span class="ticker-ly">feels the way </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">I do </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly">about </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">you now</span></span
+                >
+              </div>
+              <div class="ticker-blank"></div>
+              <!-- Duplicate for seamless loop -->
+              <div class="ticker-section">VERSE 1</div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly">Today </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">is </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">gonna </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">be the </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">C </span
+                  ><span class="ticker-ly">day </span></span
+                >
+              </div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">that </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">they're</span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">F </span
+                  ><span class="ticker-ly"> gonna </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">throw </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly"> it </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly"> back </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">C </span
+                  ><span class="ticker-ly"> to you</span></span
+                >
+              </div>
+              <div class="ticker-blank"></div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly">By now </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">you </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">should-</span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">ve </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">C </span
+                  ><span class="ticker-ly">somehow</span></span
+                >
+              </div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">realized what </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly">you </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">gotta </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">C </span
+                  ><span class="ticker-ly">do </span></span
+                >
+              </div>
+              <div class="ticker-blank"></div>
+              <div class="ticker-section">CHORUS</div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">C </span
+                  ><span class="ticker-ly">And all </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Em </span
+                  ><span class="ticker-ly">the roads</span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly"> we have</span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly"> to walk</span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly"> are </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">F </span
+                  ><span class="ticker-ly">winding </span></span
+                >
+              </div>
+              <div class="ticker-line">
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">C </span
+                  ><span class="ticker-ly">And all </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Em </span
+                  ><span class="ticker-ly">the lights</span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">Am </span
+                  ><span class="ticker-ly"> that </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">lead us </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch"> </span
+                  ><span class="ticker-ly">there </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">F </span
+                  ><span class="ticker-ly">are </span></span
+                >
+                <span class="ticker-seg"
+                  ><span class="ticker-ch">G </span
+                  ><span class="ticker-ly">blinding</span></span
+                >
+              </div>
+            </div>
             <!-- end fi ticker -->
           </div>
         </section>
@@ -2835,12 +3208,13 @@
           <div class="container">
             <p class="eyebrow" data-en="">Features</p>
             <p class="eyebrow" data-fi="">Ominaisuudet</p>
+            <p class="eyebrow" data-fr="">Fonctionnalités</p>
             <h2>
               <span data-en="">Everything you need on stage</span>
               <span data-fi="">Kaikki mitä tarvitset lavalla</span
               ><span data-sv="">Allt du behöver på scenen</span
               ><span data-de="">Alles, was du auf der Bühne brauchst</span
-              ><span data-es="">Todo lo que necesitas en el escenario</span>
+              ><span data-es="">Todo lo que necesitas en el escenario</span><span data-fr="">Tout ce qu'il vous faut sur scène</span>
             </h2>
             <p class="mt-2">
               <span data-en=""
@@ -2860,6 +3234,8 @@
                 >Creado por un músico, para músicos. Sin añadidos innecesarios,
                 sin suscripciones: solo tus canciones, listas cuando tú lo
                 estés.</span
+              ><span data-fr=""
+                >Créé par un musicien, pour les musiciens. Pas de superflu, pas d'abonnement — juste vos chansons, prêtes quand vous l'êtes.</span
               >
             </p>
             <div class="features-grid">
@@ -2870,6 +3246,7 @@
                 <h3 data-sv="">Automatisk rullning / Teleprompter</h3>
                 <h3 data-de="">Automatischer Teleprompter</h3>
                 <h3 data-es="">Teleprompter con desplazamiento automático</h3>
+                <h3 data-fr="">Défilement automatique (téléprompteur)</h3>
                 <p data-en="">
                   Adjustable scroll speed, font size, pause/resume, and reset —
                   all within easy reach. Screen stays on the whole gig.
@@ -2894,6 +3271,7 @@
                   pausar/reanudar y reiniciar, todo al alcance de la mano. La
                   pantalla permanece encendida durante todo el concierto.
                 </p>
+                <p data-fr="">Vitesse de défilement, taille de police, pause/reprise et réinitialisation réglables — le tout facilement accessible. L'écran reste allumé pendant tout le concert.</p>
               </div>
               <div class="feature-card">
                 <span class="feature-icon">🎸</span>
@@ -2902,6 +3280,7 @@
                 <h3 data-sv="">ChordPro-stöd</h3>
                 <h3 data-de="">ChordPro-Unterstützung</h3>
                 <h3 data-es="">Soporte para ChordPro</h3>
+                <h3 data-fr="">Support ChordPro</h3>
                 <p data-en="">
                   Chords are displayed in amber above the lyrics, perfectly
                   aligned. Full transposition with semitone steps. European H
@@ -2927,6 +3306,7 @@
                   perfectamente alineados. Transposición completa por semitonos.
                   Soporte para notación europea H.
                 </p>
+                <p data-fr="">Les accords s'affichent en ambre au-dessus des paroles, parfaitement alignés. Transposition complète par demi-tons. Notation européenne H prise en charge.</p>
               </div>
               <div class="feature-card">
                 <span class="feature-icon">⊡</span>
@@ -2935,6 +3315,7 @@
                 <h3 data-sv="">Anpassa till skärmen</h3>
                 <h3 data-de="">Auf Bildschirmgröße anpassen</h3>
                 <h3 data-es="">Modo de ajuste a la pantalla</h3>
+                <h3 data-fr="">Mode ajustement à l'écran</h3>
                 <p data-en="">
                   Short song? GigScript auto-scales the font so the entire song
                   fills the screen without scrolling. Controls disappear
@@ -2966,6 +3347,7 @@
                   para mostrarlos. Las canciones largas que no caben reciben un
                   aviso claro.
                 </p>
+                <p data-fr="">Chanson courte ? GigScript adapte automatiquement la taille de police pour que toute la chanson tienne à l'écran sans défilement. Les commandes disparaissent automatiquement — touchez pour les afficher. Les chansons longues qui ne tiennent pas reçoivent une notification claire.</p>
               </div>
               <div class="feature-card">
                 <span class="feature-icon">📋</span>
@@ -2974,6 +3356,7 @@
                 <h3 data-sv="">Setlistor &amp; scenläge</h3>
                 <h3 data-de="">Setlisten &amp; Bühnenmodus</h3>
                 <h3 data-es="">Repertorios &amp; modo de actuación</h3>
+                <h3 data-fr="">Setlists &amp; mode concert</h3>
                 <p data-en="">
                   Build setlists and drag songs to reorder. The song picker
                   shows your full library with an alphabetical index — tap to
@@ -3008,6 +3391,7 @@
                   de tonalidad y notas por canción. Desliza a la
                   izquierda/derecha en el escenario para avanzar.
                 </p>
+                <p data-fr="">Créez des setlists et glissez les chansons pour les réorganiser. Le sélecteur de chansons affiche toute votre bibliothèque avec un index alphabétique — touchez pour ajouter. Définissez tonalité et notes par chanson. Balayez à gauche/droite sur scène pour avancer.</p>
               </div>
               <div class="feature-card">
                 <span class="feature-icon">📄</span>
@@ -3016,6 +3400,7 @@
                 <h3 data-sv="">PDF-import</h3>
                 <h3 data-de="">PDF-Import</h3>
                 <h3 data-es="">Importación de PDF</h3>
+                <h3 data-fr="">Import PDF</h3>
                 <p data-en="">
                   Import sheet music or chord charts as PDF. Auto-scroll works
                   on PDF too. Import plain text and ChordPro files from your
@@ -3043,6 +3428,7 @@
                   texto plano y archivos ChordPro desde tu dispositivo o
                   portapapeles.
                 </p>
+                <p data-fr="">Importez des partitions ou des grilles d'accords en PDF. Le défilement automatique fonctionne aussi sur les PDF. Importez des fichiers texte brut et ChordPro depuis votre appareil ou le presse-papiers.</p>
               </div>
               <div class="feature-card featured">
                 <span class="feature-icon">☁</span>
@@ -3053,6 +3439,7 @@
                 <h3 data-es="">
                   Sincronización de banda — sin necesidad de servidor
                 </h3>
+                <h3 data-fr="">Synchro groupe — sans serveur</h3>
                 <p data-en="">
                   Point everyone to the same shared folder on Dropbox, Google
                   Drive, or iCloud. Songs sync using content hashing — only real
@@ -3088,6 +3475,7 @@
                   transferencia. Los conflictos se detectan y resuelven con una
                   interfaz clara.
                 </p>
+                <p data-fr="">Pointez tout le monde vers le même dossier partagé sur Dropbox, Google Drive ou iCloud. Les chansons se synchronisent par hachage de contenu — seuls les changements réels déclenchent un transfert. Les conflits sont détectés et résolus via une interface claire. Fonctionne entre plateformes : iOS et Android dans le même groupe.</p>
               </div>
             </div>
           </div>
@@ -3098,12 +3486,13 @@
           <div class="container">
             <p class="eyebrow" data-en="">How it works</p>
             <p class="eyebrow" data-fi="">Näin toimii</p>
+            <p class="eyebrow" data-fr="">Comment ça marche</p>
             <h2>
               <span data-en="">Stage-ready in three steps</span>
               <span data-fi="">Lavakunnossa kolmessa askeleessa</span
               ><span data-sv="">Redo för scenen i tre steg</span
               ><span data-de="">Bühnenbereit in drei Schritten</span
-              ><span data-es="">Listo para el escenario en tres pasos</span>
+              ><span data-es="">Listo para el escenario en tres pasos</span><span data-fr="">Prêt pour la scène en trois étapes</span>
             </h2>
             <div class="steps">
               <div class="step">
@@ -3113,6 +3502,7 @@
                 <h3 data-sv="">Lägg till dina låtar</h3>
                 <h3 data-de="">Füge deine Songs hinzu</h3>
                 <h3 data-es="">Añade tus canciones</h3>
+                <h3 data-fr="">Ajoutez vos chansons</h3>
                 <p data-en="">
                   Type lyrics, paste from the clipboard, import a .chordpro,
                   .cho, .crd or .txt file, or drag in a PDF. GigScript
@@ -3139,6 +3529,7 @@
                   archivo .chordpro, .cho, .crd o .txt, o arrastra un PDF.
                   GigScript detecta el formato automáticamente.
                 </p>
+                <p data-fr="">Tapez les paroles, collez depuis le presse-papiers, importez un fichier .chordpro, .cho, .crd ou .txt, ou glissez un PDF. GigScript détecte automatiquement le format.</p>
               </div>
               <div class="step">
                 <div class="step-num">02</div>
@@ -3147,6 +3538,7 @@
                 <h3 data-sv="">Skapa en setlista</h3>
                 <h3 data-de="">Erstelle eine Setliste</h3>
                 <h3 data-es="">Crea un repertorio</h3>
+                <h3 data-fr="">Créez une setlist</h3>
                 <p data-en="">
                   Add songs using the song picker with alphabet index, drag to
                   reorder. Set per-song key reminders and notes. Each song
@@ -3179,6 +3571,7 @@
                   repertorio. Comparte con tu banda a través de una carpeta
                   compartida en la nube.
                 </p>
+                <p data-fr="">Ajoutez des chansons via le sélecteur avec index alphabétique, glissez pour réorganiser. Définissez tonalité et notes par chanson. Chaque chanson n'apparaît qu'une fois par setlist. Partagez avec votre groupe via un dossier cloud partagé.</p>
               </div>
               <div class="step">
                 <div class="step-num">03</div>
@@ -3187,6 +3580,7 @@
                 <h3 data-sv="">Inta scenen</h3>
                 <h3 data-de="">Rauf auf die Bühne</h3>
                 <h3 data-es="">Súbete al escenario</h3>
+                <h3 data-fr="">Montez sur scène</h3>
                 <p data-en="">
                   Tap Run, adjust speed once, and play. Swipe between songs. The
                   screen never turns off. GigScript stays out of your way.
@@ -3211,6 +3605,7 @@
                   entre canciones. La pantalla nunca se apaga. GigScript no se
                   interpone en tu camino.
                 </p>
+                <p data-fr="">Appuyez sur Lecture, réglez la vitesse une fois, et jouez. Balayez entre les chansons. L'écran ne s'éteint jamais. GigScript reste discret.</p>
               </div>
             </div>
           </div>
@@ -3235,11 +3630,12 @@
             <blockquote data-es="">
               Por fin una aplicación que no molesta y te deja tocar.
             </blockquote>
+            <blockquote data-fr="">Enfin une appli qui s'efface et vous laisse jouer.</blockquote>
             <cite data-en="">— Beta tester, lead guitarist</cite>
             <cite data-fi="">— Betatestaaja, kitaristi</cite
             ><cite data-sv="">— Betatester, sologitarrist</cite
             ><cite data-de="">— Betatester, Lead-Gitarrist</cite
-            ><cite data-es="">— Probador beta, guitarra solista</cite>
+            ><cite data-es="">— Probador beta, guitarra solista</cite><cite data-fr="">— Testeur bêta, guitariste soliste</cite>
           </div>
         </section>
         <!-- ── Pricing ────────────────────────────────────────── -->
@@ -3247,12 +3643,13 @@
           <div class="container text-center">
             <p class="eyebrow" data-en="">Pricing</p>
             <p class="eyebrow" data-fi="">Hinnoittelu</p>
+            <p class="eyebrow" data-fr="">Tarifs</p>
             <h2>
               <span data-en="">Simple, honest pricing</span>
               <span data-fi="">Selkeä, rehellinen hinnoittelu</span
               ><span data-sv="">Enkel, ärlig prissättning</span
               ><span data-de="">Einfache, ehrliche Preise</span
-              ><span data-es="">Precios simples y honestos</span>
+              ><span data-es="">Precios simples y honestos</span><span data-fr="">Des tarifs simples et honnêtes</span>
             </h2>
             <p class="mt-2">
               <span data-en=""
@@ -3266,6 +3663,8 @@
                 >Keine Abos. Einmal zahlen, für immer nutzen.</span
               ><span data-es=""
                 >Sin suscripciones. Paga una vez, tuya para siempre.</span
+              ><span data-fr=""
+                >Pas d'abonnement. Payez une fois, gardez-le pour toujours.</span
               >
             </p>
             <div class="pricing-grid">
@@ -3275,6 +3674,7 @@
                 <p data-sv="">Gratis</p>
                 <p data-de="">Kostenlos</p>
                 <p data-es="">Gratis</p>
+                <p data-fr="">Gratuit</p>
                 <div class="price">€0</div>
                 <p class="price-note" data-en="">
                   Forever free, no account needed
@@ -3285,30 +3685,38 @@
                 <p data-sv="">Gratis för alltid, inget konto krävs</p>
                 <p data-de="">Dauerhaft kostenlos, kein Konto erforderlich</p>
                 <p data-es="">Gratis para siempre, sin necesidad de cuenta</p>
+                <p data-fr="">Gratuit pour toujours, sans compte requis</p>
                 <ul class="feature-list">
                   <li data-en="">Unlimited songs</li>
                   <li data-fi="">Rajaton kappalemäärä</li>
                   <li data-sv="">Obegränsat antal låtar</li>
                   <li data-de="">Unbegrenzte Anzahl an Songs</li>
                   <li data-es="">Canciones ilimitadas</li>
+                  <li data-fr="">Chansons illimitées</li>
                   <li data-en="">Auto-scroll teleprompter</li>
                   <li data-fi="">Automaattinen teleprompter</li>
+                  <li data-fr="">Défilement automatique (téléprompteur)</li>
                   <li data-en="">Fit-to-screen mode</li>
                   <li data-fi="">Sovita näyttöön -tila</li>
+                  <li data-fr="">Mode ajustement à l'écran</li>
                   <li data-en="">1 setlist</li>
                   <li data-fi="">1 settilista</li>
                   <li data-sv="">1 setlista</li>
                   <li data-de="">1 Setliste</li>
                   <li data-es="">1 repertorio</li>
+                  <li data-fr="">1 setlist</li>
                   <li class="muted" data-en="">ChordPro &amp; transposition</li>
                   <li class="muted" data-fi="">ChordPro ja transponointi</li>
                   <li data-sv="">ChordPro &amp; transponering</li>
                   <li data-de="">ChordPro &amp; Transposition</li>
                   <li data-es="">ChordPro &amp; transposición</li>
+                  <li data-fr="">ChordPro &amp; transposition</li>
                   <li class="muted" data-en="">PDF import</li>
                   <li class="muted" data-fi="">PDF-tuonti</li>
+                  <li class="muted" data-fr="">Import PDF</li>
                   <li class="muted" data-en="">Band sync</li>
                   <li class="muted" data-fi="">Bändisynkronointi</li>
+                  <li class="muted" data-fr="">Synchro groupe</li>
                 </ul>
                 <a
                   class="btn btn-secondary"
@@ -3324,7 +3732,7 @@
                   <span data-fi="">Tulossa pian</span
                   ><span data-sv="">Kommer snart</span
                   ><span data-de="">Demnächst verfügbar</span
-                  ><span data-es="">Próximamente</span>
+                  ><span data-es="">Próximamente</span><span data-fr="">Bientôt disponible</span>
                 </a>
               </div>
               <div class="pricing-card pro">
@@ -3334,6 +3742,7 @@
                 <p data-sv="">GigScript Pro</p>
                 <p data-de="">GigScript Pro</p>
                 <p data-es="">GigScript Pro</p>
+                <p data-fr="">GigScript Pro</p>
                 <div class="price">€9<sub>.99</sub></div>
                 <p class="price-note" data-en="">
                   One-time purchase · iOS &amp; Android
@@ -3344,22 +3753,26 @@
                 <p data-sv="">Engångsköp · iOS &amp; Android</p>
                 <p data-de="">Einmalkauf · iOS &amp; Android</p>
                 <p data-es="">Pago único · iOS &amp; Android</p>
+                <p data-fr="">Achat unique · iOS &amp; Android</p>
                 <ul class="feature-list">
                   <li data-en="">Everything in Free</li>
                   <li data-fi="">Kaikki ilmaisessa</li>
                   <li data-sv="">Allt i Gratis</li>
                   <li data-de="">Alles aus der Kostenlos-Version</li>
                   <li data-es="">Todo lo de la versión Gratis</li>
+                  <li data-fr="">Tout ce qui est dans Gratuit</li>
                   <li data-en="">ChordPro with chord highlighting</li>
                   <li data-fi="">ChordPro sointukorostuksella</li>
                   <li data-sv="">ChordPro med ackordmarkering</li>
                   <li data-de="">ChordPro mit Akkord-Hervorhebung</li>
                   <li data-es="">ChordPro con resaltado de acordes</li>
+                  <li data-fr="">ChordPro avec accords en surbrillance</li>
                   <li data-en="">Transposition + European H notation</li>
                   <li data-fi="">Transponointi + eurooppalainen H-notaatio</li>
                   <li data-sv="">Transponering + europeisk H-notation</li>
                   <li data-de="">Transposition + europäische H-Notation</li>
                   <li data-es="">Transposición + notación europea H</li>
+                  <li data-fr="">Transposition + notation européenne H</li>
                   <li data-en="">PDF import &amp; auto-scroll</li>
                   <li data-fi="">PDF-tuonti ja automaattinen scroll</li>
                   <li data-sv="">PDF-import &amp; automatisk rullning</li>
@@ -3367,11 +3780,13 @@
                   <li data-es="">
                     Importación de PDF &amp; desplazamiento automático
                   </li>
+                  <li data-fr="">Import PDF &amp; défilement automatique</li>
                   <li data-en="">Unlimited setlists</li>
                   <li data-fi="">Rajattomat setlistat</li>
                   <li data-sv="">Obegränsat antal setlistor</li>
                   <li data-de="">Unbegrenzte Setlisten</li>
                   <li data-es="">Repertorios ilimitados</li>
+                  <li data-fr="">Setlists illimitées</li>
                   <li data-en="">Band sync (Dropbox, Google Drive, iCloud)</li>
                   <li data-fi="">
                     Bändisynkronointi (Dropbox, Google Drive, iCloud)
@@ -3381,6 +3796,7 @@
                   <li data-es="">
                     Sincronización de banda (Dropbox, Google Drive, iCloud)
                   </li>
+                  <li data-fr="">Synchro groupe (Dropbox, Google Drive, iCloud)</li>
                 </ul>
                 <a
                   class="btn btn-primary"
@@ -3394,6 +3810,7 @@
                 >
                   <span data-en="">Coming soon</span>
                   <span data-fi="">Tulossa pian</span>
+                  <span data-fr="">Bientôt disponible</span>
                 </a>
               </div>
             </div>
@@ -3414,6 +3831,8 @@
               ><span data-es=""
                 >GigScript está disponible en App Store y Google Play. Compra
                 una vez, úsala en todos tus dispositivos.</span
+              ><span data-fr=""
+                >GigScript est disponible sur l'App Store et Google Play. Achetez une fois, utilisez sur tous vos appareils.</span
               >
             </p>
           </div>
@@ -3424,12 +3843,13 @@
           <div class="container">
             <p class="eyebrow" data-en="">Support</p>
             <p class="eyebrow" data-fi="">Tuki</p>
+            <p class="eyebrow" data-fr="">Support</p>
             <h2>
               <span data-en="">Frequently asked questions</span>
               <span data-fi="">Usein kysytyt kysymykset</span
               ><span data-sv="">Vanliga frågor</span
               ><span data-de="">Häufig gestellte Fragen</span
-              ><span data-es="">Preguntas frecuentes</span>
+              ><span data-es="">Preguntas frecuentes</span><span data-fr="">Questions fréquentes</span>
             </h2>
             <div class="faq" data-en="" id="faq-en">
               <div class="faq-item">
@@ -4009,6 +4429,137 @@
                 </div>
               </div>
             </div>
+            <div data-fr="">
+              <div class="faq-item">
+                <div class="faq-q">Qu'est-ce que ChordPro ?</div>
+                <div class="faq-a">
+                  ChordPro est un format texte simple pour les grilles d'accords.
+                  Les accords sont placés entre crochets, directement dans les
+                  paroles :
+                  <code>[Am]Today is gonna [G]be the day</code>. GigScript
+                  détecte automatiquement le format ChordPro et affiche les
+                  accords en ambre au-dessus des paroles.
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-q">GigScript fonctionne-t-il hors ligne ?</div>
+                <div class="faq-a">
+                  Oui, complètement. Toutes vos chansons sont stockées sur votre
+                  appareil. Vous n'avez pas besoin d'accès à Internet sur scène.
+                  La synchronisation cloud (Dropbox, Google Drive, iCloud) ne
+                  s'exécute que lorsque vous appuyez manuellement sur « Synchroniser
+                  maintenant ».
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-q">Comment fonctionne la synchronisation du groupe ?</div>
+                <div class="faq-a">
+                  Chaque membre du groupe pointe GigScript vers le même dossier
+                  partagé dans son Dropbox, Google Drive ou iCloud. GigScript lit
+                  et écrit directement les chansons et les setlists dans ce
+                  dossier — pas de serveur, pas de compte, juste des fichiers
+                  que vous contrôlez.
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-q">
+                  Puis-je utiliser GigScript sur iPhone et iPad, et sur Android ?
+                </div>
+                <div class="faq-a">
+                  Oui. GigScript fonctionne sur iOS (iPhone et iPad) et sur
+                  Android. Un seul achat couvre tous vos appareils iOS ; la
+                  version Android s'achète séparément sur Google Play.
+                  L'application est optimisée pour les tablettes sur les deux
+                  plateformes.
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-q">Qu'est-ce que la notation européenne H ?</div>
+                <div class="faq-a">
+                  Dans la notation nordique et allemande, si majeur s'écrit H
+                  (et si mineur, Hm), tandis que si bémol s'écrit B. GigScript
+                  prend en charge nativement cette convention, y compris pour
+                  la transposition — ainsi, transposer Hm d'un ton entier donne
+                  correctement C#m, et non Cm.
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-q">
+                  Puis-je ajouter deux fois la même chanson dans une setlist ?
+                </div>
+                <div class="faq-a">
+                  Non — chaque chanson ne peut apparaître qu'une seule fois par
+                  setlist. Cela garde les choses simples et évite toute
+                  confusion sur scène. Si vous avez besoin de la même chanson
+                  dans une tonalité différente, transposez-la pendant le
+                  concert avec les boutons +/−.
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-q">
+                  Que se passe-t-il si deux membres du groupe modifient la même
+                  chanson ?
+                </div>
+                <div class="faq-a">
+                  GigScript détecte le conflit grâce au hachage du contenu et
+                  affiche un écran de résolution clair — choisissez la version
+                  de l'appareil ou celle du cloud. Aucune donnée n'est perdue.
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-q">Quels formats de fichiers puis-je importer ?</div>
+                <div class="faq-a">
+                  GigScript prend en charge les fichiers .chordpro, .cho, .crd,
+                  .txt et .pdf — importez-les depuis votre appareil, depuis le
+                  presse-papiers, ou placez-les directement dans votre dossier
+                  cloud partagé. GigScript détecte automatiquement le format.
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-q">
+                  La même chanson peut-elle apparaître deux fois dans une
+                  setlist ?
+                </div>
+                <div class="faq-a">
+                  Non — chaque chanson ne peut apparaître qu'une seule fois par
+                  setlist. Cela garde les choses simples sur scène. Si vous
+                  avez besoin de la même chanson dans une tonalité différente,
+                  transposez-la à la volée avec les boutons +/− pendant le
+                  concert.
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-q">
+                  Que se passe-t-il si deux membres du groupe modifient la même
+                  chanson ?
+                </div>
+                <div class="faq-a">
+                  GigScript détecte le conflit grâce au hachage du contenu et
+                  affiche un écran de résolution clair — choisissez la version
+                  de l'appareil ou celle du cloud. Aucune donnée n'est perdue.
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-q">Quels formats de fichiers puis-je importer ?</div>
+                <div class="faq-a">
+                  GigScript prend en charge les fichiers .chordpro, .cho, .crd,
+                  .txt et .pdf — importez-les depuis votre appareil, depuis le
+                  presse-papiers, ou placez des fichiers directement dans
+                  votre dossier cloud partagé. GigScript détecte automatiquement
+                  le format.
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-q">Je n'ai pas trouvé de réponse à ma question.</div>
+                <div class="faq-a">
+                  Écrivez-nous à
+                  <a href="mailto:pekka.huuskonen@gmail.com"
+                    >pekka.huuskonen@gmail.com</a
+                  >
+                  et nous vous répondrons.
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </div>
@@ -4020,23 +4571,24 @@
           <ul class="footer-links">
             <li>
               <a data-en="" href="#features">Features</a
-              ><a data-fi="" href="#features">Ominaisuudet</a>
+              ><a data-fi="" href="#features">Ominaisuudet</a><a data-fr="" href="#features">Fonctionnalités</a>
             </li>
             <li>
               <a data-en="" href="#pricing">Pricing</a
-              ><a data-fi="" href="#pricing">Hinnoittelu</a>
+              ><a data-fi="" href="#pricing">Hinnoittelu</a><a data-fr="" href="#pricing">Tarifs</a>
             </li>
             <li>
               <a data-en="" href="#support">Support</a
-              ><a data-fi="" href="#support">Tuki</a>
+              ><a data-fi="" href="#support">Tuki</a><a data-fr="" href="#support">Support</a>
             </li>
             <li>
               <a data-en="" href="editor/">ChordPro Editor</a
-              ><a data-fi="" href="editor/">ChordPro-editori</a>
+              ><a data-fi="" href="editor/">ChordPro-editori</a><a data-fr="" href="editor/">Éditeur ChordPro</a>
             </li>
             <li>
               <a data-en="" href="/privacy/">Privacy</a>
               <a data-fi="" href="/privacy/">Tietosuoja</a>
+              <a data-fr="" href="/privacy/">Confidentialité</a>
             </li>
             <li>
               <a href="mailto:pekka.huuskonen@gmail.com"
@@ -4055,6 +4607,7 @@
           <p data-es="">
             © 2026 GigScript. Hecho con ♩ para músicos de todo el mundo.
           </p>
+          <p data-fr="">© 2026 GigScript. Fait avec ♩ pour les musiciens du monde entier.</p>
         </div>
       </footer>
     </div>
@@ -4091,7 +4644,7 @@
         const currentLabel = document.getElementById("lang-current");
         if (currentLabel) currentLabel.textContent = lang.toUpperCase();
 
-        ["en", "fi", "sv", "de", "es"].forEach((l) => {
+        ["en", "fi", "sv", "de", "es", "fr"].forEach((l) => {
           document.querySelectorAll("[data-" + l + "]").forEach((el) => {
             el.style.display = lang === l ? "" : "none";
           });
@@ -4129,7 +4682,7 @@
         setLang(saved);
       } else {
         const browserLang = navigator.language?.slice(0, 2);
-        const langMap = { fi: "fi", sv: "sv", de: "de", es: "es" };
+        const langMap = { fi: "fi", sv: "sv", de: "de", es: "es", fr: "fr" };
         setLang(langMap[browserLang] || "en");
       }
 
