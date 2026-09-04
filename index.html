@@ -11,7 +11,7 @@
     <!-- Primary meta -->
     <title>GigScript — Teleprompter for Musicians</title>
     <meta
-      content="GigScript keeps your lyrics and chords auto-scrolling on stage. ChordPro, PDF, setlists, band sync via Dropbox, Google Drive and iCloud. iOS &amp; Android."
+      content="GigScript keeps your lyrics and chords auto-scrolling on stage. ChordPro, PDF, setlists, band sync via Dropbox (Google Drive &amp; iCloud coming soon). iOS &amp; Android."
       name="description"
     />
     <meta content="Pekka Huuskonen" name="author" />
@@ -700,10 +700,10 @@
       /* ── Pricing ─────────────────────────────────────── */
       .pricing-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         gap: 1.5rem;
         margin-top: 3rem;
-        max-width: 700px;
+        max-width: 980px;
         margin-left: auto;
         margin-right: auto;
       }
@@ -745,9 +745,10 @@
         margin: 0.75rem 0 0.25rem;
       }
       .price sub {
-        font-size: 1rem;
+        font-size: 1em;
         font-weight: 400;
         color: var(--muted);
+        vertical-align: baseline;
       }
       .price-note {
         font-size: 0.8rem;
@@ -3441,41 +3442,36 @@
                 </h3>
                 <h3 data-fr="">Synchro groupe — sans serveur</h3>
                 <p data-en="">
-                  Point everyone to the same shared folder on Dropbox, Google
-                  Drive, or iCloud. Songs sync using content hashing — only real
+                  Point everyone to the same shared folder on Dropbox — Google Drive and iCloud are coming soon. Songs sync using content hashing — only real
                   changes trigger a transfer. Conflicts are detected and
                   resolved with a clear UI. Works cross-platform: iOS and
                   Android in the same band.
                 </p>
                 <p data-fi="">
-                  Osoita kaikki samaan jaettuun kansioon Dropboxissa, Google
-                  Drivessa tai iCloudissa. Kappaleet synkronoidaan
+                  Osoita kaikki samaan jaettuun kansioon Dropboxissa — Google Drive ja iCloud tulossa pian. Kappaleet synkronoidaan
                   sisältöhashilla — vain todelliset muutokset siirretään.
                   Ristiriidat havaitaan ja ratkaistaan selkeällä
                   käyttöliittymällä. Toimii cross-platform: iOS ja Android
                   samassa bändissä.
                 </p>
                 <p data-sv="">
-                  Peka alla till samma delade mapp på Dropbox, Google Drive
-                  eller iCloud. Låtar synkroniseras med innehållshashing —
+                  Peka alla till samma delade mapp på Dropbox — Google Drive och iCloud kommer snart. Låtar synkroniseras med innehållshashing —
                   endast verkliga ändringar utlöser en överföring. Konflikter
                   upptäcks och löses med ett tydligt gränssnitt.
                 </p>
                 <p data-de="">
-                  Verbinde alle mit demselben freigegebenen Ordner auf Dropbox,
-                  Google Drive oder iCloud. Songs werden über Inhalts-Hashing
+                  Verbinde alle mit demselben freigegebenen Ordner auf Dropbox — Google Drive und iCloud folgen in Kürze. Songs werden über Inhalts-Hashing
                   synchronisiert — nur echte Änderungen lösen eine Übertragung
                   aus. Konflikte werden erkannt und über eine klare
                   Benutzeroberfläche gelöst.
                 </p>
                 <p data-es="">
-                  Apunta a todos a la misma carpeta compartida en Dropbox,
-                  Google Drive o iCloud. Las canciones se sincronizan mediante
+                  Apunta a todos a la misma carpeta compartida en Dropbox — Google Drive e iCloud próximamente. Las canciones se sincronizan mediante
                   hashing de contenido: solo los cambios reales activan una
                   transferencia. Los conflictos se detectan y resuelven con una
                   interfaz clara.
                 </p>
-                <p data-fr="">Pointez tout le monde vers le même dossier partagé sur Dropbox, Google Drive ou iCloud. Les chansons se synchronisent par hachage de contenu — seuls les changements réels déclenchent un transfert. Les conflits sont détectés et résolus via une interface claire. Fonctionne entre plateformes : iOS et Android dans le même groupe.</p>
+                <p data-fr="">Pointez tout le monde vers le même dossier partagé sur Dropbox — Google Drive et iCloud arrivent bientôt. Les chansons se synchronisent par hachage de contenu — seuls les changements réels déclenchent un transfert. Les conflits sont détectés et résolus via une interface claire. Fonctionne entre plateformes : iOS et Android dans le même groupe.</p>
               </div>
             </div>
           </div>
@@ -3653,18 +3649,18 @@
             </h2>
             <p class="mt-2">
               <span data-en=""
-                >No subscriptions. Pay once, own it forever.</span
+                >One-time purchase, or a low-cost monthly plan — your choice.</span
               >
               <span data-fi=""
-                >Ei tilauksia. Maksa kerran, omista ikuisesti.</span
+                >Kertamaksu tai edullinen kuukausitilaus — valinta on sinun.</span
               ><span data-sv=""
-                >Inga prenumerationer. Betala en gång, äg den för alltid.</span
+                >Engångsköp eller ett prisvärt månadsabonnemang — du väljer.</span
               ><span data-de=""
-                >Keine Abos. Einmal zahlen, für immer nutzen.</span
+                >Einmalkauf oder ein günstiges Monatsabo — du hast die Wahl.</span
               ><span data-es=""
-                >Sin suscripciones. Paga una vez, tuya para siempre.</span
+                >Pago único o una suscripción mensual asequible — tú eliges.</span
               ><span data-fr=""
-                >Pas d'abonnement. Payez une fois, gardez-le pour toujours.</span
+                >Achat unique ou abonnement mensuel abordable — à vous de choisir.</span
               >
             </p>
             <div class="pricing-grid">
@@ -3680,7 +3676,7 @@
                   Forever free, no account needed
                 </p>
                 <p class="price-note" data-fi="">
-                  Ilmainen ikuisesti, ei tiliä tarvita
+                  Ilmaisversio, ei kirjautumisia
                 </p>
                 <p data-sv="">Gratis för alltid, inget konto krävs</p>
                 <p data-de="">Dauerhaft kostenlos, kein Konto erforderlich</p>
@@ -3693,11 +3689,23 @@
                   <li data-de="">Unbegrenzte Anzahl an Songs</li>
                   <li data-es="">Canciones ilimitadas</li>
                   <li data-fr="">Chansons illimitées</li>
+                  <li data-en="">ChordPro with chord highlighting</li>
+                  <li data-fi="">ChordPro sointukorostuksella</li>
+                  <li data-sv="">ChordPro med ackordmarkering</li>
+                  <li data-de="">ChordPro mit Akkord-Hervorhebung</li>
+                  <li data-es="">ChordPro con resaltado de acordes</li>
+                  <li data-fr="">ChordPro avec accords en surbrillance</li>
                   <li data-en="">Auto-scroll teleprompter</li>
                   <li data-fi="">Automaattinen teleprompter</li>
+                  <li data-sv="">Automatisk rullning / Teleprompter</li>
+                  <li data-de="">Automatischer Teleprompter</li>
+                  <li data-es="">Teleprompter con desplazamiento automático</li>
                   <li data-fr="">Défilement automatique (téléprompteur)</li>
                   <li data-en="">Fit-to-screen mode</li>
                   <li data-fi="">Sovita näyttöön -tila</li>
+                  <li data-sv="">Anpassa till skärmen</li>
+                  <li data-de="">Auf Bildschirmgröße anpassen</li>
+                  <li data-es="">Modo de ajuste a la pantalla</li>
                   <li data-fr="">Mode ajustement à l'écran</li>
                   <li data-en="">1 setlist</li>
                   <li data-fi="">1 settilista</li>
@@ -3705,18 +3713,6 @@
                   <li data-de="">1 Setliste</li>
                   <li data-es="">1 repertorio</li>
                   <li data-fr="">1 setlist</li>
-                  <li class="muted" data-en="">ChordPro &amp; transposition</li>
-                  <li class="muted" data-fi="">ChordPro ja transponointi</li>
-                  <li data-sv="">ChordPro &amp; transponering</li>
-                  <li data-de="">ChordPro &amp; Transposition</li>
-                  <li data-es="">ChordPro &amp; transposición</li>
-                  <li data-fr="">ChordPro &amp; transposition</li>
-                  <li class="muted" data-en="">PDF import</li>
-                  <li class="muted" data-fi="">PDF-tuonti</li>
-                  <li class="muted" data-fr="">Import PDF</li>
-                  <li class="muted" data-en="">Band sync</li>
-                  <li class="muted" data-fi="">Bändisynkronointi</li>
-                  <li class="muted" data-fr="">Synchro groupe</li>
                 </ul>
                 <a
                   class="btn btn-secondary"
@@ -3756,17 +3752,17 @@
                 <p data-fr="">Achat unique · iOS &amp; Android</p>
                 <ul class="feature-list">
                   <li data-en="">Everything in Free</li>
-                  <li data-fi="">Kaikki ilmaisessa</li>
+                  <li data-fi="">Ilmaisversion ominaisuudet, sekä</li>
                   <li data-sv="">Allt i Gratis</li>
                   <li data-de="">Alles aus der Kostenlos-Version</li>
                   <li data-es="">Todo lo de la versión Gratis</li>
                   <li data-fr="">Tout ce qui est dans Gratuit</li>
-                  <li data-en="">ChordPro with chord highlighting</li>
-                  <li data-fi="">ChordPro sointukorostuksella</li>
-                  <li data-sv="">ChordPro med ackordmarkering</li>
-                  <li data-de="">ChordPro mit Akkord-Hervorhebung</li>
-                  <li data-es="">ChordPro con resaltado de acordes</li>
-                  <li data-fr="">ChordPro avec accords en surbrillance</li>
+                  <li data-en="">Show/hide chords</li>
+                  <li data-fi="">Näytä/piilota soinnut</li>
+                  <li data-sv="">Visa/dölj ackord</li>
+                  <li data-de="">Akkorde ein-/ausblenden</li>
+                  <li data-es="">Mostrar/ocultar acordes</li>
+                  <li data-fr="">Afficher/masquer les accords</li>
                   <li data-en="">Transposition + European H notation</li>
                   <li data-fi="">Transponointi + eurooppalainen H-notaatio</li>
                   <li data-sv="">Transponering + europeisk H-notation</li>
@@ -3787,16 +3783,16 @@
                   <li data-de="">Unbegrenzte Setlisten</li>
                   <li data-es="">Repertorios ilimitados</li>
                   <li data-fr="">Setlists illimitées</li>
-                  <li data-en="">Band sync (Dropbox, Google Drive, iCloud)</li>
+                  <li data-en="">Band sync via Dropbox (Google Drive &amp; iCloud coming soon)</li>
                   <li data-fi="">
-                    Bändisynkronointi (Dropbox, Google Drive, iCloud)
+                    Bändisynkronointi Dropboxin kautta (Google Drive &amp; iCloud tulossa pian)
                   </li>
-                  <li data-sv="">Bandsynk (Dropbox, Google Drive, iCloud)</li>
-                  <li data-de="">Band-Sync (Dropbox, Google Drive, iCloud)</li>
+                  <li data-sv="">Bandsynk via Dropbox (Google Drive &amp; iCloud kommer snart)</li>
+                  <li data-de="">Band-Sync über Dropbox (Google Drive &amp; iCloud folgen in Kürze)</li>
                   <li data-es="">
-                    Sincronización de banda (Dropbox, Google Drive, iCloud)
+                    Sincronización de banda vía Dropbox (Google Drive &amp; iCloud próximamente)
                   </li>
-                  <li data-fr="">Synchro groupe (Dropbox, Google Drive, iCloud)</li>
+                  <li data-fr="">Synchro groupe via Dropbox (Google Drive &amp; iCloud bientôt disponibles)</li>
                 </ul>
                 <a
                   class="btn btn-primary"
@@ -3810,31 +3806,70 @@
                 >
                   <span data-en="">Coming soon</span>
                   <span data-fi="">Tulossa pian</span>
+                  <span data-sv="">Kommer snart</span>
+                  <span data-de="">Demnächst verfügbar</span>
+                  <span data-es="">Próximamente</span>
+                  <span data-fr="">Bientôt disponible</span>
+                </a>
+              </div>
+              <div class="pricing-card pro">
+                <div class="pro-badge">Monthly</div>
+                <p class="eyebrow" data-en="">GigScript Pro</p>
+                <p class="eyebrow" data-fi="">GigScript Pro</p>
+                <p data-sv="">GigScript Pro</p>
+                <p data-de="">GigScript Pro</p>
+                <p data-es="">GigScript Pro</p>
+                <p data-fr="">GigScript Pro</p>
+                <div class="price">€0<sub>.99</sub><span class="price-unit" data-en="">/mo</span><span class="price-unit" data-fi="">/kk</span><span class="price-unit" data-sv="">/mån</span><span class="price-unit" data-de="">/Monat</span><span class="price-unit" data-es="">/mes</span><span class="price-unit" data-fr="">/mois</span></div>
+                <p class="price-note" data-en="">
+                  First month free · iOS &amp; Android
+                </p>
+                <p class="price-note" data-fi="">
+                  Ensimmäinen kuukausi ilmaiseksi · iOS &amp; Android
+                </p>
+                <p data-sv="">Första månaden gratis · iOS &amp; Android</p>
+                <p data-de="">Erster Monat kostenlos · iOS &amp; Android</p>
+                <p data-es="">Primer mes gratis · iOS &amp; Android</p>
+                <p data-fr="">Premier mois offert · iOS &amp; Android</p>
+                <ul class="feature-list">
+                  <li data-en="">Same features as the one-time purchase</li>
+                  <li data-fi="">Samat ominaisuudet kuin kertamaksullisessa</li>
+                  <li data-sv="">Samma funktioner som engångsköpet</li>
+                  <li data-de="">Gleiche Funktionen wie der Einmalkauf</li>
+                  <li data-es="">Las mismas funciones que la compra única</li>
+                  <li data-fr="">Les mêmes fonctionnalités que l'achat unique</li>
+                  <li data-en="">Billed monthly instead of one-time</li>
+                  <li data-fi="">Laskutetaan kuukausittain kertamaksun sijaan</li>
+                  <li data-sv="">Debiteras månadsvis istället för engångsköp</li>
+                  <li data-de="">Monatliche statt einmaliger Abrechnung</li>
+                  <li data-es="">Facturación mensual en lugar de pago único</li>
+                  <li data-fr="">Facturation mensuelle au lieu d'un achat unique</li>
+                  <li data-en="">Cancel anytime</li>
+                  <li data-fi="">Peruuta milloin tahansa</li>
+                  <li data-sv="">Avsluta när som helst</li>
+                  <li data-de="">Jederzeit kündbar</li>
+                  <li data-es="">Cancela cuando quieras</li>
+                  <li data-fr="">Annulez à tout moment</li>
+                </ul>
+                <a
+                  class="btn btn-primary"
+                  href="#"
+                  style="
+                    width: 100%;
+                    justify-content: center;
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                  "
+                >
+                  <span data-en="">Coming soon</span>
+                  <span data-fi="">Tulossa pian</span>
+                  <span data-sv="">Kommer snart</span>
+                  <span data-de="">Demnächst verfügbar</span>
+                  <span data-es="">Próximamente</span>
                   <span data-fr="">Bientôt disponible</span>
                 </a>
               </div>
             </div>
-            <p class="muted mt-3" style="font-size: 0.82rem">
-              <span data-en=""
-                >GigScript is available on the App Store and Google Play.
-                Purchase once, use on all your devices.</span
-              >
-              <span data-fi=""
-                >GigScript on saatavilla App Storessa ja Google Playssa. Osta
-                kerran, käytä kaikilla laitteillasi.</span
-              ><span data-sv=""
-                >GigScript finns på App Store och Google Play. Köp en gång,
-                använd på alla dina enheter.</span
-              ><span data-de=""
-                >GigScript ist im App Store und auf Google Play erhältlich.
-                Einmal kaufen, auf allen deinen Geräten nutzen.</span
-              ><span data-es=""
-                >GigScript está disponible en App Store y Google Play. Compra
-                una vez, úsala en todos tus dispositivos.</span
-              ><span data-fr=""
-                >GigScript est disponible sur l'App Store et Google Play. Achetez une fois, utilisez sur tous vos appareils.</span
-              >
-            </p>
           </div>
         </section>
         <div class="section-divider"></div>
@@ -3866,16 +3901,13 @@
                 <div class="faq-q">Does GigScript work offline?</div>
                 <div class="faq-a">
                   Yes, completely. All your songs are stored on your device. You
-                  don't need internet access on stage. Cloud sync (Dropbox,
-                  Google Drive, iCloud) only runs when you manually press "Sync
-                  now."
+                  don't need internet access on stage. Cloud sync (Dropbox — Google Drive and iCloud coming soon) only runs when you manually press "Sync now."
                 </div>
               </div>
               <div class="faq-item">
                 <div class="faq-q">How does band sync work?</div>
                 <div class="faq-a">
-                  Everyone in the band points GigScript to the same shared
-                  folder in their Dropbox, Google Drive, or iCloud. GigScript
+                  Everyone in the band points GigScript to the same shared folder in their Dropbox — Google Drive and iCloud are coming soon. GigScript
                   reads and writes songs and setlists directly to that folder —
                   no servers, no accounts, just files you control.
                 </div>
@@ -3987,16 +4019,13 @@
                 <div class="faq-q">Toimiiko GigScript offline?</div>
                 <div class="faq-a">
                   Kyllä, täysin. Kaikki kappaleet tallennetaan laitteellesi. Et
-                  tarvitse internetyhteyttä lavalla. Pilvisynkronointi (Dropbox,
-                  Google Drive, iCloud) toimii vain kun painat manuaalisesti
-                  "Synkronointia nyt".
+                  tarvitse internetyhteyttä lavalla. Pilvisynkronointi (Dropbox — Google Drive ja iCloud tulossa pian) toimii vain kun painat manuaalisesti "Synkronointia nyt".
                 </div>
               </div>
               <div class="faq-item">
                 <div class="faq-q">Miten bändisynkronointi toimii?</div>
                 <div class="faq-a">
-                  Jokainen bändin jäsen osoittaa GigScriptin samaan jaettuun
-                  kansioon Dropboxissa, Google Drivessa tai iCloudissa.
+                  Jokainen bändin jäsen osoittaa GigScriptin samaan jaettuun kansioon Dropboxissa — Google Drive ja iCloud tulossa pian.
                   GigScript lukee ja kirjoittaa kappaleet ja setlistat suoraan
                   sinne — ei palvelimia, ei tilejä, vain tiedostoja jotka sinä
                   hallitset.
@@ -4081,16 +4110,13 @@
                 <div class="faq-q">Does GigScript work offline?</div>
                 <div class="faq-a">
                   Yes, completely. All your songs are stored on your device. You
-                  don't need internet access on stage. Cloud sync (Dropbox,
-                  Google Drive, iCloud) only runs when you manually press "Sync
-                  now."
+                  don't need internet access on stage. Cloud sync (Dropbox — Google Drive and iCloud coming soon) only runs when you manually press "Sync now."
                 </div>
               </div>
               <div class="faq-item">
                 <div class="faq-q">How does band sync work?</div>
                 <div class="faq-a">
-                  Everyone in the band points GigScript to the same shared
-                  folder in their Dropbox, Google Drive, or iCloud. GigScript
+                  Everyone in the band points GigScript to the same shared folder in their Dropbox — Google Drive and iCloud are coming soon. GigScript
                   reads and writes songs and setlists directly to that folder —
                   no servers, no accounts, just files you control.
                 </div>
@@ -4202,16 +4228,13 @@
                 <div class="faq-q">Does GigScript work offline?</div>
                 <div class="faq-a">
                   Yes, completely. All your songs are stored on your device. You
-                  don't need internet access on stage. Cloud sync (Dropbox,
-                  Google Drive, iCloud) only runs when you manually press "Sync
-                  now."
+                  don't need internet access on stage. Cloud sync (Dropbox — Google Drive and iCloud coming soon) only runs when you manually press "Sync now."
                 </div>
               </div>
               <div class="faq-item">
                 <div class="faq-q">How does band sync work?</div>
                 <div class="faq-a">
-                  Everyone in the band points GigScript to the same shared
-                  folder in their Dropbox, Google Drive, or iCloud. GigScript
+                  Everyone in the band points GigScript to the same shared folder in their Dropbox — Google Drive and iCloud are coming soon. GigScript
                   reads and writes songs and setlists directly to that folder —
                   no servers, no accounts, just files you control.
                 </div>
@@ -4323,16 +4346,13 @@
                 <div class="faq-q">Does GigScript work offline?</div>
                 <div class="faq-a">
                   Yes, completely. All your songs are stored on your device. You
-                  don't need internet access on stage. Cloud sync (Dropbox,
-                  Google Drive, iCloud) only runs when you manually press "Sync
-                  now."
+                  don't need internet access on stage. Cloud sync (Dropbox — Google Drive and iCloud coming soon) only runs when you manually press "Sync now."
                 </div>
               </div>
               <div class="faq-item">
                 <div class="faq-q">How does band sync work?</div>
                 <div class="faq-a">
-                  Everyone in the band points GigScript to the same shared
-                  folder in their Dropbox, Google Drive, or iCloud. GigScript
+                  Everyone in the band points GigScript to the same shared folder in their Dropbox — Google Drive and iCloud are coming soon. GigScript
                   reads and writes songs and setlists directly to that folder —
                   no servers, no accounts, just files you control.
                 </div>
@@ -4446,16 +4466,13 @@
                 <div class="faq-a">
                   Oui, complètement. Toutes vos chansons sont stockées sur votre
                   appareil. Vous n'avez pas besoin d'accès à Internet sur scène.
-                  La synchronisation cloud (Dropbox, Google Drive, iCloud) ne
-                  s'exécute que lorsque vous appuyez manuellement sur « Synchroniser
-                  maintenant ».
+                  La synchronisation cloud (Dropbox — Google Drive et iCloud arrivent bientôt) ne s'exécute que lorsque vous appuyez manuellement sur « Synchroniser maintenant ».
                 </div>
               </div>
               <div class="faq-item">
                 <div class="faq-q">Comment fonctionne la synchronisation du groupe ?</div>
                 <div class="faq-a">
-                  Chaque membre du groupe pointe GigScript vers le même dossier
-                  partagé dans son Dropbox, Google Drive ou iCloud. GigScript lit
+                  Chaque membre du groupe pointe GigScript vers le même dossier partagé dans son Dropbox — Google Drive et iCloud arrivent bientôt. GigScript lit
                   et écrit directement les chansons et les setlists dans ce
                   dossier — pas de serveur, pas de compte, juste des fichiers
                   que vous contrôlez.
