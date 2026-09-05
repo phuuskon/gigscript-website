@@ -54,7 +54,7 @@
       name="twitter:image"
     />
     <!-- App store links (for smart banners on mobile) -->
-    <meta content="app-id=000000000" name="apple-itunes-app" />
+    <meta content="app-id=6802811337" name="apple-itunes-app" />
     <!-- Theme -->
     <meta content="#0f0e0c" name="theme-color" />
     <link href="https://fonts.googleapis.com" rel="preconnect" />
@@ -557,26 +557,41 @@
         border: 1px solid var(--border);
       }
 
+      .store-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+        margin-top: 1rem;
+      }
       .store-badge {
         display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 8px;
-        padding: 0.55rem 1.2rem;
+        padding: 0.5rem 1.2rem;
         font-family: "Space Grotesk", sans-serif;
         font-size: 0.85rem;
         font-weight: 600;
         color: var(--text);
-        cursor: not-allowed;
-        opacity: 0.5;
+        cursor: pointer;
+        opacity: 1;
+        text-decoration: none;
+        transition: opacity 0.15s, transform 0.15s;
+      }
+      .store-badge:hover {
+        opacity: 0.85;
+        transform: translateY(-1px);
         text-decoration: none;
       }
       .store-badge .coming {
         font-size: 0.7rem;
         color: var(--muted);
         display: block;
+        font-weight: 400;
       }
 
       /* ── Phone mockup ───────────────────────────────── */
@@ -1171,11 +1186,11 @@
         <section class="hero">
           <div class="hero-badge">
             <span>🎸</span>
-            <span data-en="">iOS &amp; Android — available soon</span>
-            <span data-fi="">iOS &amp; Android — tulossa pian</span
-            ><span data-sv="">iOS &amp; Android — kommer snart</span
-            ><span data-de="">iOS &amp; Android — demnächst verfügbar</span
-            ><span data-es="">iOS &amp; Android — disponible pronto</span><span data-fr="">iOS &amp; Android — bientôt disponible</span>
+            <span data-en="">Available now on iOS &amp; Android</span>
+            <span data-fi="">Nyt saatavilla iOS:lle ja Androidille</span
+            ><span data-sv="">Nu tillgänglig för iOS och Android</span
+            ><span data-de="">Jetzt verfügbar für iOS und Android</span
+            ><span data-es="">Ya disponible para iOS y Android</span><span data-fr="">Désormais disponible sur iOS et Android</span>
           </div>
           <h1>
             <span data-en=""
@@ -1241,6 +1256,26 @@
               ><span data-es="">Ver características</span><span data-fr="">Voir les fonctionnalités</span>
             </a>
           </div>
+          <div class="store-buttons">
+              <a class="store-badge" href="https://apps.apple.com/fi/app/gigscript-lyrics-chords/id6802811337" target="_blank" rel="noopener">
+                <span class="coming" data-en="">Download on the</span>
+                <span class="coming" data-fi="">Lataa</span>
+                <span class="coming" data-sv="">Ladda ner från</span>
+                <span class="coming" data-de="">Laden im</span>
+                <span class="coming" data-es="">Disponible en</span>
+                <span class="coming" data-fr="">Télécharger sur</span>
+                App Store
+              </a>
+              <a class="store-badge" href="https://play.google.com/store/apps/details?id=com.pekkahuuskonen.gigscript" target="_blank" rel="noopener">
+                <span class="coming" data-en="">Get it on</span>
+                <span class="coming" data-fi="">Saatavilla</span>
+                <span class="coming" data-sv="">Finns på</span>
+                <span class="coming" data-de="">Jetzt bei</span>
+                <span class="coming" data-es="">Disponible en</span>
+                <span class="coming" data-fr="">Disponible sur</span>
+                Google Play
+              </a>
+            </div>
           <!-- Signature element: live teleprompter ticker -->
           <div class="hero-ticker-wrap">
             <div class="ticker-label">GigScript — Live preview</div>
@@ -3714,22 +3749,26 @@
                   <li data-es="">1 repertorio</li>
                   <li data-fr="">1 setlist</li>
                 </ul>
-                <a
-                  class="btn btn-secondary"
-                  href="#"
-                  style="
-                    width: 100%;
-                    justify-content: center;
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                  "
-                >
-                  <span data-en="">Coming soon</span>
-                  <span data-fi="">Tulossa pian</span
-                  ><span data-sv="">Kommer snart</span
-                  ><span data-de="">Demnächst verfügbar</span
-                  ><span data-es="">Próximamente</span><span data-fr="">Bientôt disponible</span>
-                </a>
+                <div style="display: flex; gap: 0.5rem; width: 100%">
+                  <a
+                    class="btn btn-secondary"
+                    href="https://apps.apple.com/fi/app/gigscript-lyrics-chords/id6802811337"
+                    target="_blank"
+                    rel="noopener"
+                    style="flex: 1; justify-content: center"
+                  >
+                    App Store
+                  </a>
+                  <a
+                    class="btn btn-secondary"
+                    href="https://play.google.com/store/apps/details?id=com.pekkahuuskonen.gigscript"
+                    target="_blank"
+                    rel="noopener"
+                    style="flex: 1; justify-content: center"
+                  >
+                    Google Play
+                  </a>
+                </div>
               </div>
               <div class="pricing-card pro">
                 <div class="pro-badge">Pro</div>
@@ -3794,23 +3833,26 @@
                   </li>
                   <li data-fr="">Synchro groupe via Dropbox (Google Drive &amp; iCloud bientôt disponibles)</li>
                 </ul>
-                <a
-                  class="btn btn-primary"
-                  href="#"
-                  style="
-                    width: 100%;
-                    justify-content: center;
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                  "
-                >
-                  <span data-en="">Coming soon</span>
-                  <span data-fi="">Tulossa pian</span>
-                  <span data-sv="">Kommer snart</span>
-                  <span data-de="">Demnächst verfügbar</span>
-                  <span data-es="">Próximamente</span>
-                  <span data-fr="">Bientôt disponible</span>
-                </a>
+                <div style="display: flex; gap: 0.5rem; width: 100%">
+                  <a
+                    class="btn btn-primary"
+                    href="https://apps.apple.com/fi/app/gigscript-lyrics-chords/id6802811337"
+                    target="_blank"
+                    rel="noopener"
+                    style="flex: 1; justify-content: center"
+                  >
+                    App Store
+                  </a>
+                  <a
+                    class="btn btn-primary"
+                    href="https://play.google.com/store/apps/details?id=com.pekkahuuskonen.gigscript"
+                    target="_blank"
+                    rel="noopener"
+                    style="flex: 1; justify-content: center"
+                  >
+                    Google Play
+                  </a>
+                </div>
               </div>
               <div class="pricing-card pro">
                 <div class="pro-badge">Monthly</div>
@@ -3851,23 +3893,26 @@
                   <li data-es="">Cancela cuando quieras</li>
                   <li data-fr="">Annulez à tout moment</li>
                 </ul>
-                <a
-                  class="btn btn-primary"
-                  href="#"
-                  style="
-                    width: 100%;
-                    justify-content: center;
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                  "
-                >
-                  <span data-en="">Coming soon</span>
-                  <span data-fi="">Tulossa pian</span>
-                  <span data-sv="">Kommer snart</span>
-                  <span data-de="">Demnächst verfügbar</span>
-                  <span data-es="">Próximamente</span>
-                  <span data-fr="">Bientôt disponible</span>
-                </a>
+                <div style="display: flex; gap: 0.5rem; width: 100%">
+                  <a
+                    class="btn btn-primary"
+                    href="https://apps.apple.com/fi/app/gigscript-lyrics-chords/id6802811337"
+                    target="_blank"
+                    rel="noopener"
+                    style="flex: 1; justify-content: center"
+                  >
+                    App Store
+                  </a>
+                  <a
+                    class="btn btn-primary"
+                    href="https://play.google.com/store/apps/details?id=com.pekkahuuskonen.gigscript"
+                    target="_blank"
+                    rel="noopener"
+                    style="flex: 1; justify-content: center"
+                  >
+                    Google Play
+                  </a>
+                </div>
               </div>
             </div>
           </div>
