@@ -779,6 +779,7 @@
           <option value="sv">SV</option>
           <option value="de">DE</option>
           <option value="es">ES</option>
+          <option value="fr">FR</option>
         </select>
         <div class="sep"></div>
         <button
@@ -1089,6 +1090,48 @@
             sob: "Puente",
           },
         },
+        fr: {
+          new: "Nouveau",
+          import: "Importer",
+          export: "Exporter .cho",
+          print: "Imprimer / PDF",
+          notlabel: "Notation",
+          trlabel: "Transposer",
+          lnglabel: "Langue",
+          edph: "Éditeur — ChordPro",
+          pvph: "Aperçu",
+          maj: "Majeurs",
+          min: "Mineurs",
+          sev: "Septièmes & Maj7",
+          sus: "Sus / Add / autres",
+          dir: "Directives",
+          cc: "Accord personnalisé",
+          add: "Ajouter",
+          hintt: "Accords avancés :",
+          hintb:
+            "Saisissez un accord → Ajouter ou Entrée. Exemples : F#7sus4 · Cm7b5 · D/F# · G7(#9) · Fmaj9 · Bb13",
+          empty: "Commencez à écrire du ChordPro dans l'éditeur...",
+          ph: "Écrivez ici...",
+          copy: "© 2025 Pekka Huuskonen",
+          kw: "Tonalité :",
+          capo: "Capodastre :",
+          tempo: "Tempo :",
+          bpm: "bpm",
+          sl: {
+            verse: "Couplet",
+            chorus: "Refrain",
+            bridge: "Pont",
+            intro: "Intro",
+            outro: "Outro",
+            "pre-chorus": "Pré-refrain",
+            interlude: "Interlude",
+            solo: "Solo",
+            tab: "Tab",
+            sov: "Couplet",
+            soc: "Refrain",
+            sob: "Pont",
+          },
+        },
       };
 
       // ── UI strings not covered by TR (toasts, GigScript button) ────────────────
@@ -1126,6 +1169,13 @@
             '✓ ¡Copiado! Pega en GigScript usando "Pegar desde el portapapeles"',
           toast_copy_manual: "Copiar manualmente (Ctrl+A, Ctrl+C)",
           btn_gigscript: "Abrir en GigScript",
+        },
+        fr: {
+          toast_empty: "L'éditeur est vide",
+          toast_copied:
+            '✓ Copié ! Collez dans GigScript avec « Coller depuis le presse-papiers »',
+          toast_copy_manual: "Copier manuellement (Ctrl+A, Ctrl+C)",
+          btn_gigscript: "Ouvrir dans GigScript",
         },
       };
       function U(k) {
